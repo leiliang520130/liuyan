@@ -1,0 +1,67 @@
+<div class="inspiration">
+    <i class="c">COMMENT<br  class="b-num">（{$conment_num}）</i>
+</div>
+<div class="w820-auto">
+   <?php if(session('user.uid')){ ?>
+        <div class="info_photo"><img src="{:session('user.avatar')}"></div>
+        <textarea class="textarea_info"></textarea>
+     <?php }else{ ?>
+        <div class="info_photo"><img src="__IMG__/wdltx.jpg"></div>
+        <textarea class="textarea_info"></textarea>
+    <?php } ?>
+    
+    <div class="mgt30-tr">
+        <?php if(session("user.uid")){ ?>
+        <a class="plh_Btn s1 curr js_sendBtn" touid="0" pid="0" zxpid="0" href="javascript:void(0);">COMMENT</a>
+        <?php }else{ ?>
+        <a class="plh_Btn s1 curr js_sendBtn wdl" touid="0" pid="0" zxpid="0" href="javascript:void(0);">COMMENT</a>
+        <?php } ?>
+    </div>
+</div>
+<div class="mgt30-bor">
+    <!--没有数据时显示-->
+    <?php if(!$lst){ ?>
+        <ul class="news_d"></ul>
+    <?php }else{ ?>
+        <ul class="news_d">
+        	<?php foreach($lst as $v){ ?>
+                <li class="topli">
+                    <div class="pal-r0">
+                        <a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="{$v.id}">{$v.praise_nums}</a>
+                        <a class="pingl_listBtn js_commentBtn" myuid="{$v.uid}" pid="{$v.id}" zxpid="{$v.id}" href="javascript:void(0);">{$v.com_nums}</a>
+                    </div>
+                    <div class="info_photo"><img src="{:set_header($v['avatar'])}"></div>
+                    <div class="info_title">{$v['nickname']}</div>
+                    <div class="info_time">{$v['time']}</div>
+                    <div class="info_txt">{$v['cnt']}</div>
+                    <!--二级评论框-->
+                    <div class="js_comSendMod">
+                    </div>
+                    <ul class="list_ul_tow">
+                    	<?php foreach($v['son_lst'] as $voo){ ?>
+                            <li>
+                                <div class="pal-r0">
+                                    <a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="{$voo.id}">{$voo.praise_nums}</a>
+                                    <a class="pingl_listBtn js_commentBtn" myuid="{$voo.uid}" pid="{$voo.id}" zxpid="{$v.id}" href="javascript:void(0);">{$voo.com_nums}</a>
+                                </div>
+                                <div class="info_photo"><img src="{:set_header($voo['avatar'])}"></div>
+                                <div class="info_title">{$voo['nickname']}</div>
+                                <div class="info_time">{$voo['time']}</div>
+                                <div class="info_txt">@{$voo['to_nickname']}:  
+                                {$voo['cnt']}</div>
+                                <div class="js_comSendMod">
+                                </div>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <?php if($v['son_lst_count'] > 10){ ?>
+                    	<div class="more_pl js_tow_get_more" nowpage="1" ismore="1" fid="{$v['id']}"><a></a></div>
+                    <?php } ?>
+                </li>
+            <?php } ?>
+        </ul>
+        <?php if($total > 2){ ?>
+        	<div style="max-width: none" class="c-more collection js_get_more" ismore='1' nowpage="{:I('page', 1)}"><a href="javascript:;" >MORE COMMENTS</a></div>
+        <?php } ?>
+    <?php } ?>
+</div>

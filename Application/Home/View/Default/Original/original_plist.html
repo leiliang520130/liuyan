@@ -1,0 +1,256 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style type="text/css">
+    .c-more{
+        max-width: 100%;
+    }
+</style>
+<!--中部内容-->
+<div class="wrap">
+    <div class="site-content">
+        <!--栏目标题-->
+        <div class="column cloz">
+            <img src="__IMG__/img/o_title.jpg">
+        </div>
+        <?php $type = I('type', 1); ?>
+        <div class="filtering">
+            <div class="filter_btn">
+                <div class="arrow js_filter_btn">{:$type == 1 ? 'People' : 'Teams'}<i class="abtn"></i></div>
+                <!-- <a href="javascript:void(0);" class="arrow js_filter_btn">{:$type == 1 ? 'People' : 'Teams'}</a> -->
+                <ul class="down-ul js_downUl mgl26">
+                    <li><a href="{:U('/Original/original')}">Projects</a></li>
+                    <li><a href="{:U('/Original/original_plist')}?type=1">People&nbsp;&nbsp;</a></li>
+                    <li><a href="{:U('/Original/original_plist')}?type=2">Teams&nbsp;&nbsp;&nbsp;</a></li>
+                </ul>
+            </div>
+            <div class="filter_btn">
+                <?php 
+                        $order = $_GET['order'];
+                        if(!$order) $order = 'pop';
+                        if($order == 'pop') $t_desc = 'Most Popular';
+                        if($order == 'rec') $t_desc = 'Recommend';
+                        if($order == 'ent') $t_desc = 'Most Recent';
+                 ?>
+                <!-- <a href="javascript:void(0);" class="arrow js_filter_btn">{$t_desc}</a> -->
+                <div class="arrow js_filter_btn">{$t_desc}<i class="abtn"></i></div>
+                <ul class="down-ul js_downUl down-ul210">
+                    <li><a href="{:U('/Original/original_plist')}?type={$type}&order=pop">Most Popular</a></li>
+					<li><a href="{:U('/Original/original_plist')}?type={$type}&order=rec">Recommend</a></li>
+                    <li><a href="{:U('/Original/original_plist')}?type={$type}&order=ent">Most Recent</a></li>
+                </ul>
+            </div>
+        </div>
+        <!--内容列表-->
+        <div class="fans_mod">
+            <ul class="fans_list user_list" style="margin-bottom: 60px">
+                <volist name="user_lst" id="vo"> 
+                    <li class="clearfix">
+                        <div class="fl p-photo">
+                            <a href="{:$vo['type'] == 1 ? U('/Original/original_detail2') : U('/Original/original_detail3')}?tid={$vo.id}">
+                                <img class="txflow" height="100%" src="{$vo.avatar}">
+                            </a>
+                        </div>
+                        <div class="fl p-text-c">
+                            <p class="p01">
+                                <span class="p-name"><a href="{:$vo['type'] == 1 ? U('/Original/original_detail2') : U('/Original/original_detail3')}?tid={$vo.id}">{$vo.nickname}</a></span>
+                                <?php if($vo['type'] == 1) { ?>
+                                    <eq name="vo['sex']" value="0">
+                                        <i class="sex_man iconfont icon-xingbie-nan"></i>
+                                    <else/>
+                                        <i class="sex_woman iconfont icon-xingbie-nv"></i>
+                                    </eq>
+                                <?php } ?>
+                                <i class="icon-v"></i>
+                                <i class="icon-co"></i>
+                                <i class="icon-cc"></i>
+                            </p>
+                            <p class="p02">
+                                <i class="icon-addr"></i>
+                                <span class="span_text">{$vo.address}</span>
+                            </p>
+                            <p class="p03">
+                                <span class="span_text">{$vo.industry}</span>
+                            </p>
+                            <p  class="follow_me_orgg">
+                                <eq name="vo.is_follow" value="0">
+                                    <a type="0" class="followBtn" ids="{$vo.id}" href="javascript:void(0);">FOLLOW</a>
+                                <else/>
+                                    <a type="1" class="followBtn" ids="{$vo.id}" href="javascript:void(0);">CANCEL</a>
+                                </eq>
+                                <i class="icon-gzr iconfont icon-fensi"></i>
+                                <span class="t-no12-33">{$vo.fans_number}</span>
+                            </p>
+                        </div>
+                        <?php if(!$vo["orginal_list"]){ ?>
+                            <div class="fr pub_img no-img">
+                                <div class="no-img_emp "><i>This is empty</i></div>
+                            </div>
+                        <?php }else{ ?>
+                           <div class="fr pub_img">
+                                  <volist name="vo['orginal_list']" id="vo0" key="k0">
+                                    <a href="{:U('/Original/original_detail1')}?oid={$vo0.id}">
+                                        <img class="f-pic" src="{$vo0['cover_curimg']}">
+                                    </a>
+                                </volist>
+                            </div>
+                        <?php } ?>
+                    </li>
+                </volist>
+            </ul>
+            <div bid="1" class="c-more mb140 user_more"><a href="javascript:;">MORE</a></div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+    coSense.loader.init(false);
+    coSense.loader.originalJS();
+     coSense.loader.toFooter();
+    proing();
+	$(function(){
+        $("ul.fans_list").on('click','a.followBtn', function(event) {
+            event.preventDefault();
+            var id = $(this).attr('ids');
+            var type = $(this).attr('type');
+            _this = $(this);
+            if(type == 0){
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r) {
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",1);
+                    _this.text("CANCEL");
+                    var num = parseInt(_this.next().next().text())+1;
+                    _this.next().next().text(num);
+                });
+            }else{
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r) {
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",0);
+                    _this.text("FOLLOW");
+                    var num = parseInt(_this.next().next().text())-1;
+                    _this.next().next().text(num);
+                });
+            }
+            
+        });
+        var or = "{:I('order', 'ent')}";
+        var type = {:I('type', 1)};
+        $('div.user_more').on('click',function(){
+            var html = "";
+            var bid =  parseInt($(this).attr("bid"));
+            bid ++;
+            $(this).attr("bid",bid);
+
+            $.post("__SELF__",{page:bid, type:type, order: or, s_type: 2},function(r){
+                if(r.data.length == 0){
+                    $.Prompt('没有更多了');
+                }else{
+                    type = parseInt(type);
+
+                    var html = '';
+                    var url1 = "{:U('/Original/original_detail2')}";
+                    var url2 = "{:U('/Original/original_detail3')}";
+                    var url3 = "{:U('/Original/original_detail1')}";
+
+                    $.each(r.data,function(ind,vo){
+                        html += '   <li class="clearfix">\
+                                        <div class="fl p-photo">\
+                                            <a href="'+(type == 1 ? url1 : url2)+'?tid='+vo.id+'">\
+                                                <img class="txflow" height="100%" src="'+vo.avatar+'">\
+                                            </a>\
+                                        </div>\
+                                        <div class="fl p-text-c">\
+                                            <p class="p01">\
+                                                <span class="p-name"><a href="'+(type == 1 ? url1 : url2)+'?tid='+vo.id+'">'+vo.nickname+'</a></span>';
+                        if(vo.type == 1) {
+                            if(vo.sex == 0) {
+                                html += '<i class="sex_man iconfont icon-xingbie-nan"></i>';
+                            }else{
+                                html += '<i class="sex_woman iconfont icon-xingbie-nv"></i>';
+                            }
+                        }                     
+                        html += '           <i class="icon-v"></i>\
+                                                <i class="icon-co"></i>\
+                                                <i class="icon-cc"></i>\
+                                            </p>\
+                                            <p class="p02">\
+                                                <i class="icon-addr"></i>\
+                                                <span class="span_text">'+vo.address+'</span>\
+                                            </p>\
+                                            <p class="p03">\
+                                                <span class="span_text">'+vo.industry+'</span>\
+                                            </p>\
+                                            <p  class="follow_me_orgg">';
+                        if(vo.is_follow != 0) {
+                            html += '<a type="1" class="followBtn" ids="'+vo.id+'" href="javascript:void(0);">CANCEL</a>';
+                        }else{
+                            html += '<a type="0" class="followBtn" ids="'+vo.id+'" href="javascript:void(0);">FOLLOW</a>';
+                        }
+                        html += '       <i class="icon-gzr iconfont icon-fensi"></i>\
+                                                <span class="t-no12-33">'+vo.fans_number+'</span>\
+                                            </p>\
+                                        </div>';
+                        if(vo.orginal_list.length == 0) {
+                            html += '<div class="fr pub_img no-img"><div class="no-img_emp "><i>This is empty</i></div></div>';
+                        }else{
+                            html += '<div class="fr pub_img">';
+                            $.each(vo.orginal_list,function(i,v){
+                                html += '<a href="'+url3+'?oid='+v.id+'">';
+                                html += '<img class="f-pic" src="'+v.cover_curimg+'">';
+                                html += '</a>';
+                            })
+                            html += '</div>';
+                        }
+
+                        html += '</li>';
+                    })
+                    $("ul.user_list").append(html);
+                }       
+            },'json')
+        });
+    });
+</script>
+</html>

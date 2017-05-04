@@ -1,0 +1,95 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">权限管理</a> <a href="javascript:;" class="current">角色管理</a></div>
+            </div>
+
+			<!--收索部分开始-->
+			<div class="container-fluid">
+				<hr>
+				<div class="row-fluid">
+					<div class="span12">
+						<a class='btn btn-danger' href="{:U('Auth/role_add')}" style='position:relative;top:-5px;'>新增角色</a>
+					</div>
+				</div>
+			</div>
+			<!--收索结束-->
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+				        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>角色列表</h5>
+				        </div>
+			          	<div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped" style="border-bottom:1px solid #ddd !important">
+				              	<thead>
+					                <tr>
+					                  	<th class='span1'>序号</th>
+					                  	<th class='span2'>角色名称</th>
+					                  	<th class='span1'>操作</th>
+					                </tr>
+				              	</thead>
+				              	<tbody>
+				              		<?php if($lst){  ?>
+					              		<?php $p = I('p', 1); ?>
+					              		<?php $k = 1; ?>
+					              		<foreach name='lst' item='vo'>
+							                <tr class="odd gradeX">
+							                  	<td><?php echo ($p-1)*10+$k; ?></td>
+							                  	<td>{$vo.title}</td>
+							                  	<td><a href="{:U('Auth/role_add', array('id'=>$vo['id']))}" class='btn btn-success'>编辑</a>&nbsp;<button class='btn btn-danger' onclick="del_lst('{$vo.id}')" >删除</button></td>
+							                </tr>
+							                <?php $k++; ?>
+						            	</foreach>
+						            <?php }else{ ?>
+						           	 	<tr class="odd gradeX">
+						           	 		<td colspan="9">没有数据</td>
+						           	 	</tr>
+						            <?php } ?>
+			              		</tbody>
+			            	</table>
+			            	<div style='text-align:center;'><include file="Common/page" /></div>
+			         	 </div>
+			        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+        <!--header-->
+        <include file="Common/footer" />
+        <script type="text/javascript" src="__PUBLIC__/Admin/My97DatePickerBeta4.8b2/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <script>
+        	function del_lst(id) {
+				layer.confirm('您确定要删除吗？', {
+				  btn: ['确定','取消'] //按钮
+				}, function(){
+	        		$.post("{:U('Auth/role_del')}",{id:id},function(r){
+		            	if(r.code == 0) {
+							layer.msg('成功',{icon:1,time:1000});
+			    			setTimeout(function () { 
+						       window.location.reload(true);
+						    }, 1000);
+		            	}else{
+		            		layer.msg('失败，请重试',{icon:2,time:1000});
+		            	}
+	        		},'json')
+				}, function(){
+				});
+        	}
+        </script>
+    </body>
+</html>

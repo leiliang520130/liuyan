@@ -1,0 +1,36 @@
+<form method="get" action="?">
+	<foreach name="searchWhere" item="swhere" key="k"> <input
+		type="hidden" name="{$k}" value="{$swhere}" /> <php>$pageParams=$pageParams."&".$k."=".$swhere;</php>
+	</foreach>
+	<div class="widget-content">
+		<div class="pagination">
+			<ul>
+				<if condition="$nowPage ELT 1">
+				<li class="disabled"><a href="javascript:void(0)">上一页</a></li>
+				<else />
+				<li><a href="{$prevPage}">上一页</a>
+				</if>
+				<li><input id="page_num" type="text" name="p" class="span2"
+					style="float: left; min-height: 30px;" value="{$nowPage}"
+					onkeyup="value=value.replace(/[^\d]/g,'')" /><span
+					style="font-size: 14px; line-height: 17px; background: none; min-height: 20px;">/{$pageTotal}</span>
+					<input id="page_btn" class="btn" type="button" value="跳转" /></input>
+				<if condition="$nowPage egt $pageTotal">
+				<li class="disabled"><a href="javascript:void(0)">下一页</a></li>
+				<else />
+				<li><a href="{$nextPage}">下一页</a></li>
+				</if>
+				<li>&nbsp;&nbsp;共计{$total_count}条</li>
+			</ul>
+		</div>
+	</div>
+</form>
+<script src="__JS__/jquery.min.js"></script> 
+<script>
+	$(function(){
+		$('#page_btn').on('click',function(){
+			location.href = '{$hrefPage}' + $('#page_num').val();
+		})
+	})
+</script>
+

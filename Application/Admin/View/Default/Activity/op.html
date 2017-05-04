@@ -1,0 +1,289 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="{:U('lst')}" class="current">活动相关管理</a> <a href="javascript:;" class="current"><?php if(I('id', 0)){echo '编辑';}else{echo '添加';} ?></a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+				          		<input type="hidden" name="id" value="{:I('id', 0)}">
+					            <div class="control-group">
+					              	<label class="control-label">标题：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="标题" name="title" value="{$info.title}" />
+					              	</div>
+					            </div>
+
+					            <div class="control-group">
+					              	<label class="control-label">参考地址：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span6" placeholder="如：http://www.baidu.com" name="to_url" value="{$info.to_url}" />
+					              	</div>
+					            </div>
+
+					            <div class="control-group">
+					              	<label class="control-label">简介：</label>
+					              	<div class="controls">
+					                	<textarea name="intro" cols="41" rows="5" class="span6">{$info.intro}</textarea>
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">内容：</label>
+					              	<div class="controls">
+					                	<script id="cnt" type="text/plain" style="width:800px;height:400px;" name='cnt' >{:htmlspecialchars_decode($info['cnt'])}</script>
+					              	</div>
+					            </div>
+					            <input type="hidden" name="province_detail" value="{$info.province_detail}">
+					            <input type="hidden" name="city_detail" value="{$info.city_detail}">
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/s/tinyselect.css">
+        <script src="__JS__/jquery.min.js"></script>
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+        <script src="__PUBLIC__/Admin/s/tinyselect.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.config.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.all.min.js"></script>
+	    <script type="text/javascript" src="__PUBLIC__/Admin/ueditor/lang/zh-cn/zh-cn.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+	    <script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+		<script>
+			$('.tags_choose').tinyselect();
+			var tags_lst = {:json_encode($tags_lst)};
+			var ue = UE.getEditor('cnt',{
+				iframeCssUrl: '__PUBLIC__/Admin/ueditor/themes/iframe.css',// 引入css
+			});
+			ue.addListener("ready", function () {
+			    // ue.setContent('abc');
+			    // alert(ue.getContent())
+			});
+
+
+			function submit_form() {
+				//验证标题
+				if($('input[name=title]').val() == '') {
+					$('input[name=title]').focus();
+					layer.msg('请输入标题', {icon:2,time:1000});
+					return false;
+				}
+	            //验证简介
+	            if($('textarea[name=intro]').val() == '') {
+					$('textarea[name=intro]').focus();
+					layer.msg('简介不能为空', {icon:2,time:1000});
+					return false;	
+	            }
+	            //验证内容
+	            if(ue.getContent() == '') {
+	            	layer.msg('内容不能为空', {icon:2,time:1000});
+					return false;
+	            }
+	            //异步添加
+	            $.post("{:U('op')}", $('#com_form').serialize(), function(r){
+	            	if(r.code == 0) {
+						layer.msg('成功',{icon:1,time:1000});
+		    			setTimeout(function () { 
+					       window.location.href="{:U('lst')}";
+					    }, 1000);
+	            	}else{
+	            		layer.msg('失败，请重试',{icon:2,time:1000});
+	            	}
+	            },'json')
+			}
+		</script>
+			
+		<script>
+			/**
+			 * 选择省
+			 * @return {[type]} [description]
+			 */
+			function choose_province(thisf) {
+				var pro_id = parseInt(thisf.val());
+
+				//初始化
+				if(pro_id == 0) {
+					$('select[name=city]').html("<option value='0'>请选择市</option>");
+				}else{
+					$.get("{:U('ajax_get_area_son')}", {pid:pro_id}, function(r){
+						if(r.code == 0) {
+							var str = "<option value='0'>请选择市</option>";
+				 			$.each(r.data,function(n,v) {
+				 				str += "<option value='"+v.id+"'>"+v.name+"</option>";
+				            });
+				            $('select[name=city]').html(str);
+						}
+					},'json')
+				}
+				$('input[name=province_detail]').val(thisf.find("option:selected").text());
+			}
+
+			// /**
+			//  * 选择市
+			//  * @return {[type]} [description]
+			//  */
+			function choose_city(thisf) {
+			// 	var city_id = parseInt(thisf.val());
+
+			// 	//初始化
+			// 	if(city_id == 0) {
+			// 		$('select[name=area]').html("<option value='0'>请选择区/县</option>");
+			// 	}else{
+			// 		$.get("{:U('ajax_get_area_son')}", {pid:city_id}, function(r){
+			// 			if(r.code == 0) {
+			// 				var str = "<option value='0'>请选择区/县</option>";
+			// 	 			$.each(r.data,function(n,v) {
+			// 	 				str += "<option value='"+v.id+"'>"+v.name+"</option>";
+			// 	            });
+			// 	            $('select[name=area]').html(str);
+			// 			}
+			// 		},'json')
+			// 	}
+
+				$('input[name=city_detail]').val(thisf.find("option:selected").text());
+			}
+
+			// function choose_area(thisf) {
+			// 	$('input[name=area_detail]').val(thisf.find("option:selected").text());
+			// } 
+		</script>
+			
+		<script>
+			function add_areas(type) {
+				var msg = (type == 1) ? '国家' : '城市';
+				if(type == 2) {
+					var pid = $('select[name=province]').val();
+					if(pid == 0) {
+						layer.msg('请选择国家', {icon:2, time:1000});
+						return false;
+					}
+				}else{
+					pid = 0;
+				}
+				var t_pop = layer.prompt({title: '请输入'+msg+'名', formType: 0}, function(pass, index){
+					$.post("{:U('add_areas')}", {name: pass, pid: pid}, function(r){
+		  	    		if(r.code == 0) {
+		  	    			if(type == 1) {
+		  	    				$('select[name=province]').append('<option value='+r.id+'>'+pass+'</option>');
+		  	    				$('select[name=province]').val(r.id);
+		  	    				$('select[name=city]').html("<option value='0'>请选择市</option>");
+		  	    				$('input[name=province_detail]').val(pass);
+		  	    			}else{
+		  	    				$('select[name=city]').append('<option value='+r.id+'>'+pass+'</option>');
+		  	    				$('select[name=city]').val(r.id);
+		  	    				$('input[name=city_detail]').val(pass);
+		  	    			}
+
+		 	    			layer.msg(r.msg,{icon:1,time:1000});
+		 	    			setTimeout(function () { 
+		   				       layer.close(t_pop);
+		  				    }, 1000);
+		  	    		}else{
+		  	    			alert(r.msg)
+		  	    		}
+					},'json')
+				});
+			}
+		</script>
+
+		<script type="text/javascript">
+			var img_wd = 150;
+			var img_hg = 150;
+			var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+				browse_button : 'icon',
+				url : '{:U("upimg")}',
+				flash_swf_url : 'js/Moxie.swf',
+				silverlight_xap_url : 'js/Moxie.xap',
+				multi_selection: false,
+				file_data_name:'photo',
+				filters: {
+				  mime_types : [ //只允许上传图片文件
+				    { title : "图片文件", extensions : "jpg,gif,png" }
+				  ],
+					max_file_size : '8000kb', 
+					prevent_duplicates : true //不允许选取重复文件
+				}
+			});
+			uploader.init(); //初始化
+			uploader.bind('FileUploaded',function(uploader,file,r){
+				var rep = r.response;
+				var r = $.parseJSON(rep);
+				$('#icon_url').val(r.url);
+				uploader.removeFile(file);
+				$('#file-list li').remove();
+			});
+
+
+			//绑定文件添加进队列事件
+			uploader.bind('FilesAdded',function(uploader,files){
+				$.each(uploader.files, function (i, file) {
+			        if (uploader.files.length <= 1) {
+			            return;
+			        }
+			        uploader.removeFile(file);
+			    });
+				$('#file-list li').remove();
+				for(var i = 0, len = files.length; i<len; i++){
+					var file_name = files[i].name; //文件名
+					
+					//构造html来更新UI
+					var html = '<li style="margin-top:15px;" id="file-' + files[i].id +'"></li>';
+					$(html).appendTo('#file-list');
+					!function(i){
+						previewImage(files[i],function(imgsrc){
+							$('#file-'+files[i].id).append('<img src="'+ imgsrc +'" />');
+						})
+				    }(i);
+				}
+			});
+
+			//plupload中为我们提供了mOxie对象
+			function previewImage(file,callback){
+				if(!file || !/image\//.test(file.type)) return; 
+				if(file.type=='image/gif'){
+					var fr = new mOxie.FileReader();
+					fr.onload = function(){
+						callback(fr.result);
+						fr.destroy();
+						fr = null;
+					}
+					fr.readAsDataURL(file.getSource());
+				}else{
+					var preloader = new mOxie.Image();
+					preloader.onload = function() {
+						preloader.downsize( img_wd, img_hg );//先压缩一下要预览的图片,宽300，高300
+						var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+						callback && callback(imgsrc); //callback传入的参数为预览图片的url
+						preloader.destroy();
+						preloader = null;
+					};
+					preloader.load( file.getSource() );
+				}	
+			}
+
+			//最后给"开始上传"按钮注册事件
+			document.getElementById('start').onclick = function(){
+			    uploader.start(); //调用实例对象的start()方法开始上传文件，当然你也可以在其他地方调用该方法
+			}
+		</script>
+    </body>
+</html>

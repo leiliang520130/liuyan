@@ -1,0 +1,72 @@
+<!--左边栏,右,下-->
+<div class="frame-left"></div>
+<div class="frame-right"></div>
+
+<div class="frame-bottom">
+        <p class="frame-bottom_down on">
+            <a class="adown bottoms">
+                    <span>SCROLL&nbsp;DOWN</span>
+                    <i class="jtdown iconfont icon-shangjiantou-copy"></i>
+            </a>
+        </p>
+        <p class="frame-bottom_up">              
+            <a class="aup" href="#top" target="_self">
+                    <span>PAGE&nbsp;UP</span>
+                    <i class="jtup iconfont icon-shangjiantou"></i>
+            </a>
+        </p>
+</div>
+<div class="menu-btn-outer {:session('user.uid')?'stalogi':''}" idd="<?php echo session('user.uid'); ?>">
+    <?php if($res["typeid"] ==""){ ?>
+            <?php if(session('user.uid')){ ?>
+                    <a class="dlzt_tx" href="{:U('UserCenter/personal')}">
+                        <?php if(!session('user.avatar')){ ?>
+                             <img src="__IMG__/img/tx.jpg" />
+                         <?php }else{ ?>
+                            <img src="<?php echo session('user.avatar'); ?>" />
+                         <?php } ?>
+                    </a>
+            <?php }else{ ?>
+                    <div class="menu-btn">
+                        <span class="login_text">LOGIN</span>
+                    </div>
+            <?php } ?>
+            <div class="menu-btn1">
+                <span class="bar bar--1"></span>
+                <span class="bar bar--2"></span>
+                <span class="bar bar--3"></span>
+                <span class="bar bar--4"></span>
+                <span class="bar bar--5"></span>
+                <span class="bar bar--6"></span>
+                <span class="bar bar--7"></span>
+                <span class="bar bar--8"></span>
+                <span class="bar bar--9"></span>
+            </div>
+    <?php }else{ ?>
+            <div class="menu-btn1 on close_personal" onclick="javascript:window.location.href = '../index';">
+                <span class="bar bar--1"></span>
+                <span class="bar bar--2"></span>
+                <span class="bar bar--3"></span>
+                <span class="bar bar--4"></span>
+                <span class="bar bar--5"></span>
+                <span class="bar bar--6"></span>
+                <span class="bar bar--7"></span>
+                <span class="bar bar--8"></span>
+                <span class="bar bar--9"></span>
+            </div>
+    <?php } ?>
+</div>
+<div class="side-btn-outer">
+    <div id="menu_icon" class="side-btn">
+        <span class="bar bar--1"></span>
+        <span class="bar bar--2"></span>
+        <span class="bar bar--3"></span>
+        <span class="bar bar--4"></span>
+        <span class="bar bar--5"></span>
+        <span class="bar bar--6"></span>
+        <span class="bar bar--7"></span>
+        <span class="bar bar--8"></span>
+        <span class="bar bar--9"></span>
+    </div>
+</div>
+<!--左边栏,右,下end-->

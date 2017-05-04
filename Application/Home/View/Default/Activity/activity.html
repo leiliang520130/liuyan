@@ -1,0 +1,192 @@
+<script src="http://static.geetest.com/static/tools/gt.js"></script><!-- 头部部分 -->
+<include file="layout/header" />
+<!--头部结束-->
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style type="text/css">
+    .c-more{
+        max-width: 100%;
+    }
+</style>
+<!--中部内容-->
+<div class="wrap">
+    <div class="site-content">
+        <!--栏目标题-->
+    <div class="column cloz">
+              <img src="__IMG__/img/o_title1.jpg">
+        </div>
+        <div class="filtering">
+            <div class="filter_btn">
+                <a href="javascript:void(0);" class="arrow js_global_btn">Global<i class="abtn"></i></a>
+                <div class="down-ul s_div js_downDiv">
+                    <div class="p-select sel_nation">
+                        <div class="tval province" ids='0'>选择国家</div>
+                        <div class="item">
+                            <?php foreach($pro_lst as $vo){ ?>
+                                <span ids="{$vo.id}">{$vo.name}</span>
+                            <?php } ?>
+                        </div>
+                    </div>
+                     <div class="p-select sel_city" style="margin-top: 25px">
+                        <div class="tval city" ids='0'>城市</div>
+                        <div class="item">
+                            <?php foreach($city_lst as $vo){ ?>
+                                <span ids="{$vo.id}">{$vo.name}</span>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <a class="btn-ok" href="javascript:void(0);" onclick="to_search()">确定</a>
+                </div>
+            </div>
+            <div class="filter_btn">
+                <?php $province = I('province', 0);$city = I('city', 0); ?>
+                <a href="javascript:void(0);" class="arrow js_filter_btn">
+                    <?php if($o==0){ ?>
+                        News
+                    <?php }elseif($o==1){ ?>
+                    Most Popular
+                    <?php }else{ ?>
+                    Recommend
+                    <?php } ?>
+                    <i class="abtn"></i></a>
+                <ul class="down-ul js_downUl down-ul210">
+                    <li><a href="{:U('Activity/activity', array('o'=>0))}">News</a></li>
+                    <li><a href="{:U('Activity/activity', array('o'=>1))}">Most Popular</a></li>
+                    <li><a href="{:U('Activity/activity', array('o'=>2))}">Recommend</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="list_box pt70">
+            <ul class="list-ul li-pdb0 clearfix list_activity">
+                <volist  name="info" id="vo">
+                    <li>
+                        <a href="{:U('Activity/active_detail')}?id={$vo.id}" target="_blank">
+                            <div class="img"><img src="{$vo.cover_img}"></div>
+                                <p class="c-tit"><span class="w_cname jx_titles">{$vo.cname}</span></p>
+                            <div class="yc_h"><p class="c-text"><eq name="vo.city_detail" value=""><b></b><else/><b># {$vo.city_detail} #</b></eq>{$vo.title}</p></div>
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+            <div class="c-more mb140"><a bid="1" class="activity_more" href="javascript:;">MORE</a></div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(document).on('click','.js_global_btn',function(){
+		$(this).children('i.abtn').toggleClass('on');
+	})
+     $(document).on("click","div.p-select",function(e){
+                e.stopPropagation();
+                $(this).children('div.item').toggleClass('itemon');
+                $(".sel_nation").find(".item").css("z-index","99");
+     });
+     $(document).on("click","div.p-select span",function(e){
+                $(this).parent().prev().text($(this).text());
+                $(this).parent().prev().attr('ids', $(this).attr('ids'));
+
+                if($(this).parent().prev().hasClass('province')) {
+                    var ids = $(this).attr('ids');
+                    $.get("{:U('ajax_get_city')}", {id: ids}, function(r){
+                        var html = '';
+                        $.each(r.lst,function(n,v) {
+                            html += '<span ids="'+v.id+'">'+v.name+'</span>';
+                        });
+                        $('.city').html('城市');
+                        $('.city').attr('ids',0);
+                        $('.city').siblings('.item').html(html);
+                    },'json')
+                }
+     });
+
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+        var type = {:I('type', 0)};
+        var os = {:I('o', 0)};
+        var province = {:I('province', 0)};
+        var city = {:I('city', 0)};
+
+        coSense.loader.init(false);
+         coSense.loader.toFooter();
+        coSense.loader.originalJS();
+        proing(); 
+        $("a.activity_more").on('click',function(){
+            var html = "";
+            var bid =  parseInt($(this).attr("bid"));
+            //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+            bid += 1;
+            //每次点击展示32条数据.
+            $(this).attr("bid",bid);
+
+
+            $.post("{:U('Activity/activity')}",{type:type, p:bid, r_type: 1, o: os, province:province, city:city},function(r){
+                if(r.data.length == 0){
+                    $.Prompt('没有更多活动了');
+                }else{
+                    $.each(r.data,function(ind,val){
+                        html +='<li>\
+                                <a href="{:U('Activity/active_detail')}?id='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_img+'"></div>\
+                                    <p class="c-tit"><span class="w_cname jx_titles">'+val.cname+'</span></p>\
+                                      <div class="yc_h"><p class="c-text"><b># '+val.city_detail+' #</b>'+val.intro+'</p></div>\
+                                </a>\
+                            </li>';
+                    })
+                    $("ul.list_activity").append(html);
+                }         
+            },'json')
+
+        });
+
+       //搜索
+       var url = "{:U('Activity/activity')}";
+       function to_search() {
+            var province = $('.province').attr('ids');
+            var city = $('.city').attr('ids');
+
+            if(province != 0) url += "?province="+province;
+            if(province != 0 && city != 0){
+                url += "&city="+city;
+            }else if(province == 0 && city != 0){
+                url += "?city="+city;
+            }
+
+            window.location.href = url;
+       } 
+</script>
+</html>

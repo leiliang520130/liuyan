@@ -1,0 +1,105 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">网站相关管理</a> <a href="javascript:;" class="current">邮箱配置</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+					            <!--<div class="control-group">-->
+					              	<!--<label class="control-label">STMP服务器：</label>-->
+					              	<!--<div class="controls">-->
+					                	<!--<input type="text" class="span3" placeholder="STMP服务器" name="STMP_SERVER" value="{$email.STMP_SERVER}" />-->
+					              	<!--</div>-->
+					            <!--</div>-->
+					            <!--<div class="control-group">-->
+					              	<!--<label class="control-label">帐号：</label>-->
+					              	<!--<div class="controls">-->
+					                	<!--<input type="text" class="span3" placeholder="帐号" name="EMAIL_USERNAME" value="{$email.EMAIL_USERNAME}" />-->
+					              	<!--</div>-->
+					            <!--</div>-->
+					            <!--<div class="control-group">-->
+					              	<!--<label class="control-label">密码：</label>-->
+					              	<!--<div class="controls">-->
+					                	<!--<input type="text" class="span3" placeholder="密码" name="EMAIL_PASSWORD" value="{$email.EMAIL_PASSWORD}" />-->
+					              	<!--</div>-->
+					            <!--</div>-->
+					            <div class="control-group">
+					              	<label class="control-label">主题：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="主题" name="title" value="" />
+					              	</div>
+					            </div>
+								<div class="control-group">
+									<label class="control-label">间隔时间：</label>
+									<div class="controls">
+										<input type="text" class="span3" placeholder="时间" name="time" value="" />
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">发件人：</label>
+									<div class="controls">
+										<input type="text" class="span3" placeholder="发件人" name="send_user" value="" />
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">内容：</label>
+									<div class="controls">
+										<script id="cnt" type="text/plain" style="width:800px;height:400px;" name='cnt' >{:htmlspecialchars_decode($info['cnt'])}</script>
+									</div>
+								</div>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/s/tinyselect.css">
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.all.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/ueditor/lang/zh-cn/zh-cn.js"></script>
+		<script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+        <script>
+
+			var ue = UE.getEditor('cnt',{
+				iframeCssUrl: '__PUBLIC__/Admin/ueditor/themes/iframe.css',// 引入css
+			});
+			ue.addListener("ready", function () {
+
+			});
+        	function submit_form() {
+        		$.post("__SELF__", $('#com_form').serialize(), function(r){
+        			if(r.code == 0) {
+						layer.msg('成功',{icon:1,time:1000});
+		    			setTimeout(function () { 
+					       window.location.reload(true);
+					    }, 1000);
+        			}else{
+        				layer.msg('修改失败，请重试',{icon:2,time:1000});
+        			}
+        		},'json')
+        	}
+        </script>
+    </body>
+</html>

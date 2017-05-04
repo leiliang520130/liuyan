@@ -1,0 +1,19 @@
+        <script type="text/javascript">
+            $(window).scroll(function(){
+                var scrollTop = $(this).scrollTop();//滚动条滚动的高度
+                var $js_perClum = $('#js_perClum');//导航栏高度
+                var navH = $js_perClum.height();
+                var bgH = $('.per_bg').height();//中间粉丝区域高度
+                var oH = $js_perClum.offset().top;
+                var oHeader = $('.header').height();
+                if(scrollTop>oH-oHeader){
+                    $js_perClum.addClass('fixed');
+                }
+                else if(scrollTop<= bgH+oHeader-navH){
+                    $js_perClum.removeClass('fixed');
+                }
+            });
+            $(".per_photo").on("click",function(){
+                    window.location.href = "personal_set.html";
+            });
+        </script>

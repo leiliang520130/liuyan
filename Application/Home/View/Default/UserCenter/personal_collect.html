@@ -1,0 +1,421 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style>
+        #cname{
+            max-height: 160px;
+            border: 1px solid #cbcbcb;
+            display: block;
+            overflow-wrap: normal;
+            padding: 0;
+            float: right;
+        }
+        .con{
+            display: none;
+            padding: 0;
+        }
+        .con2{
+            display: block;
+            padding: 0;
+            padding-left: 8px;
+            position: relative;
+        }
+        .selDown{
+            position: absolute;
+            right: 2px;
+            top: 0;
+            width: 28px;
+            height: 34px;
+            display: none;
+            background: url("__PUBLIC__/Home/images/down.jpg") right no-repeat;
+            cursor: pointer;
+        }
+        p.opt{
+            height: 32px;
+            line-height: 32px;
+            padding-left: 8px;
+        }
+        p.opt:hover{
+            background-color: #fab708;
+        }
+</style>
+<!--中部-->
+<div class="wrap">
+    <div class="per_content">
+        <!-- 上中下部分 -->
+        <include file="layout/gr_header" />
+        
+        <!--已经发布了-->
+        <div class="iss_mod_end" style="display: block">
+            <ul class="iss_mod_list">
+                <li>
+                    <a class="col_mod_btn" href="javascript:void(0);">
+                        <div class="fb_btnDiv">
+                            <span class="fb_icon"></span>
+                            <p class="txt0">新建收藏夹</p>
+                        </div>
+                    </a>
+                </li>
+                <volist name="collection_name" id="vo">
+                    <li class="collection{$vo.id}">
+                        <a class="open_collection" ids="{$vo.id}">
+                            <eq name="vo.cover_img" value="">
+                                <img src="__IMG__/img/fb_img1.jpg">
+                                <else/>
+                                <img src="{$vo.cover_img}" />
+                            </eq>
+                            <span class="col_num">{$vo.num}</span>
+                        </a>
+                        <p class="opus_info">{$vo.collection_table_name}</p>
+                        <a class="edited_btn edit_btn" ids="{$vo.id}" href="javascript:void(0);">编辑</a>
+                        <a class="deled_btn delete_btn" ids="{$vo.id}" href="javascript:void(0);">删除</a>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+        <div class="iss_mod_fn" style="display:none">
+            <div class="clearfix fn_nav">
+                <div id="" class="fn_tit">收藏夹名</div>
+                <div class="sccat">
+                        <a class="fn_aLink curr" type="1" href="javascript:void(0);">可看</a>
+                        <a class="fn_aLink" type="2" href="javascript:void(0);">可享</a>
+                        <a class="fn_aLink" type="3" href="javascript:void(0);">可玩</a>
+                </div>
+            </div>
+            <div class="mga50">
+                <!--没有数据时显示-->
+                <div class="fn_nod" style="display: none"></div>
+                <ul class="list-ul clearfix">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!--创建新收藏夹-->
+<div class="pop_box create_collection">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="mgh350" style="text-align: center">
+
+            <input class="w258 create_input"  type="text" placeholder="创建新收藏夹"  style="text-align: center">
+
+            <!--<a class="setupBtn" href="javascript:void(0);">创建</a>-->
+        </div>
+        <a class="pop_okBtn confirm" href="javascript:void(0);" style="top:280px; left:230px;">确认</a>
+    </div>
+</div>
+<!--编辑标题-->
+<div class="pop_box edit_title">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="mgh350">
+            <span class="no16-cor999">标题</span>
+            <input ids="" class="w258 edit_input" type="text" placeholder="新标题">
+        </div>
+        <a class="pop_okBtn edit_confirm" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+<!--删除作品-->
+<div class="pop_box delete_collection">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="pop_info_text">删除收藏夹后果很严重，确认删除？</div>
+        <a ids="" class="pop_okBtn delete_confirm" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+<!--收藏夹中删除作品-->
+<div class="pop_box delete_works">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="pop_info_text">确定删除收藏夹中这份作品？</div>
+        <a ids="" class="pop_okBtn del_btn_confirm" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+<!--转移-->
+<div class="pop_box change_collection">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="mgh350" style="width:400px">
+            <span class="no16-cor999">转移</span>
+            <!-- <select id="" class="s-opetion">
+                <volist name="names" id="na">
+                    <option value="{$na.id}">{$na.collection_table_name}</option>
+                </volist>
+            </select> -->
+            <div id="cname" class="s-opetion">
+                        <div class="con">
+                                  <volist name="names" id="na">
+                                        <p class="opt" value="{$na.id}">{$na.collection_table_name}</p>
+                                  </volist>
+                        </div>
+                        <div class="con2" value=""></div>  
+                        <div class="selDown"></div>
+            </div>
+        </div>
+        <a class="pop_okBtn confirm_change" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+</body>
+<script>
+    /*window.onload = function(){
+        onload();
+    };*/
+</script>
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script>
+    $(function(){
+
+        //  点击收藏选择
+        $('.con p').on("click",function(){
+                $(".con2").show();
+                $(".con2").text($(this).text());
+                $(".con2").attr("value",$(this).attr("value"));               
+                $(".con").hide();
+                $('.confirm_change').show();
+                if($('.con p').length > 1){
+                            $(".selDown").show();
+                }else{
+                            $(".selDown").hide();
+                }
+        });
+        //点击 con2,显示 con,con2消失
+        $('.con2').on("click",function(){
+                $(".con").show();
+                $(".con2").hide();
+                $('.confirm_change').hide();
+                $(".selDown").hide();
+        });
+        //close_pop
+        $(".close_pop").on('click',function(e){
+            $(this).closest('.pop_box').hide();
+        });//关闭新增对话框
+
+        $(".col_mod_btn").click(function(e){
+            $(".create_collection").show();
+        });//打开新增对话框
+
+        $(".confirm").click(function(e){
+            var name = $(".create_input").val();
+            _this = $(this);
+            if($.trim(name) == ""){
+                $.Prompt("文件夹名字不能为空!");
+                return;
+            }
+            $.post("{:U('UserCenter/collect_add')}",{name:name},function(r){
+                if(r.code == 0){
+                    var htl = '<li class="collection'+r.id+'">\
+                        <a class="open_collection" ids="'+r.id+'">\
+                            <img src="__IMG__/img/fb_img1.jpg">\
+                            <span class="col_num">0</span>\
+                        </a>\
+                        <p class="opus_info">'+name+'</p>\
+                        <a class="edited_btn edit_btn" ids="'+r.id+'" href="javascript:void(0);">编辑</a>\
+                        <a class="deled_btn delete_btn" ids="'+r.id+'" href="javascript:void(0);">删除</a>\
+                    </li>';
+                    $("ul.iss_mod_list").append($(htl));
+                    _this.parents("div.create_collection").hide();
+                    $.Prompt(r.msg);
+                    $(".create_collection").hide();
+                }else{
+                    $.Prompt(r.msg);
+                }
+                
+            },'json')
+        });//新增收藏夹,关闭新增对话框
+
+        $("ul.iss_mod_list").on('click', '.edit_btn', function(event) {
+            $("input.edit_input").val($(this).prev().text());
+            var a = $(this).attr('ids');
+            $("input.edit_input").attr("ids",a);
+            $(document.body).data("ids",a);
+            $(".edit_title").show();
+        });//打开编辑对话框
+        
+        $(document.body).on('click',".edit_confirm",function(e){
+            var name = $(".edit_input").val();
+            var id = $("input.edit_input").attr('ids');
+            $.post("{:U('UserCenter/collect_add')}",{id:id,name:name},function(r){
+                var  ids = $(document.body).data("ids");
+                $("a[ids='"+ids+"']").prev("p").text(name);
+                $("div.edit_title").hide();
+            },'json')
+        });//编辑收藏夹
+
+        $("ul.iss_mod_list").on('click', '.delete_btn',function(e){
+            var a = $(this).attr('ids');
+            $(".delete_confirm").attr("ids",a);
+            $(".delete_collection").show();
+        });//打开删除对话框
+
+        $(".delete_confirm").on('click',function(e){
+            var id = $(".delete_confirm").attr('ids');
+            $.post("{:U('UserCenter/delete_collection')}",{id:id},function(r){
+                $.Prompt(r.msg);
+                
+				var demo = '.collection'+id;
+				
+				$(".delete_collection").hide();
+				
+				$(demo).remove();
+				
+				//window.location.reload();
+            },'json')
+        });//删除收藏夹
+
+        $(".open_collection").click(function(e){
+            $(".iss_mod_end").hide();
+            $(".iss_mod_fn").show();
+            var id = $(this).attr('ids');
+            $.post("{:U('UserCenter/open_collection')}",{id:id,type:0},function(r){                    
+                    var fdata = r.data.file;
+
+                    $("div.fn_tit").attr('id',fdata[0].id);
+                    $("div.fn_tit").text(fdata[0].collection_table_name);
+                    $("a.fn_aLink").eq(0).click();
+            },'json')
+        });//获取收藏夹中作品(默认为精选)
+        
+        $(document.body).on("click",".fn_aLink",function(e){
+            $('a.fn_aLink').removeClass('curr');
+            $(this).addClass("curr");
+            var id = $("div.fn_tit").attr('id');
+            var type = $("a.curr").attr('type');
+
+            $.post("{:U('UserCenter/open_collection')}",{id:id,type:type},function(r){
+                var html="";
+                if(r.data.length==0){
+                    $("ul.list-ul").html(html);
+                    $('.fn_nod').css('display','block');
+                }else{
+                    $('.fn_nod').css('display','none');
+                }
+                if(type == 1){
+                    $.each(r.data,function(ind,val){
+                        html +='<li class="category_list_info'+val.id+'" aid='+val.id+'>\
+                            <a href="'+val.url+'?id='+val.id+'">\
+                                <div class="img"><img src="'+val.cover_img+'"></div>\
+                                <p class="c-tit"><span class="w_cname">'+val.category+'</span></p>\
+                                <p class="c-text">\
+                                '+val.intro+'</p>\
+                            </a>\
+                            <a class="edited_btn change_btn" href="javascript:void(0);">转移</a>\
+                            <a class="deled_btn del_btn" ids='+val.cid+' href="javascript:void(0);">删除</a>\
+                        </li>';
+                    })
+                    $("ul.list-ul").html(html);
+                }
+                if(type == 2){
+                    $.each(r.data,function(ind,val){
+                        html +='<li class="category_list_info'+val.id+'" aid='+val.id+'>\
+                            <a href="'+val.url+'?oid='+val.id+'">\
+                                <div class="img"><img src="'+val.cover_img+'"></div>\
+                                <p class="c-tit"><span class="w_cname">'+val.p_category+'</span><span class="ejfl_name">'+val.category+'</span></p>\
+                                <p class="c-text">\
+                                '+val.title+'</p>\
+                                <p class="text_czz">创作者：<span>'+val.zuozhe+'</span></p>\
+                            </a>\
+                            <a class="edited_btn change_btn" href="javascript:void(0);">转移</a>\
+                            <a class="deled_btn del_btn" ids='+val.cid+' href="javascript:void(0);">删除</a>\
+                        </li>';
+                    })
+                    $("ul.list-ul").html(html);
+                }
+                if(type == 3){
+                    $.each(r.data,function(ind,val){
+                        html +='<li class="category_list_info'+val.id+'" aid='+val.id+'>\
+                            <a href="'+val.url+'?id='+val.id+'">\
+                                <div class="img"><img src="'+val.cover_img+'"></div>\
+                                <p class="c-tit"><span class="w_cname">'+val.category+'</span></p>\
+                                <p class="c-text">\
+                                <b class="city"># '+val.city_detail+' #</b>'+val.intro+'</p>\
+                            </a>\
+                            <a class="edited_btn change_btn" href="javascript:void(0);">转移</a>\
+                            <a class="deled_btn del_btn" ids='+val.cid+' href="javascript:void(0);">删除</a>\
+                        </li>';
+                    })
+                    $("ul.list-ul").html(html);
+                }
+            },'json')
+        });
+
+        $(document.body).on("click",".change_btn",function(e){
+                var hasOpt = $("div.con .opt").length;
+                $(".change_collection").show();
+                        if(hasOpt > 0){
+                                    $("div#cname").show();
+                                    $(".con2").text($("div.con .opt").eq(0).text());
+                                    $('.con2').attr("value",$("div.con .opt").eq(0).attr("value"));
+                        if(hasOpt > 1){
+                                    $(".selDown").show();
+                        }else{
+                                    $(".selDown").hide();
+                        }
+                        if($(".con").height() > 160){
+                                    $("#cname").css("overflow-y","scroll");
+                                    $("#cname").css("overflow-x","hidden")
+                         }
+                    }else{
+                                    $("div#cname").hide();
+                    }
+                
+                var id = $(this).parent().attr("aid");
+                $(".con2").attr('id',id);
+            
+        });
+        $(document.body).on("click",".confirm_change",function(e){
+            var myselect = $("select.s-opetion");
+            // var cid = myselect.find("option:selected").val();
+            // var wid = $("select.s-opetion").attr('id');
+            var cid = $(".con2").attr('value');
+            var wid = $(".con2").attr('id');
+            var type = $("a.curr").attr('type');
+            $.post("{:U('UserCenter/change_collection')}",{cid:cid,wid:wid,type:type},function(r){
+                $.Prompt(r.msg);
+                $(".close_pop").closest('.pop_box').hide();
+				
+				$(".category_list_info"+wid).remove();
+				
+            },'json')
+        });
+        $(document.body).on("click",".del_btn",function(e){
+            $(".delete_works").show();
+            var id = $(this).parent().attr("aid");
+            $('a.del_btn_confirm').attr('ids',id);
+        });
+        $(document.body).on("click",".del_btn_confirm",function(e){
+            var wid = $('a.del_btn_confirm').attr('ids');
+            var cid = $('a.del_btn').attr('ids');
+            var type = $("a.curr").attr('type');
+            $.post("{:U('UserCenter/del_collection')}",{cid:cid,wid:wid,type:type},function(r){
+                $.Prompt(r.msg);
+				$(".delete_works").hide();
+				
+				$(".category_list_info"+wid).remove();
+				
+                //window.location.reload();
+            },'json')
+        });
+        coSense.loader.bannerWheel($('.per_bg'),2);
+         coSense.loader.toFooter();
+        coSense.loader.catTab();
+    })
+</script>
+</html>

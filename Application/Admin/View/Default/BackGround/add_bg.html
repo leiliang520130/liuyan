@@ -1,0 +1,139 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">网站相关配置</a> <a href="javascript:;" class="current">登录页背景图</a></div>
+            </div>
+
+			<!--收索部分开始-->
+			  <div class="container-fluid"><hr>
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+			          <div class="widget-title"> <span class="icon"> <i class="icon-picture"></i> </span>
+			            <h5>登录页背景图</h5>
+			          </div>
+			          <div class="widget-content">
+			            <ul class="thumbnails">
+			              <li class="span6"><a><img src="{$img}" alt=""  id='bg_bg' ></a>
+			              </li>
+			            </ul>
+			          </div>
+			        </div>
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+			        		<div class="control-group">
+			                	<label class="control-label">背景图片（图片尺寸：900*900）</label>
+			                	<div class="controls">
+			                		<input readonly="readonly" id="icon_url" type="text" name="cover_img" value="{$img}" class="required" />
+			                		<a href="javascript:void(0)" id="icon" class="btn">选择</a>
+			                		<a href="javascript:void(0)" id="start" style="margin-right: 10px" class="btn">确定上传替换</a>
+			                		<div id="file-list"></div>
+			                	</div>
+			              	</div>
+			              	</form>
+			            </div>
+			      </div>
+			    </div>
+			  </div>
+			<!--收索结束-->
+
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script type="text/javascript" src="__PUBLIC__/Admin/My97DatePickerBeta4.8b2/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+		<script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+
+		<script type="text/javascript">
+			var img_wd = 150;
+			var img_hg = 150;
+			var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+				browse_button : 'icon',
+				url : '{:U("upimg")}',
+				flash_swf_url : 'js/Moxie.swf',
+				silverlight_xap_url : 'js/Moxie.xap',
+				multi_selection: false,
+				file_data_name:'photo',
+				filters: {
+				  mime_types : [ //只允许上传图片文件
+				    { title : "图片文件", extensions : "jpg,gif,png" }
+				  ],
+					max_file_size : '5800kb', //最大只能上传5800kb的文件
+					prevent_duplicates : true //不允许选取重复文件
+				}
+			});
+			uploader.init(); //初始化
+			uploader.bind('FileUploaded',function(uploader,file,r){
+				var rep = r.response;
+				var r = $.parseJSON(rep);
+				$('#icon_url').val(r.url);
+				uploader.removeFile(file);
+				$('#file-list li').remove();
+				$('#bg_bg').attr('src', r.url)
+			});
+
+			//绑定文件添加进队列事件
+			uploader.bind('FilesAdded',function(uploader,files){
+				$.each(uploader.files, function (i, file) {
+			        if (uploader.files.length <= 1) {
+			            return;
+			        }
+			        uploader.removeFile(file);
+			    });
+				$('#file-list li').remove();
+				for(var i = 0, len = files.length; i<len; i++){
+					var file_name = files[i].name; //文件名
+					
+					//构造html来更新UI
+					var html = '<li style="margin-top:15px;" id="file-' + files[i].id +'"></li>';
+					$(html).appendTo('#file-list');
+					!function(i){
+						previewImage(files[i],function(imgsrc){
+							$('#file-'+files[i].id).append('<img src="'+ imgsrc +'" />');
+						})
+				    }(i);
+				}
+			});
+
+			//plupload中为我们提供了mOxie对象
+			function previewImage(file,callback){
+				if(!file || !/image\//.test(file.type)) return; 
+				if(file.type=='image/gif'){
+					var fr = new mOxie.FileReader();
+					fr.onload = function(){
+						callback(fr.result);
+						fr.destroy();
+						fr = null;
+					}
+					fr.readAsDataURL(file.getSource());
+				}else{
+					var preloader = new mOxie.Image();
+					preloader.onload = function() {
+						preloader.downsize( img_wd, img_hg );//先压缩一下要预览的图片,宽300，高300
+						var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+						callback && callback(imgsrc); //callback传入的参数为预览图片的url
+						preloader.destroy();
+						preloader = null;
+					};
+					preloader.load( file.getSource() );
+				}	
+			}
+
+			//最后给"开始上传"按钮注册事件
+			document.getElementById('start').onclick = function(){
+			    uploader.start(); //调用实例对象的start()方法开始上传文件，当然你也可以在其他地方调用该方法
+			}
+		</script>
+    </body>
+</html>

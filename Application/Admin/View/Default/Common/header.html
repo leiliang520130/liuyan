@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<title>Matrix Admin</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="__CSS__/bootstrap.min.css" />
+		<link rel="stylesheet" href="__CSS__/bootstrap-responsive.min.css" />
+		<link rel="stylesheet" href="__CSS__/fullcalendar.css" />
+		<link rel="stylesheet" href="__CSS__/matrix-style.css" />
+		<link rel="stylesheet" href="__CSS__/matrix-media.css" />
+		<link href="__FA__/css/font-awesome.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__CSS__/jquery.gritter.css" />
+	</head>
+	<body>
+
+	<div id="header">
+	  	<h1><a href="dashboard.html">COSENSE</a></h1>
+	</div>
+
+
+	<div id="user-nav" class="navbar navbar-inverse">
+		<ul class="nav">
+		    <li  class="dropdown" id="profile-messages" >
+		        <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+		            <i class="icon icon-user"></i>
+		            <span class="text">{:session('admin_info.username')}</span>&nbsp;&nbsp;
+		            <b class="caret"></b>
+		        </a>
+		        <ul class="dropdown-menu">
+		            <li><a href="#"><i class="icon-key"></i> 修改密码</a></li>
+		        </ul>
+		    </li>
+			<li class=""><a title="" href="{:U('Public/login_out')}"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a></li>
+		</ul>
+	</div>

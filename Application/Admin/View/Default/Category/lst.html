@@ -1,0 +1,151 @@
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="javascript:;" class="current">分类管理</a> <a href="javascript:;" class="current">分类列表</a></div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row-fluid">
+					<a class='btn btn-danger' href="{:U('Category/op/type/1')}">新增</a>  <button id="order" class='btn btn-danger'>排序</button>
+                </div>
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+				        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>作品分类列表</h5>
+				        </div>
+			          	<div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped">
+				              	<thead>
+					                <tr>
+					                  	<th class='span3'>一级分类</th>
+					                  	<th class='span3'>二级分类</th>
+					                  	<th class='span2'>排序</th>
+					                  	<th class='span3'>操作</th>
+					                </tr>
+				              	</thead>
+				              	<tbody>
+				              		<foreach name="lst" item="obj">
+				              			<tr class="odd gradeX" pid="{$obj['pid']}" ids="{$obj['id']}">
+													<td>{$obj["cname"]}</td>
+													<td></td>
+													<td><input type="text" name="orders[{$obj['id']}]" ids="{$obj['id']}" value="{$obj['orders']}" class="orders" style='width:50px;'><input type="hidden" name="id" value="{$obj['id']}"></td>
+						                  	<td><a href="edit.html?id={$obj['id']}&&type=1" class='btn btn-danger'>编辑</a>&nbsp;<button class='btn btn-danger delrow'>删除</button></td>
+												</tr>		
+										<?php foreach($obj['_data'] as $obj1){ ?>
+											<if condition="$obj['id'] eq $obj1['pid']">
+												<tr class="odd gradeX" pid="{$obj1['pid']}" ids="{$obj1['id']}">
+													<td></td>
+													<td>{$obj1["cname"]}</td>
+													<td><input type="text" name="orders[{$obj1['id']}]" ids="{$obj1['id']}" value="{$obj1['orders']}" class="orders" style='width:50px;'><input type="hidden" name="id" value="{$obj1['id']}"></td>
+							                  	<td><a href="edit.html?id={$obj1['id']}&&type=1" class='btn btn-danger'>编辑</a>&nbsp;<button class='btn btn-danger delrow'>删除</button></td></tr>
+											</if>
+										<?php } ?>
+				              		</foreach>
+			              		</tbody>
+			            	</table>
+			         	 </div>
+			        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+        
+        <!--header-->
+        <include file="Common/footer" />
+        
+        
+        <script type='text/javascript'>
+        	setTimeout(function () {
+        		$('#order').click(function(){
+        			var or_lst = $('input[name^=orders]');
+					$.ajax({
+					    url:"{:U('Category/orders')}",    //请求的url地址
+					    dataType:"json",   //返回格式为json
+					    data:or_lst,    //参数值
+					    type:"post",   //请求方式
+					    success:function(res){
+					        
+					    },
+					    error:function(){
+					    	// alert("排序失败");
+					    }
+					});
+					// $("input[name^='orders']").each(function(i, o){
+					// 	var id = $(o).attr('ids');
+					// 	var orders = $(o).val();
+		   //      		$.ajax({
+					// 	    url:"{:U('Category/orders')}",    //请求的url地址
+					// 	    dataType:"json",   //返回格式为json
+					// 	    data:{"orders":orders,"id":id},    //参数值
+					// 	    type:"post",   //请求方式
+					// 	    success:function(data){
+						        
+					// 	    },
+					// 	    error:function(){
+					// 	    	// alert("排序失败");
+					// 	    }
+					// 	});
+					// });
+
+					window.location.reload();
+				});
+        	},1500);
+        	
+			$('button.delrow').click(function(){
+				var row = $(this).parents("tr");
+				var pid = row.attr('pid');
+				var id = row.attr('ids');
+				if(pid == 0){
+					var res = confirm("确定删除一级分类和所属的所有二级分类？");
+					if(res==true){
+						$.ajax({
+						    url:"{:U('Category/delete_one')}",    //请求的url地址
+						    dataType:"json",   //返回格式为json
+						    data:{"id":id},    //参数值
+						    type:"post",   //请求方式
+						    success:function(data){
+						    	alert(data);
+						        window.location.reload();
+						        //删除成功后刷新页面
+						    },
+						    error:function(){
+						    	alert("删除失败");
+						    }
+						});
+					}
+				}else{
+					var res = confirm("确定删除二级分类？");
+					if(res==true){
+						$.ajax({
+						    url:"{:U('Category/delete_two')}",    //请求的url地址
+						    dataType:"json",   //返回格式为json
+						    data:{"id":id},    //参数值
+						    type:"post",   //请求方式
+						    success:function(data){
+						    	alert(data);
+						        window.location.reload();
+						        //删除成功后刷新页面
+						    },
+						    error:function(){
+						    	alert("删除失败");
+						    }
+						});
+					}
+				}
+				
+			});
+        </script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+
+<!--中部-->
+<div class="wrap">
+    <div class="per_content">
+        <!-- 上中下部分 -->
+        <include file="layout/gr_header" />
+        
+        <div class="bute_mod">
+            <div class="bute_mod_box clearfix">
+                <div class="bute_fl">
+                    <img src="__IMG__/hytg_bg.png">
+                </div>
+                <div class="bute_fl_tex">
+                    <div class="bute_tit"><span>CO-SENSE募稿说明</span></div>
+                    <div class="bute_tit_text">欢迎向CO-SENSE投稿，CO-SENSE是一个自由的平台，我们接受一切有创意、好玩的新鲜事和人,如果您的身边有符合我们内容的事和人，请和我们联系；投稿一旦采用，我们将以特别的形式回报给投稿人。</div>
+                    <div class="bute_tit"><span>CO-SENSE募稿要求</span></div>
+                    <div class="bute_tit_text">向CO-SENSE投稿，您可以通过下面联系方式联系到我们，投稿可以只是一个线索，也可以是您作为自由撰稿人编辑的完整的内容，如果您是自由撰稿人，请以文字 + 图片 + 视频（非必选）的内容方式提供给我们。</div>
+                    <div class="bute_tit"><span>CO-SENSE联系方式</span></div>
+                    <div class="bute_tit_text" style="margin-bottom: 0">
+                        <span style="padding-right: 100px">邮箱募稿：company@co-sense.cn</span><span>微信募稿：Cosense新青年</span><br>
+                        <span>微博募稿：company@co-sense.cn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+</body>
+<script>
+    window.onload = function(){
+        onload();
+    };
+    window.onresize = function(){
+         $(".bute_mod_box").css({marginTop:-($(".bute_mod_box")[0].clientHeight+16)/2,marginLeft:-($(".bute_mod_box")[0].clientWidth+16)/2});
+    };
+</script>
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script>
+    $(function(){
+        //close_pop
+        $(".close_pop").on('click',function(){
+            $(this).closest('.pop_box').hide();
+        });
+         $(".bute_mod_box").css({marginTop:-($(".bute_mod_box")[0].clientHeight+16)/2,marginLeft:-($(".bute_mod_box")[0].clientWidth+16)/2});
+        coSense.loader.catTab();
+         coSense.loader.toFooter();
+        coSense.loader.bannerWheel($('.per_bg'),2);
+    })
+</script>
+</html>

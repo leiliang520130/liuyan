@@ -1,0 +1,55 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a><a href="#" class="current">评论管理</a> <a href="{:U('lst')}" class="current">评论列表</a> <a href="#" class="current">评论编辑</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+					            <div class="control-group">
+					              	<label class="control-label">评论内容</label>
+					              	<div class="controls">
+					                	<textarea name="cnt" id="" cols="30" rows="10">{$cnt}</textarea>
+					              	</div>
+					            </div>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+        <script>
+        	function submit_form() {
+        		var id = {:I('id', 0)};
+        		var cnt = $('textarea[name=cnt]').val();
+        		$.post("__SELF__", {cnt:cnt, id:id}, function(r){
+        			layer.msg('成功',{icon:1,time:1000});
+    			    setTimeout(function () { 
+  						 window.location.href="{:U('lst')}";
+    				}, 1000);
+        		},'json')
+        	}
+        </script> 
+
+        <!--header-->
+        <include file="Common/footer" />
+    </body>
+</html>

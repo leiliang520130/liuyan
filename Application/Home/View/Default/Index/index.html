@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html id="ie6" lang="en-US">
+<html id="ie7" lang="en-US">
+<html id="ie8" lang="en-US">
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>International Research Association of Modern Education and Computer Science(RAMECS)</title>
+<link rel="stylesheet" type="text/css" media="all" href="__CSS__/style_3.css" />
+<script src="js/html5.js" type="text/javascript"></script>
+<link rel='stylesheet' id='moztheme2011-css'  href='__CSS__/moztheme2011_1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='flxmap-css'  href='__CSS__/styles_1.css' type='text/css' media='all' />
+<link rel='stylesheet' id='parent-style-css'  href='__CSS__/style_4.css' type='text/css' media='all' />
+<link rel='stylesheet' id='child-style-css'  href='__CSS__/style_3.css?ver=4.1' type='text/css' media='all' />
+<meta name="generator" content="WordPress 4.1" />
+	<style>
+		/* Link color */
+		a,
+		#site-title a:focus,
+		#site-title a:hover,
+		#site-title a:active,
+		.entry-title a:hover,
+		.entry-title a:focus,
+		.entry-title a:active,
+		.widget_twentyeleven_ephemera .comments-link a:hover,
+		section.recent-posts .other-recent-posts a[rel="bookmark"]:hover,
+		section.recent-posts .other-recent-posts .comments-link a:hover,
+		.format-image footer.entry-meta a:hover,
+		#site-generator a:hover {
+			color: #004ba0;
+		}
+		section.recent-posts .other-recent-posts .comments-link a:hover {
+			border-color: #004ba0;
+		}
+		article.feature-image.small .entry-summary p a:hover,
+		.entry-header .comments-link a:hover,
+		.entry-header .comments-link a:focus,
+		.entry-header .comments-link a:active,
+		.feature-slider a.active {
+			background-color: #004ba0;
+		}
+	</style>
+	<style type="text/css" id="twentyeleven-header-css">
+			#site-title,
+		#site-description {
+			position: absolute !important;
+			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+
+<style type="text/css" id="styles-plugin-css">
+
+</style>
+</head>
+
+<body class="home page page-id-4 page-template page-template-sidebar-page page-template-sidebar-page-php styles single-author two-column left-sidebar">
+<div id="page" class="hfeed">
+	<header id="branding" role="banner">
+			<hgroup>
+				<h1 id="site-title"><span><a href="index.html" title="RAMECS" rel="home">RAMECS</a></span></h1>
+			</hgroup>
+            <a href="index.html">
+				<img src="__IMG__/sw_01.jpg" width="1000" height="258" alt="" />
+			</a>
+	</header><!-- #branding头部显示 -->
+
+
+	<div id="main">
+
+		<div id="primary">
+			<div id="content" role="main">
+				<article id="post-4" class="post-4 page type-page status-publish hentry">
+					<header class="entry-header"></header><!-- .entry-header -->
+
+					<div class="entry-content">
+						<p style="text-align: center;"><span style="color: #d00000;">{$info.title}</span></p>
+						<hr />
+						<p>新闻栏</p>
+						<h2 style="text-align: center;">{$info.title}</h2>
+						<p style="text-align: center;">{:htmlspecialchars_decode($info['cnt'])}</p>
+						<p style="text-align: center;"><span style="color: #d00000;">{:$info['createtime']?date('Y-m-d',$info['createtime']):''}</span> <span style="color: #004ab0;">RAMECS官方出品</span></p>
+						<div style="text-align: left;">评论栏</div>
+						<table border="0">
+							<tbody>
+							<foreach name="com" item="vo">
+								<tr>
+									<td style="vertical-align: middle;">{$vo.nickname}</td>
+									<td style="vertical-align: top;">{:htmlspecialchars_decode($vo['note_content'])}</td>
+									<td style="vertical-align: middle;">{:$vo['note_time']?date('Y-m-d',$vo['note_time']):''}</td>
+								</tr>
+								<volist name="vo['children']" id="sub">
+									<tr>
+										<td>&nbsp;&nbsp;&nbsp;&nbsp;后台回复:</td>
+										<td>{$sub.note_content}</td>
+										<td>{:date("Y-m-d",$sub['note_time'])}</td>
+									</tr>
+								</volist>
+							</foreach>
+							</tbody>
+						</table>
+
+					</div>
+					<footer class="entry-meta"></footer>
+				</article>
+				<div id="comments" style="width:700px;height: 500px ">
+					<p>发帖栏</p>
+					<script id="editor" type="text/plain" style="width:650px;height:290px;"></script>
+					<button onclick="notes()">留言</button>
+				</div>
+				<div style="margin-top: 50px" id="container">
+					<p>个人文件上传</p>
+					<input type="text" name="enclosure"  id="logo" value="{$dev['enclosure']}" class="textSC" style="color:#00BCD4;">
+					<a href="javascript:;" id="enclosure" style='background:#bbb;color:#fff;' class="scInput">上传</a>
+					<a href="javascript:;" id="delclosure" style='color:#000;background:#fff;' class="delscInput">取消</a>
+				</div>
+				<div>
+					<button onclick="file_up()">确认</button>
+				</div>
+
+			</div>
+		</div>
+		<div id="secondary" class="widget-area" role="complementary">
+			<aside id="nav_menu-2" class="widget widget_nav_menu">
+				<div class="menu-idaacs_mmain_menu-container">
+					<ul id="menu-idaacs_mmain_menu" class="menu">
+					<li id="menu-item-83" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4 current_page_item menu-item-83">
+						<a href="{:U('Index/index')}">首页</a>
+					</li>
+					<li id="menu-item-344" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-344">
+						<a href="{:U('Public/login')}">会员</a>
+						<ul class="sub-menu">
+							<empty name="user['id']">
+								<li id="menu-item-354" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-354">
+									<a href="{:U('Public/login')}">登录</a>
+								</li>
+								<li id="menu-item-300" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-300">
+									<a href="{:U('Public/register')}">注册</a>
+								</li>
+								<else />
+								{$user.nickname}
+								<a href="{:U('Public/outlogin')}">退出</a>
+							</empty>
+
+						</ul>
+					</li>
+					<!--<li id="menu-item-82" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-82">-->
+						<!--<a href="user_info.html">我的个人中心</a>-->
+					<!--</li>-->
+
+
+					</ul>
+				</div>
+			</aside>
+			<aside id="text-2" class="widget widget_text">
+				<h3 class="widget-title">简介</h3>
+				<div class="textwidget">
+					<p>
+						<strong>RAMECS</strong></p>
+					<p>International Research Association of Modern Education and Computer Science(RAMECS) was founded in 2008, which is a new scientific and non-profit association. It provides a forum for teachers, engineers and scientists in academia, university and industry to present their latest research findings in area of Education and Computer Science. </p>
+					<p>&nbsp;</p>
+					<p>&nbsp;</p>
+					<p>&nbsp; </p>
+				</div>
+			</aside>
+			<aside id="text-3" class="widget widget_text">
+				<div class="textwidget"></div>
+			</aside>
+		</div><!-- #secondary .widget-area -->
+	</div><!-- #main -->
+	<footer id="colophon" role="contentinfo">
+			<div id="site-generator">
+				<a href="http://www.ramecs.org/" title="RAMECS" rel="generator" style="color: #7a7a7a;font-size: 12px;font-weight: normal">Copyright © 2008-2017 RAMECS. All Rights Reserved.</a>
+			</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+<script type='text/javascript' src='__JS__/jquery-1.8.3.min.js'></script>
+<script type='text/javascript' src='__JS__/comment-reply.js'></script>
+<script type="text/javascript" charset="utf-8" src="__EXT__/Ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__EXT__/Ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__EXT__/Ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" charset="utf-8" src="__EXT__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+
+<script type="text/javascript">
+	var ue = UE.getEditor('editor');
+
+	function notes(){
+		if(ue.getContent() == '') {
+			layer.msg('内容不能为空', {icon:2,time:1000});
+			return false;
+		}
+		var cnt=ue.getContent();
+
+		$.post("{:U('add_notes')}",{cnt:cnt},function(r){
+			if(r.code==0){
+				window.location.reload();
+			}else if(r.code==-7){
+				window.location.href="{:U('Public/login')}";
+			}else{
+				alert('留言不成功');
+			}
+		},'json');
+	}
+
+	//异步上传文件
+	var logoUploader = new plupload.Uploader({
+		runtimes : 'html5,flash,silverlight,html4',
+		browse_button : 'enclosure',
+		container: document.getElementById('container'),
+		url : "{:U('Index/up_files')}",
+		flash_swf_url : "__JS__/plupload/Moxie.swf",
+		silverlight_xap_url : "__JS__/plupload/Moxie.xap",
+		file_data_name:'photo',
+		filters : {
+			max_file_size : '10mb',
+			mime_types: [
+				{title : "excel files", extensions : "jpg,gif,png,zip,rar"}
+			],
+			multi_selection : false
+		},
+		init: {
+			PostInit: function() {
+			},
+			FilesAdded: function(up, files) {
+				plupload.each(files, function(file) {
+					logoUploader.start();
+				});
+			},
+			UploadProgress: function(up, file) {
+			},
+			FileUploaded: function(up, file, info) {
+				var resp = info.response;
+				var resp = $.parseJSON(resp);
+
+				if(resp.code == 0){
+					var url = resp.url;
+					var houzui = url.substr(url.length-3);
+						//如果上传的是图片，则显示图片本身
+						var str1 =url;
+						$('input[name=enclosure]').val(str1);
+
+				}
+			},
+			Error: function(up, err) {
+				alert(err.message)
+			}
+		}
+	});
+	logoUploader.init();
+
+	//删除上传内容
+	$("#delclosure").on("click",function(){
+		$("input[name='enclosure']").val("");
+	});
+
+	function file_up(){
+	    var url="{:U('add_files')}"
+		var files=$('input[name=enclosure]').val();
+		$.post(url,{Files:files},function(r){
+			if(r.code==0){
+				window.location.reload();
+			}else if(r.code==-7){
+				window.location.href="{:U('Public/login')}";
+			}else{
+				alert('文件上传不成功');
+			}
+		},'json')
+	}
+
+
+
+
+
+</script>
+
+</body>
+</html>

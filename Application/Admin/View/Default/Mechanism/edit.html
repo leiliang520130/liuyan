@@ -1,0 +1,252 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> 
+					<a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> 
+					<a href="{:U('Mechanism/index')}" class="current">组织机构管理</a> 
+					<a href="javascript:;" class="current">编辑</a>
+				</div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+					        <form action="{:U('Mechanism/edit')}" method="post" class="form-horizontal">
+					            <div class="control-group">
+					              <label class="control-label">分组织机构名称：</label>
+					              <div class="controls">
+					                <input name="nickname" type="text" class="span3" value="{$info.nickname}" placeholder="分组织机构名称" />
+					              </div>
+					            </div>
+								
+								<div class="control-group">
+					              <label class="control-label">登录邮箱：</label>
+					              <div class="controls">
+					                <input name="email" type="text" class="span3" value="{$info.email}" placeholder="登录邮箱" />
+					              </div>
+					            </div>
+
+								<div class="control-group">
+									<label class="control-label">地址：</label>
+									<div class="controls">
+										<select name="province" class='span3 p-select' onchange="choose_province($(this))" >
+											<option value="0">请选择省</option>
+											<foreach name='pro_lst' item='vo'>
+												<option value="{$vo.id}" <?php if($vo['id'] == $user_info['province']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+											</foreach>
+										</select>
+										<select name="city" class='span3 p-select' onchange="choose_city($(this))">
+											<option value="0">请选择市</option>
+											<foreach name='city_lst' item='vo'>
+												<option value="{$vo.id}" <?php if($vo['id'] == $user_info['city']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+											</foreach>
+										</select>
+										<select name="area" class='span3 p-select' onchange="choose_area($(this))">
+											<option value="0">请选择区/县</option>
+											<foreach name='area_lst' item='vo'>
+												<option value="{$vo.id}" <?php if($vo['id'] == $user_info['area']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+											</foreach>
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">机构简介：</label>
+									<div class="controls">
+										<input name="synopsis" type="text" class="span3" placeholder="机构简介"  value="{$info['synopsis']}"/>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label">组织领域：</label>
+									<div class="controls">
+										<input name="industry" type="text" class="span3" value="{$info['industry']}" />
+									</div>
+								</div>
+
+								<div class="control-group" style="height: auto">
+									<label class="control-label">机构头像：</label>
+									<div class="controls" id="container">
+										<input id="enclosure" type="file" class="span3"/>
+										<div class="llogo">
+											<img src="{$info['avatar']}"/>
+											<input type="hidden" class="image" name="avatar" value="{$info['avatar']}">
+										</div>
+									</div>
+								</div>
+								
+					            <div class="form-actions">
+					              <button type="button" onclick="edit_mechanism({$info.id})" class="btn btn-primary">确定</button>
+					            </div>
+					        </form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+        <include file="Common/footer" />
+        
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script>
+		<script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>s
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+		
+		<script>
+
+			var logoUploader = new plupload.Uploader({
+				runtimes : 'html5,flash,silverlight,html4',
+				browse_button : 'enclosure',
+				container: document.getElementById('container'),
+				url : "{:U('Mechanism/img_upload')}",
+				flash_swf_url : "__JS__/plupload/Moxie.swf",
+				silverlight_xap_url : "__JS__/plupload/Moxie.xap",
+				file_data_name:'photo',
+				filters : {
+					max_file_size : '10mb',
+					mime_types: [
+						{title : "excel files", extensions : "jpg,gif,png,zip,rar"}
+					],
+					multi_selection : false
+				},
+				init: {
+					PostInit: function() {
+					},
+					FilesAdded: function(up, files) {
+						plupload.each(files, function(file) {
+							logoUploader.start();
+						});
+					},
+					UploadProgress: function(up, file) {
+					},
+					FileUploaded: function(up, file, info) {
+						var resp = info.response;
+						var resp = $.parseJSON(resp);
+						if(resp.code == 0){
+							var url = resp.url;
+							var houzui = url.substr(url.length-3);
+
+							//如果上传的是zip文件，则显示默认图片
+							if(houzui == 'zip' || houzui == 'rar') {
+								var zip_url = $('#default_zip_img_url').val();
+								var str = '<li><img src="'+zip_url+'" alt="" width="40" height="46"/>' +
+										'<input type="hidden" name="enclosure[]" value="'+url+'">' +
+										'<a href="javascript:;" class="del_report_enclosure">删除</a></li>';
+								//如果上传的是图片，则显示图片本身
+							}else{
+								var str='<img style="width: 60px;height: 46px" src="'+url+'" alt=""/>' +
+										'<input type="hidden" class="image" name="avatar" value="'+url+'">'
+							}
+
+
+//                           $('.add_fuj').append(str);
+
+							$('.llogo').html(str);
+						}
+					},
+					Error: function(up, err) {
+						alert(err.message)
+					}
+				}
+			});
+			logoUploader.init();
+
+
+			//选择省份
+			function choose_province(thisf) {
+				var pro_id = parseInt(thisf.val());
+				//初始化
+				if(pro_id == 0) {
+					$('select[name=city]').html("<option value='0'>请选择市</option>");
+					$('select[name=area]').html("<option value='0'>请选择区/县</option>");
+				}else{
+					$.get("{:U('ajax_get_area_son')}", {pid:pro_id}, function(r){
+						if(r.code == 0) {
+							var str = "<option value='0'>请选择市</option>";
+							$.each(r.data,function(n,v) {
+								str += "<option value='"+v.id+"'>"+v.name+"</option>";
+							});
+							$('select[name=city]').html(str);
+							$('select[name=area]').html("<option value='0'>请选择区/县</option>");
+						}
+					},'json')
+				}
+				$('input[name=province_detail]').val(thisf.find("option:selected").text());
+			}
+
+			//选择城市
+			function choose_city(thisf) {
+				var city_id = parseInt(thisf.val());
+
+				//初始化
+				if(city_id == 0) {
+					$('select[name=area]').html("<option value='0'>请选择区/县</option>");
+				}else{
+					$.get("{:U('ajax_get_area_son')}", {pid:city_id}, function(r){
+						if(r.code == 0) {
+							var str = "<option value='0'>请选择区/县</option>";
+							$.each(r.data,function(n,v) {
+								str += "<option value='"+v.id+"'>"+v.name+"</option>";
+							});
+							$('select[name=area]').html(str);
+						}
+					},'json')
+				}
+
+				$('input[name=city_detail]').val(thisf.find("option:selected").text());
+			}
+
+			//选择区域
+			function choose_area(thisf) {
+				$('input[name=area_detail]').val(thisf.find("option:selected").text());
+			}
+        	
+        	function edit_mechanism(id) {
+				var nickname = $("input[name=nickname]").val();
+				var email = $("input[name=email]").val(); 
+				
+				if(!nickname){
+					layer.msg('请输入组织机构名称',{icon:2,time:1000});
+					return false;
+				}
+				var reg = /^([\w\W]){2,10}$/g
+				if(!reg.test(nickname)){
+					layer.msg('组织机构名称范围在2~10位之间!',{icon:2,time:1000});
+					return false;
+				}
+		
+				if(!email){
+					layer.msg('请输入登录邮箱',{icon:2,time:1000});
+					return false;
+				}
+				var reg = /\w+[@]{1}\w+[.]\w+/;
+				if(!reg.test(email)){
+					layer.msg('输入的邮箱格式有误!',{icon:2,time:1000});
+					return false;
+				}
+				
+				
+				$.post("{:U('edit',array('id'=>$_GET['id']))}",$('.form-horizontal').serialize(),function(r){
+					if(r.code == 1) {
+						layer.msg(r.msg, {icon:1,time:1000});
+						
+						setTimeout(function () { 
+						   window.location.href="{:U('Mechanism/index')}";
+						}, 1000);
+					}else{
+						layer.msg(r.msg, {icon:2,time:1000});
+					}
+				},'json')
+				
+        	}
+        </script>
+		
+    </body>
+</html>

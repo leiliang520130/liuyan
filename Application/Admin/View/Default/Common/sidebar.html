@@ -1,0 +1,15 @@
+	<?php $auth_lst = my_menu_lst();  ?>
+	<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+		<ul>
+			<li class="active"><a href="{:U('Index/index')}"><i class="icon icon-home"></i> <span>首页</span></a> </li>
+			<?php foreach($auth_lst as $v){ ?>
+				<li class="submenu <?php if(NOW_OPEN == $v['id']){echo 'open';} ?> "> <a href="javascript:;"><i class="{$v.icon}"></i> <span>{$v.title}</span></a>
+					<ul>
+						<?php foreach($v['_data'] as $vo){ ?>
+							<li <?php if(NOW_PATH == $vo['name'])echo "style='background: rgb(40, 183, 121);'"; ?>><a <?php if(NOW_PATH == $vo['name'])echo "style='color:rgb(255, 255, 255);'";?> href="{:U($vo['name'])}">{$vo.title}</a></li>
+						<?php } ?>
+					</ul>
+				</li>
+			<?php } ?>
+		</ul>
+	</div>

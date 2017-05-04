@@ -1,0 +1,106 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+
+<!--中部内容-->
+<div class="wrap">
+    <div class="site-content">
+        <!--栏目标题-->
+        <div class="column cloz">
+            <img src="__IMG__/img/o_title.jpg">
+        </div>
+        <!--内容列表-->
+        <div class="list_box pt70">
+            <ul class="list-ul clearfix list_original">
+                <volist name="info" id="obj">
+                    <li>
+                         <a href="{:U(original_detail1)}?oid={$obj['id']}" target="_blank">
+                            <div class="img"><img src="{$obj["cover_curimg"]}"></div>
+                            <div class="c-tit">
+                                <span class="w_cname">{$obj["flf_name"]}</span>
+                                <span class="ejfl_name">{$obj["tlf_name"]}</span>
+                            </div>
+                              <div class="yc_h"><p class="c-text clamp1">{$obj["title"]}</p>
+                            <p class="text_czz">创作者：<span class="h">{$obj["nickname"]}</span></p></div>
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+            <div class="c-more mb140" style="max-width: none"><a class="original_more" bid="-16" href="javascript:;">MORE</a></div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+       coSense.loader.init(false); 
+       coSense.loader.originalJS();
+        coSense.loader.toFooter();
+       proing();
+    $("a.original_more").on('click',function(){
+        var html = "";
+        var bid =  parseInt($(this).attr("bid"));
+        //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+        bid += 32;
+        //每次点击展示32条数据.
+        $(this).attr("bid",bid);
+        var value = "<?php echo I('value'); ?>";
+        var b_id =  parseInt($(this).attr("bid"));
+        $.post("{:U('Original/original_tags_more')}",{value:value,begin:b_id},function(r){
+            if(r.data == ""){
+                $.Prompt(r.msg);
+            }else{
+                console.log(r.data);
+                $.each(r.data,function(ind,val){
+                    html +='<li>\
+                                <a href="{:U('Original/original_detail1')}?oid='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_curimg+'"></div>\
+                                    <div class="c-tit">\
+                                        <span class="w_cname">'+val.flf_name+'</span>\
+                                        <span class="ejfl_name">'+val.tlf_name+'</span>\
+                                    </div>\
+                                      <div class="yc_h"><p class="c-text clamp1">'+val.title+'</p>\
+                                    <p class="text_czz">创作者：<span class="h">'+val.nickname+'</span></p></div>\
+                                </a>\
+                        </li>';
+                })
+                $("ul.list_original").append(html);
+            }
+        },'json')
+    });
+</script>
+</html>

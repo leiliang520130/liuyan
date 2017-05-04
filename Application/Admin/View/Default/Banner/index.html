@@ -1,0 +1,108 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">首页轮播图相关管理</a> <a href="javascript:;" class="current">首页轮播图列表</a></div>
+            </div>
+
+			<!--收索部分开始-->
+			<div class="container-fluid">
+				<hr>
+				<div class="row-fluid">
+					<div class="span12">
+						<form  style="padding:3px 0; float:left;"  class="form-inline col-lg-7" method="get" action="__SELF__" id="com_from">
+							<div class="form-group">
+								<div class= "form-group">
+									<span style="font-weight:bold;">&nbsp;&nbsp;SEO标题</span>: <input type="text" name="seo_title" value="{:I('title', '')}" placeholder="请输入seo标题">
+									&nbsp;&nbsp;<button type="submit" class="btn btn-danger" style='position:relative;'>搜索</button>
+									&nbsp;<a href="{:U('op')}" class="btn btn-primary" style='position:relative;'>新增</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--搜索结束-->
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+				        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>首页轮播图列表</h5>
+				        </div>
+			          	<div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped">
+				              	<thead>
+					                <tr>
+					                  	<th class='span1'>序号</th>
+					                  	<th class='span2'>SEO标题</th>
+					                  	<th class='span1'>图片</th>
+					                  	<th class='span2'>操作</th>
+					                </tr>
+				              	</thead>
+				              	<tbody>
+				              		<?php if($lst){  ?>
+					              		<?php $p = I('p', 1); ?>
+					              		<?php $k = 1; ?>
+					              		<foreach name='lst' item='vo'>
+							                <tr class="odd gradeX">
+							                  	<td><?php echo ($p-1)*10+$k; ?></td>
+							                  	<td>{$vo.seo_title}</td>
+							                  	<td><img width="20%" src="{$vo.img_url}" /></td>
+							                  	<td><a href="{:U('edit')}?id={$vo.id}" class='btn btn-danger'>编辑</a>&nbsp;<button id="del" value="{$vo.id}" class='btn btn-danger'>删除</button></td>
+							                </tr>
+							                <?php $k++; ?>
+						            	</foreach>
+						            <?php }else{ ?>
+						           	 	<tr class="odd gradeX">
+						           	 		<td colspan="9">没有数据</td>
+						           	 	</tr>
+						            <?php } ?>
+			              		</tbody>
+			            	</table>
+			            	<div style='text-align:center;'><include file="Common/page" /></div>
+			         	 </div>
+			        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script type="text/javascript" src="__PUBLIC__/Admin/My97DatePickerBeta4.8b2/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <script>
+        	$("button#del").on('click',function(){
+        		var id = $(this).attr('value');
+        		layer.confirm('您确定要删除吗？', {
+				  btn: ['确定','取消'] //按钮
+				}, function(){
+	        		$.post("{:U('del')}",{id:id},function(r){
+		            	if(r.code == 0) {
+							layer.msg('成功',{icon:1,time:1000});
+			    			setTimeout(function () { 
+						       window.location.reload(true);
+						    }, 1000);
+		            	}else{
+		            		layer.msg('失败，请重试',{icon:2,time:1000});
+		            	}
+	        		},'json')
+				}, function(){
+				});
+        	});
+        </script>
+    </body>
+</html>

@@ -1,0 +1,252 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!--头部结束-->
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+
+<!--中部内容-->
+<div class="wrap">
+    <div class="site-content bgf0">
+        <!--栏目标题-->
+        <div class="column">
+            <img src="__IMG__/img/detail_bg1.jpg">
+        </div>
+        <div class="clearfix">
+            <div class="info_content1">
+                <div class="t-no20">LIFE STYLE</div>
+                <div class="act_tit">Adobe The Adobe logo and Photoshop are either the Adobe</div>
+                <div class="tag_mod clearfix" style="margin-top: 30px">
+                    <div class="fl">
+                        <i>艺术</i>
+                        <i>设计展</i>
+                    </div>
+                    <div class="footer_icon">
+                        <a href="#" class="iconfont icon-facebook"></a>
+                        <a href="#" class="iconfont icon-twitter"></a>
+                        <a href="#" class="iconfont icon-in"></a>
+                        <a href="#" class="iconfont icon-weixin"></a>
+                        <a href="#" class="iconfont icon-weibo"></a>
+                    </div>
+                </div>
+                <div class="act-text-c">Adobe, the Adobe logo, and Photoshop are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries.Adobe, the Adobe logo, and Photoshop are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries.Adobe, the Adobe logo, and Photoshop are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries.Adobe, the Adobe logo, and Photoshop are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries.Adobe, the Adobe logo, and Photoshop are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States and/or other countries.</div>
+                <div class="c-more collection"><a href="javascript:;" id="js_collectionBtn">COLLECTION</a></div>
+                <ul class="pho-list clearfix" style="margin-top: 26px">
+                    <li><img src="__IMG__/img/photo02.jpg"></li>
+                    <li><img src="__IMG__/img/photo03.jpg"></li>
+                    <li><img src="__IMG__/img/photo04.jpg"></li>
+                    <li class="t">已收藏该活动</li>
+                </ul>
+				<div id="comment_cnt">
+					
+				</div>
+            </div>
+            <div class="fr_detail-mod">
+                <div class="act-map"></div>
+                <div class="info_div">
+                    <div class="mgt48 clearfix">
+                        <div class="act_adr_icon"></div>
+                        <div class="adr_tex fl">
+                            四川省成都市锦江区锦官驿街1号水璟唐文化保护街区9栋10号三楼（香格里拉大酒店）
+                        </div>
+                    </div>
+                    <div class="mgt30 clearfix">
+                        <div class="act_time_icon"></div>
+                        <div class="clearfix fl">
+                            <div class="adr_tex">
+                                <span>周一</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周二</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周三</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周四</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周五</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周六</span>10:00-14:00, 17:00-21:30
+                            </div>
+                            <div class="adr_tex">
+                                <span>周日</span>10:00-14:00, 17:00-21:30
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mgt30 clearfix">
+                        <div class="act_money_icon"></div>
+                        <div class="adr_tex fl">
+                            ￥188
+                        </div>
+                    </div>
+                    <div class="mgt30 clearfix">
+                        <div class="act_phone_icon"></div>
+                        <div class="adr_tex fl">
+                            028-65589696
+                        </div>
+                    </div>
+                    <div class="c-more" style="margin-top: 80px"><a href="javascript:;">ATTEND</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+</html>
+<script>
+	$.get("{:U('Comment/com_lst')}",{id:10,type:1},function(str){
+		$('#comment_cnt').html(str);
+	})
+</script>
+<script type="text/javascript">
+    coSense.loader.init(false);
+    coSense.loader.detailsJs();
+    $(function(){
+    	var id = "{:I('id', 1)}";
+    	var type = "{:I('type', 1)}";
+
+		//展开二级评论框
+        $(document).on('click',".js_commentBtn",function(){
+            var $this = $(this);
+            var uid = $this.attr('myuid');
+            var pid = $this.attr('pid');
+            var zxpid = $this.attr('zxpid');
+
+            $this.toggleClass('add');
+            var $sendHtml = '<div class="comSendMod">' +
+                    '<div class="info_photo"><img src="{:set_header($voo['avatar'])}"></div>' +
+                    '<textarea class="textarea_info"></textarea> ' +
+                    '<div class="mgt30-tr"> <a class="plh_Btn js_sendBtn curr" touid="'+uid+'" pid="'+pid+'" zxpid="'+zxpid+'" href="javascript:void(0);">SEND</a></div></div>';
+            if($this.hasClass('add')){
+                $this.parent().parent().children(".js_comSendMod").html($sendHtml);
+            }
+            else{
+                $this.parent().parent().children(".js_comSendMod").html('');
+            }
+        });
+        	
+        $(document).on('keyup','.textarea_info',function(){
+        	if($(this).val() != '') {
+        		$(this).siblings('div .mgt30-tr').eq(0).find('a').removeClass('curr')
+        	}else{
+        		$(this).siblings('div .mgt30-tr').eq(0).find('a').addClass('curr')
+        	}
+        })
+
+		//发送评论
+        $(document).on('click','.js_sendBtn',function(){
+        	var touid = $(this).attr('touid');  
+            var $val = $(this).parent().prev('textarea').val();
+            var pid = $(this).attr('pid');
+            var zxpid = $(this).attr('zxpid');
+
+            var $temp = $(this).closest('.js_comSendMod').parent().children('.pal-r0').find('.js_commentBtn');
+            var thisf = $(this);
+            var $zanNum = parseInt($temp.text());
+            var $html = '';
+
+            if($val == ''){
+                alert('评论内容不能为空！');
+                return false;
+            }else{
+            	$.post("{:U('Comment/add_comment')}",{aid:id,type:type,to_uid:touid,pid:pid,zx_pid:zxpid,cnt:$val}, function(r){
+            		if(r.code == 0) {
+            			$temp.text($zanNum+1);
+                		thisf.closest('.js_comSendMod').html('');
+            		}else{
+                        alert(r.msg)
+                    }
+            	},'json')
+            }
+        });
+
+		//点赞js_thumbsBtn
+        $(document).on('click','.js_thumbsBtn',function(){
+        	var id = $(this).attr('ids');
+        	var thisf = $(this);
+
+        	$.get("{:U('Comment/com_praise')}", {id:id}, function(r){
+        		if(r.code == 0) {
+		            var $num = parseInt(thisf.text());
+		            $num += 1;
+		            thisf.text($num);
+        		}else{
+        			alert(r.msg)
+        		}
+        	},'json')
+        });
+
+        //加载更多一级评论及其下的多级评论
+        $(document).on('click','.js_get_more',function(){
+         	var thisf = $(this);
+         	var nowpage = (parseInt(thisf.attr('nowpage'))+1);
+         	var is_more = (parseInt(thisf.attr('ismore')));
+         	if(is_more == 0) return false; 
+
+         	$.get("{:U('Comment/com_lst')}", {id:id, type:type, page:nowpage, return_type:2}, function(r){
+         		if(r.code == 0) {
+         			//1、当前page + 1
+         			thisf.attr('nowpage', nowpage);
+
+         			//2、分配获取到的数据
+         			if(parseInt(r.data.length) != 0) {
+	         			var str = "";
+			 			$.each(r.data,function(n,v) {
+		         			str += '<li><div class="pal-r0"><a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="'+v.id+'">'+v.praise_nums+'</a><a class="pingl_listBtn js_commentBtn" myuid="'+v.uid+'" pid="'+v.id+'" zxpid="'+v.id+'" href="javascript:void(0);">'+v.com_nums+'</a></div><div class="info_photo"><img src="'+v.avatar+'"></div><div class="info_title">'+v.nickname+'</div><div class="info_time">'+v.time+'</div><div class="info_txt">'+v.cnt+'</div><div class="js_comSendMod"></div>';
+		         				
+		         			if(parseInt(v.son_lst.length) != 0) {
+		         				str += '<ul class="list_ul_tow">';
+			         			$.each(v.son_lst,function(nn,vv) {
+			         				str += '<li><div class="pal-r0"><a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="'+vv.id+'">'+vv.praise_nums+'</a><a class="pingl_listBtn js_commentBtn" myuid="'+v.uid+'" pid="'+vv.id+'" zxpid="'+v.id+'" href="javascript:void(0);" >'+vv.com_nums+'</a></div><div class="info_photo"><img src="'+vv.avatar+'"></div><div class="info_title">'+vv.nickname+'</div><div class="info_time">'+vv.time+'</div><div class="info_txt">@'+vv.to_nickname+':'+vv.cnt+'</div><div class="js_comSendMod"></div></li>';
+			         			})
+		         				str += '</ul>';
+
+		         				if(parseInt(v.son_lst_count) > 10) str += '<div class="more_pl js_tow_get_more" nowpage="1" ismore="1" fid="'+v.id+'"><a></a></div>';
+		         			}
+		         			str += '</li>';
+			            });
+
+			 			$('.news_d').append(str);
+         			}else{
+         				thisf.attr('ismore', 0);
+         				thisf.css('background', '#c9c9c9');
+         				thisf.find('a').html('NO MORE');
+         			}
+         		}else{
+         			alert('系统错误!');
+         		}
+         	},'json')
+        }); 
+
+        //加载更多的二级评论
+        $(document).on('click','.js_tow_get_more',function(){
+        	var thisf = $(this);
+        	var id = thisf.attr('fid');
+         	var nowpage = (parseInt(thisf.attr('nowpage'))+1);
+         	var is_more = (parseInt(thisf.attr('ismore')));
+
+        	$.get("{:U('son_lst')}", {id:id, page:nowpage}, function(r){
+        		thisf.attr('nowpage', nowpage);
+        		if(parseInt(r.data.length) != 0) {
+        			var str = '';
+        			$.each(r.data,function(n,v) {
+        				str += '<li><div class="pal-r0"><a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="'+v.id+'">'+v.praise_nums+'</a><a class="pingl_listBtn js_commentBtn" myuid="'+v.uid+'" pid="'+v.id+'" zxpid="'+id+'" href="javascript:void(0);" >'+v.com_nums+'</a></div><div class="info_photo"><img src="'+v.avatar+'"></div><div class="info_title">'+v.nickname+'</div><div class="info_time">'+v.time+'</div><div class="info_txt">@'+v.to_nickname+':'+v.cnt+'</div><div class="js_comSendMod"></div></li>';
+        			})
+
+        			thisf.prev('.list_ul_tow').eq(0).append(str);
+        		}
+        	},'json')
+        });
+    })
+</script>

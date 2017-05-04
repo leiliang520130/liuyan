@@ -1,0 +1,169 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+
+<!--中部-->
+<div class="wrap">
+    <div class="per_content">
+        <include file="layout/gr_header" />
+        
+        <div class="fans_mod">
+            <ul class="fans_list">
+                <eq name="fans" value="0">
+                    <div class="fr pub_img no-img w325">
+                        <div class="no-img_emp"><i>THIS IS EMPTY</i></div>
+                    </div>
+                <else/>
+                    <volist name="fans" id="vo"> 
+                        <li class="clearfix">
+                            <div class="fl p-photo">
+                                <?php if($vo['type'] == 1){ ?>
+                                    <a href="{:U('/Original/original_detail2')}?tid={$vo.id}">
+                                        <img width="100%" height="100%" src="{$vo.avatar}">
+                                    </a>
+                                <?php }else{ ?>
+                                    <a href="{:U('/Original/original_detail3')}?tid={$vo.id}">
+                                        <img width="100%" height="100%" src="{$vo.avatar}">
+                                    </a>
+                                <?php } ?>
+                            </div>
+                            <div class="fl p-text-c">
+                                <p class="p01">
+                                    <?php if($vo['type'] == 1){ ?>
+                                        <span class="p-name"><a href="{:U('/Original/original_detail2')}?tid={$vo.id}">{$vo.nickname}</a></span>
+                                    <?php }else{ ?>
+                                        <span class="p-name"><a href="{:U('/Original/original_detail3')}?tid={$vo.id}">{$vo.nickname}</a></span>
+                                    <?php } ?>
+                                    <?php if($vo['type'] == 1){ ?>
+                                        <eq name="vo['sex']" value="0">
+                                            <i class="sex_man iconfont icon-xingbie-nan"></i>
+                                        <else/>
+                                            <i class="sex_woman iconfont icon-xingbie-nv"></i>
+                                        </eq>
+                                    <?php } ?>
+                                    <?php if($vo['v_ident']){ ?>
+                                        <i class="icon-v iconfont icon-biaoqiankaobei"></i>
+                                    <?php } ?>
+                                    <i class="icon-co"></i>
+                                    <i class="icon-cc"></i>
+                                </p>
+                                <p class="p02">
+                                    <i class="icon-addr"></i>
+                                    <span class="span_text">{$vo.address}</span>
+                                </p>
+                                <p class="p03">
+                                    <span class="span_text"><?php echo str_replace(",","&#8197;/&#8197;",$vo['industry']); ?></span>
+                                </p>
+                                <p class="follow_me_orgg">
+                                    <?php if($vo.is_follow == 0){ ?>
+                                    <a class="followBtn" type="1" ids="{$vo.id}" href="javascript:void(0);">CANCEL</a>
+                                    <?php }else{ ?>
+                                    <a class="followBtn" type="0" ids="{$vo.id}" href="javascript:void(0);">FOLLOW</a>
+                                    <?php } ?>
+                                    <i class="icon-gzr iconfont icon-fensi"></i>
+                                    <span class="t-no12-33">{$vo.fans_count}</span>
+                                </p>
+                            </div>
+                            <?php if(count($vo['cover_curimg']) == 0){ ?>
+                                <div class="fr pub_img no-img">
+                                    <div class="no-img_emp"><i>This is empty</i></div>
+                                </div>
+                            <?php }else{ ?>
+                                <div class="fr pub_img">
+                                    <?php if($vo['type'] == 1){ ?>
+                                        <a href="{:U('/Original/original_detail2')}?tid={$vo.id}">
+                                            <volist name="vo['cover_curimg']" id="vi" key="k">
+                                                <img class="f-pic" src="{$vi.cover_curimg}">
+                                            </volist>
+                                        </a>
+                                    <?php }else{ ?>
+                                        <a href="{:U('/Original/original_detail3')}?tid={$vo.id}">
+                                            <volist name="vo['cover_curimg']" id="vi" key="k">
+                                                <img class="f-pic" src="{$vi.cover_curimg}">
+                                            </volist>
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
+                        </li>
+                    </volist>
+                </eq>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+<include file="layout/left_menu" />
+
+
+<!--取消关注-->
+<div class="pop_box js_cancelPop">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="pop_info_text">取消关注后对方将从你的关注列表中消失， <br>确认取消关注？</div>
+        <a class="pop_okBtn" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+</body>
+<script>
+    window.onload = function(){
+        onload();
+    };
+</script>
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script>
+    $(function(){
+        //        取消关注弹框出现
+        $(".js_cancelFol").on('click',function(){
+            $('.js_cancelPop').show();
+        });
+//        关闭取消弹框
+        $(".close_pop").on('click',function(){
+            $(this).closest('.js_cancelPop').hide();
+        });
+        $(".pop_okBtn").on('click',function(){
+            $(this).closest('.js_cancelPop').hide();
+        })
+        $(".followBtn").on('click',function(){
+            var id = $(this).attr('ids');
+            var type = $(this).attr("type");
+            _this = $(this);
+            if(type == 0){
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r) {
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",1);
+                    _this.text("CANCEL");
+                    var num = parseInt(_this.next().next().text())+1;
+                    _this.next().next().text(num);
+                });
+            }else{
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r) {
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",0);
+                    _this.text("FOLLOW");
+                    var num = parseInt(_this.next().next().text())-1;
+                    _this.next().next().text(num);
+                });
+            }
+        });
+             coSense.loader.catTab();
+              coSense.loader.toFooter();
+             coSense.loader.bannerWheel($('.per_bg'),2);
+    })
+</script>
+</html>

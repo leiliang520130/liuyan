@@ -1,0 +1,511 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<!--中部-->
+<div class="wrap">
+    <div class="about-content">
+        <div class="abu_tabbtn mgt-22 js_abu_tabBtn">
+            <a class="curr" href="javascript:void(0);"></a>
+            <a href="javascript:void(0);"></a>
+            <a href="javascript:void(0);"></a>
+        </div>
+        <div class="js_contentModAbout">
+            <div class="abu_mod1">
+                <div class="s_cnl_img"><img src="__IMG__/zpd_dt1.png"></div>
+                <div class="bg_fff_cet">
+                    <span class="no44-w1">CO-CHANNELS</span>
+                    <div class="s-text_bg">
+                        <span class="pt98">CO-CHANNELS</span>
+                        <span> 可视创想自频道 </span>
+                        <span>汇聚创意先锋的创意想法 </span>
+                        <span> 通过不同的方式去实现它 </span>
+                        <span>用更好的方式去呈现 </span>
+                        <span> 创意力量</span>
+                    </div>
+                </div>
+            </div>
+            <div class="abu_mod1" style="display: none;">
+                <div class="s_cnl_img"><img src="__IMG__/zpd_dt1.png"></div>
+                <div class="bg_fff_cet">
+                    <span class="no44-w1">co-Lab</span>
+                    <div class="s-text_bg">
+                        <span class="pt40">CO-Lab</span>
+                        <span>可视实验室 </span>
+                        <span> 探索、好奇、创新</span>
+                        <span>将技术、艺术、创造力</span>
+                        <span>融合在一起</span>
+                        <span>创造出一个全新的具有</span>
+                        <span>创意性的作品</span>
+                        <span class="pt30">Coming soon</span>
+                    </div>
+                </div>
+            </div>
+            <div class="abu_mod1" style="display: none;">
+                <div class="s_cnl_img"><img src="__IMG__/zpd_dt1.png"></div>
+                <div class="bg_fff_cet">
+                    <span class="no44-w1">co-Lab123</span>
+                    <div class="s-text_bg">
+                        <span class="pt40">co-crossover</span>
+                        <span> 可视跨界创想123</span>
+                        <span> 因为一个创意点123</span>
+                        <span>发挥各行业创意先锋之所长123</span>
+                        <span>并将之实现123</span>
+                        <span>跨界玩味123</span>
+                        <span>玩出更高界123</span>
+                        <span class="pt30">Coming soon123</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+
+<!--menu end-->
+<!--登录-注册-忘记密码-->
+<div class="dz-mod">
+    <div class="plr-auto clearfix">
+        <div class="box-left">
+            <div class="text-area">
+                <p class="no16-ff">如果您对我们的平台内容感兴趣，想分享一些有趣的作品和资源给大家，想玩得更嗨、更有范儿，在cosense平台上获得更多的权益..</p>
+                <a class="btn-wid js_regBtn" href="javascript:void(0);">注册</a>
+            </div>
+        </div>
+        <div class="box-right">
+            <!--登录-->
+            <form method="post" action="./Public/account_login">
+                <div class="login_box js_loginBox">
+                    <div class="input-box">
+                        <input class="input" name="account" type="text" placeholder="输入手机号或者邮箱">
+                    </div>
+                    <div class="input-box">
+                        <input class="input"  name="password" type="password" placeholder="输入密码">
+                    </div>
+                    <div class="t-r-text"><a  href="javascript:void(0);">忘记密码?</a></div>
+                    <div class="mgt-ato clearfix">
+                        <button class="btn-wid fl bor-f7b932" type="submit">登录</button>
+                        <div class="footer_icon fr mgt8">
+                            <a href="#" class="iconfont icon-facebook"></a>
+                            <a href="#" class="iconfont icon-qq"></a>
+                            <a href="#" class="iconfont icon-weibo"></a>
+                            <a href="#" class="iconfont icon-twitter"></a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--注册-->
+            <form method="post" action="{:U('Public/first_validate_reg')}">
+                <div class="register_box js_register_box" style="display: none">
+                    <div class="input-box">
+                        <input id="AAA" class="input" name="account" type="text" placeholder="输入手机账号或邮箱">
+                        <span id="BBB" style="display:block;" class="error">此账号已被注册！</span>
+                    </div>
+                    <div class="clearfix" style="margin-top: 30%">
+                        <button class="btn-wid fl bor-f7b932 js_next_reg-1" type="submit" >下一步</button>
+                        <div class="fl youts">已有账户，<a href="javascript:void(0);">返回登录</a></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<!--<include file="layout/footer" />-->
+<!-- 尾部js部分 -->
+<!-- <include file="layout/footer_js" /> -->
+<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="__JS__/jquery.prompt.js"></script>
+<script type="text/javascript" src="__JS__/slider.js"></script>
+<!-- <script type="text/javascript" src="__JS__/index.js"></script> -->
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        get_reward_html();//修改密码弹出框
+
+        get_order_login();//获取第三方登录地址
+
+        $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                }, handlerEmbed);
+            }
+        });
+        var handlerEmbed = function (captchaObj) {
+            // 将验证码加到id为captcha的元素里
+            captchaObj.appendTo("div#embed-captcha");
+            captchaObj.onReady(function () {
+                $("#embed-wait").hide();
+            });
+        };
+        // $("img.limg").load(function() {
+        //       var _this = $(this),
+        //       imgh = this.height,
+        //       h = _this.parents("div.slideBox").height();
+        //       _this.css("top",-(imgh-h)/2);
+        // })
+    });
+
+    // $(window).load(function() {
+    //      $("img.limg").each(function() {
+    //           var _this = $(this),
+    //           imgh = this.height,
+    //           h = _this.parents("div.slideBox").height();
+    //           _this.css("top",-(imgh-h)/2);
+    //     });
+    // });
+    $(function(){
+        var t_img; // 定时器
+        var isLoad = true; // 控制变量
+        var tmp = 0;
+        // 判断图片加载状况，加载完成后回调
+        isImgLoad(function(){
+            // 加载完成
+        });
+        // 判断图片加载的函数
+        function isImgLoad(callback){
+            // 注意我的图片类名都是cover，因为我只需要处理cover。其它图片可以不管。
+            // 查找所有封面图，迭代处理
+            $("img.limg").each(function(){
+                // 找到为0就将isLoad设为false，并退出each
+                if(this.height === 0){
+                    isLoad = false;
+                    return false;
+                }else{
+                    var _this = $(this),
+                            imgh = _this.height(),
+                            h = _this.parents("div.slideBox").height();
+                    if(imgh == 0){
+                        imgh = tmp;
+                    }
+                    _this.css("top",-(imgh-h)/2);
+                    tmp = imgh;
+                }
+            });
+            // 为true，没有发现为0的。加载完毕
+            if(isLoad){
+                clearTimeout(t_img); // 清除定时器
+                // 回调函数
+                callback();
+                // 为false，因为找到了没有加载完成的图，将调用定时器递归
+            }else{
+                isLoad = true;
+                t_img = setTimeout(function(){
+                    isImgLoad(callback); // 递归扫描
+                },20); // 我这里设置的是500毫秒就扫描一次，可以自己调整
+            }
+        }
+        $("a.finearticle_more").on('click',function(){
+            var html = "";
+            var bid =  parseInt($(this).attr("bid"));
+            //此处的bid等于页面需要展示的条数减去每次点击需要展示的条数.
+            bid += 32;
+            //每次点击展示32条数据.
+            $(this).attr("bid",bid);
+            var b_id =  parseInt($(this).attr("bid"));
+            $.post("{:U('Public/finearticle_more')}",{begin:b_id},function(r){
+                if(r.data == ""){
+                    $.Prompt(r.msg);
+                }else{
+                    $.each(r.data,function(ind,val){
+                        html +='<li>\
+                                <a href="{:U('Choiceness/choice_details')}?id='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_img+'"></div>\
+                                    <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                      <div class="yc_h"><p class="c-text">'+val.intro+'</p></div>\
+                                </a>\
+                            </li>';
+                    })
+                    $("ul.list_finearticle").append(html);
+                }
+            },'json')
+        });
+        $("a.original_more").on('click',function(){
+            var html = "";
+            var bid =  parseInt($(this).attr("bid"));
+            //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+            bid += 32;
+            //每次点击展示32条数据.
+            $(this).attr("bid",bid);
+            var b_id =  parseInt($(this).attr("bid"));
+            var url = "{:U('/Original/original_detail1')}";
+            $.post("{:U('Public/original_more')}",{begin:b_id},function(r){
+                if(r.data == ""){
+                    $.Prompt(r.msg);
+                }else{
+                    $.each(r.data,function(ind,val){
+                        html +='<li>\
+                                <a href="{:U('Original/original_detail1')}?oid='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_curimg+'"></div>\
+                                    <div class="c-tit">\
+                                        <span class="w_cname">'+val.flf_name+'</span>\
+                                        <span  class="ejfl_name">'+val.tlf_name+'</span>\
+                                    </div>\
+                                      <div class="yc_h"><p class="c-text clamp1">'+val.title+'</p>\
+                                    <p class="text_czz">创作者：<span class="h">'+val.nickname+'</span></p></div>\
+                                </a>\
+                        </li>';
+                    })
+                    $("ul.list_original").append(html);
+                }
+            },'json')
+        });
+        $("a.activity_more").on('click',function(){
+            var html = "";
+            var bid =  parseInt($(this).attr("bid"));
+            //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+            bid += 32;
+            //每次点击展示32条数据.
+            $(this).attr("bid",bid);
+            var b_id =  parseInt($(this).attr("bid"));
+            $.post("{:U('Public/activity_more')}",{begin:b_id},function(r){
+                if(r.data == ""){
+                    $.Prompt(r.msg);
+                }else{
+                    $.each(r.data,function(ind,val){
+                        html +='<li>\
+                            <a href="{:U('Activity/active_detail')}?id='+val.id+'">\
+                                <div class="img"><img src="'+val.cover_img+'"></div>\
+                                <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                  <div class="yc_h"><p class="c-text"><b># '+val.city_name+' #</b>'+val.intro+'</p></div>\
+                            </a>\
+                        </li>';
+                    })
+                    $("ul.list_activity").append(html);
+                }
+            },'json')
+        });
+
+
+
+    });
+
+function showLft(){
+            var flag = true;
+              $("div.side-btn").on("click",function(e){
+                          e.stopPropagation();
+                          if(!flag) return;
+                          flag = false;
+                          if($(this).hasClass('icon-close')){
+                                $("span.show_sc").click();
+                                $(this).removeClass('iconfont icon-close');
+                                var t4,t5,t6;
+                                          t4 = setTimeout(function(){
+                                                   $(".menu-title").removeClass('opens');
+                                                   t5 = setTimeout(function(){
+                                                        clearTimeout(t4);
+                                                       $(".menu-list").removeClass('opens');
+                                                       t6 = setTimeout(function(){
+                                                        clearTimeout(t5);
+                                                           $(".menu-fllow").removeClass('opens');
+                                                           flag = true;
+                                                    }, 0);
+                                                }, 200);
+                                            }, 200);
+                                            clearTimeout(t6);   
+                                    //$("nav.menu").removeClass('opens');
+                                                setTimeout(function(){
+                                                $("nav.menu").removeClass('open');
+                                                flag = true;
+                                            }, 600);
+                          }
+                          else{
+                                $(this).addClass('iconfont icon-close');
+                                        $('.dz-mod').removeClass('open');
+                                        if(!$("div.menu-btn-outer").hasClass('stalogi')){
+                                $(".menu-btn-outer>div").removeClass('on');
+                                }                               
+                                $("nav.menu").addClass('open');
+                                var t1,t2,t3;
+                                          t1 = setTimeout(function(){
+                                                   $(".menu-title").addClass('opens');
+                                                   t2 = setTimeout(function(){
+                                                        clearTimeout(t1);
+                                                       $(".menu-list").addClass('opens');
+                                                       t3 = setTimeout(function(){
+                                                        clearTimeout(t2);
+                                                           $(".menu-fllow").addClass('opens');
+                                                           flag = true;
+                                                    }, 200);
+                                                }, 200);
+                                            }, 200);
+                                            clearTimeout(t3);                                           
+                              }
+                });
+              /*hover***********menu*/
+                $("div.menu-left div.menu-list ul li a").on('mouseenter',function(e) {
+                	
+                          e.stopPropagation();
+                          $("a.hover").removeClass('hover');
+                          $(this).addClass('hover');
+                          $("#"+$(this).parent().attr("class")).addClass('showm').siblings().removeClass('showm');
+                });
+                //menu-btn登录出现
+                $("span.menu-search").on("click",function(e){
+                    e.stopPropagation();
+                    var _this = $(this);
+                    $(this).toggleClass('show_sc');
+                    $("#menu0").toggleClass('show_sc');
+                });
+                $("div.menutop").on('mouseleave',function(e) {
+                          e.stopPropagation();
+                          if($(this).parents("menutop").length > 0){
+                               return;
+                          }else{
+                              $("a.hover").removeClass('hover');
+                              $(".showm").removeClass('showm');
+                          }
+                });
+                //menu-btn登录出现
+                $("div.menu-btn,div.menu-btn1").on("click",function(e){
+                    e.stopPropagation();
+                    var _this = $(this);
+                    if($("div.side-btn").hasClass('icon-close')){
+                        $("div.side-btn").click();
+                    }
+                    if(_this.hasClass('menu-btn1')){
+                        _this.removeClass('on');
+                        setTimeout(function(){
+                            _this.prev().removeClass('on');
+                        },0);
+                    }else{
+                         _this.addClass('on');
+                          setTimeout(function(){
+                            _this.next().addClass('on');
+                        },0);
+                    }
+                    if($(this).hasClass('on')){
+                        $(".dz-mod").addClass('open');
+                                $('.text-area').show();
+                                $('.js_popBox').hide();
+                                $('.js_popBox.js_loginBox').show();
+                                $(".js_emailRegSuc_jhuo").hide();
+                    }else{
+                        $(".dz-mod").removeClass('open');
+                    }
+                });
+        }
+
+        showLft();
+function toFooter(){
+            function getStyle(el) {
+                                return document.defaultView &&document.defaultView.getComputedStyle ?document.defaultView.getComputedStyle(el, '') : el.currentStyle;
+                     }
+                     function getOffset(el) {
+                                 var _t = 0, _l = 0;
+                                 while (el.offsetParent) {
+                                               _t += el.offsetTop;
+                                               _l += el.offsetLeft;
+                                               el = el.offsetParent;
+                                  }
+                                  return [_t, _l];
+                     }
+                     var domHeight = document.body.clientHeight || document.documentElement.clientHeight;
+                     $("p.frame-bottom_down").click(function(){
+                window.scrollTo(0,domHeight);
+                $("p.frame-bottom_up").addClass('on').find("a").addClass('bottoms');
+                         $("p.frame-bottom_down").removeClass('on');
+            });
+
+                     /*返回顶部*/
+            $(document).on('click', '.frame-bottom_up', function(event) {
+                         event.preventDefault();
+                         $("p.frame-bottom_up").removeClass('on').removeClass('bottoms');
+                         $("p.frame-bottom_down").addClass("on");
+                         $(document).scrollTop(0);
+            });
+            window.onscroll = function(){
+                         var _t = document.documentElement.scrollTop || document.body.scrollTop;
+                         var documentHeight = document.body.clientHeight || document.documentElement.clientHeight;
+                         if (window.innerHeight)
+                                      var winHeight = window.innerHeight;
+                         else if ((document.body) && (document.body.clientHeight))
+                                      var winHeight = document.body.clientHeight;
+                         var dh = documentHeight - winHeight;
+                         if(_t >= dh){
+                                      $("p.frame-bottom_up").addClass('on').find("a").addClass('bottoms');
+                                      $("p.frame-bottom_down").removeClass('on');
+                                      //console.log("到底部了");
+                         }else{
+                                      $("p.frame-bottom_up").removeClass('on').removeClass('bottoms');
+                                      $("p.frame-bottom_down").addClass("on");
+                         }     
+            }
+        }
+        toFooter();
+    /**
+     *
+     *
+     *******/
+    $('#mailComplete,#mailComplete1').keydown(function(e){
+        if(e.keyCode==13){
+            login_action();
+        }
+    });
+    $('#mailComplete2').keydown(function(e){
+        if(e.keyCode==13){
+            $(this).parents("#reg_mobile_pop").find("button.js_next_reg-1").click();
+        }
+    });
+    $(function(){
+    	var _index = 0,
+    		len = $('.wrap .abu_mod1').length,
+    		wrap_abu_mod1 = $('.wrap .abu_mod1'),
+    		bg_fff_cet = $('.bg_fff_cet'),
+    		s_text_bg = $('.s-text_bg'),
+    		s_text_bg_span = $('s_text_bg span'),
+    		js_abu_tabBtn_a = $(".js_abu_tabBtn a");
+    		
+        js_abu_tabBtn_a.on('mouseenter',function(){
+            _index = $(this).index();
+            tabanimate (_index)
+        })
+        
+        
+        
+        //隐藏浏览器滚动条
+        $('body').css('overflow-y','hidden')
+        //切换效果
+        function tabanimate (_index){
+        	bg_fff_cet.css({'opacity':0,left:'-50px'});
+        	s_text_bg.css({'opacity':0,height:0});
+        	bg_fff_cet.stop().animate({opacity:1,left:'80px'},1000);
+        	s_text_bg.stop().animate({opacity:1,height:'430px'},1500);
+
+        	
+        	js_abu_tabBtn_a.eq(_index).addClass('curr').siblings().removeClass('curr');
+        	$(".js_contentModAbout>div").hide().eq(_index).show();
+
+        }
+        // 滚动却换
+        wrap_abu_mod1.on('mousewheel',function(event,delta){
+        	if(delta === - 1&& _index !== len-1){
+        		_index++;
+        		tabanimate (_index);
+        	}else if(delta === 1&& _index !== 0){
+        		_index--;
+				tabanimate (_index);
+			}
+        })
+    })
+</script>
+

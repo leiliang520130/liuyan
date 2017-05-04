@@ -1,0 +1,126 @@
+<!--menu-->
+<nav class="menu">
+    <div class="menutop">
+        <div class="menu-left">
+                <div class="menu-title pt8b">
+                        <span class="line"></span>
+                        <span class="menu-name">MENU</span>
+                        <span class="menu-search iconfont icon-sousuo"></span>
+                </div>
+                <div class="menu-list">
+                       <ul>
+                           <li class="menu1"><a href="{:U('/Choiceness/choice')}">SELETION</a></li>
+                           <li class="menu2"><a href="{:U('/Original/original')}">ORIGINAL</a></li>
+                           <li class="menu3"><a href="{:U('/Activity/activity')}">EVENT</a></li>
+                           <li class="menu4"><a href="{:U('/Public/self_channel')}">CO-CHANNELS</a></li>
+                           <li class="menu5"><a href="">ABOUT US</a></li>
+                       </ul>
+                </div>
+                <div class="menu-fllow">
+                        <div class="menu-title">
+                            <span class="line"></span>
+                            <span class="menu-name">FOLLOW</span>
+                        </div>
+                        <div class="menu-fllow-list">
+                            <a href="javascript:;" class="iconfont icon-weixin2"></a>
+                            <a href="javascript:;" class="iconfont icon-weibo2"></a>
+                        </div>
+                </div>
+        </div>
+        <div class="menu-right">
+              <?php  $m_lst = M("category")->where(array('pid'=>0))->order('orders asc,id asc')->select(); ?>
+               <div class="mbl" id="menu1">
+                    <ul>
+                        <?php foreach($m_lst as $k=>$v){ ?>
+                          <?php if(($k+1) % 4 == 1){ ?>
+                            <li class="design"><a href="{:U('Choiceness/choice', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 2){ ?>
+                            <li class="art"><a href="{:U('Choiceness/choice', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 3){ ?>
+                            <li class="lifestyle"><a href="{:U('Choiceness/choice', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 0){ ?>
+                            <li class="explore"><a href="{:U('Choiceness/choice', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php } ?>
+                        <?php } ?>
+                   </ul>
+               </div>
+               <div class="mbl" id="menu2">
+                    <ul>
+                        <?php foreach($m_lst as $k=>$v){ ?>
+                          <?php if(($k+1) % 4 == 1){ ?>
+                            <li class="design"><a href="{:U('Original/original', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 2){ ?>
+                            <li class="art"><a href="{:U('Original/original', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 3){ ?>
+                            <li class="lifestyle"><a href="{:U('Original/original', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 0){ ?>
+                            <li class="explore"><a href="{:U('Original/original', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php } ?>
+                        <?php } ?>
+                   </ul>
+               </div>
+               <div class="mbl" id="menu3">
+                    <ul>
+                        <?php foreach($m_lst as $k=>$v){ ?>
+                          <?php if(($k+1) % 4 == 1){ ?>
+                            <li class="design"><a href="{:U('Activity/activity', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 2){ ?>
+                            <li class="art"><a href="{:U('Activity/activity', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 3){ ?>
+                            <li class="lifestyle"><a href="{:U('Activity/activity', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php }else if(($k+1) % 4 == 0){ ?>
+                            <li class="explore"><a href="{:U('Activity/activity', array('type'=>$v['id']))}">{$v.cname}</a></li>
+                          <?php } ?>
+                        <?php } ?>
+                   </ul>
+               </div>
+               <div class="mbl" id="menu4">
+                    <ul>
+                       <li class="channer"><a href="{:U('/Public/self_channel')}">CO-CHANNELS</a></li>
+                   </ul>
+               </div>
+                <div class="mbl" id="menu5">
+                    <ul>
+                       <li class="aboutus"><a href="{:U('/Public/about_us')}">ABOUT US</a></li>
+                   </ul>
+               </div>
+                <div id="menu0">
+                    <div class="search">
+                        <div class="searchtop">
+                            <input placeholder="Search" name="search" onkeydown="show();" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"/>
+                            <span onclick="searchfuc();" class="input-search iconfont icon-sousuo"></span>
+                        </div>
+                        <?php $show_key = get_keys(); ?>
+                        <div class="searchbot">
+                            <ul>
+                                <?php foreach($show_key as $v){ ?>
+                                  <li><a onclick="keyword(this);" href="javascript:void(0);">{$v}</a></li>
+                                <?php } ?>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
+        </div>
+        </div>
+</nav>
+<script>  
+  function searchfuc(){
+    var value = $("input[name='search']").val();
+    if(value == ""){
+      $.Prompt("关键词不能为空");
+      return false;
+    }
+    window.location.href = "{:U('Search/search')}?value="+value;
+  }
+  function show () {
+    var e=window.event||arguments.callee.caller.arguments[0];
+    if(e.keyCode==13){
+        searchfuc();
+    }
+  }
+  function keyword (a) {
+    var value = $(a).text();
+    window.location.href = "{:U('Search/search')}?value="+value;
+  }
+</script>
+<!--menu end-->

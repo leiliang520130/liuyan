@@ -1,0 +1,443 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!--头部结束-->
+<style type="text/css">
+    .footer{margin-top:53px;}
+        #share a{
+            background: none;
+        }
+         #share a{
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: #dddfde;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            color: #fff;
+            margin-right: 8px;
+            padding: 0;
+            margin-left: 0;
+        }
+        #share a:hover{
+            text-decoration:none;
+            background-color:#777;
+        }
+        .bsTop{
+            width:208px !important;
+        }
+        .bsFrameDiv div{
+            width:208px !important;
+            height:208px !important;
+        }
+        #cname{
+            max-height: 160px;
+            border: 1px solid #cbcbcb;
+            display: none;
+            overflow-wrap: normal;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .con{
+            display: none;
+            padding: 0;
+        }
+        .con2{
+            display: block;
+            padding: 0;
+            padding-left: 8px;
+            position: relative;
+        }
+        .selDown{
+            position: absolute;
+            right: 2px;
+            top: 56px;
+            width: 28px;
+            height: 34px;
+            display: none;
+            background: url("__PUBLIC__/Home/images/down.jpg") right no-repeat;
+            cursor: pointer;
+        }
+        p.opt{
+            height: 32px;
+            line-height: 32px;
+            padding-left: 8px;
+        }
+        p.opt:hover{
+            background-color: #fab708;
+        }
+        .popBox{
+                height: 100%;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background: #000;
+                opacity: 0.1;
+                z-index: 999;
+                display: none;
+        }
+</style>
+<?php 
+    if(session('user.uid')) {
+        $is_login = 1;
+    }else{
+        $is_login = 0;
+    }
+?>
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<!--中部内容-->
+<div class="wrap">
+    <div class="popBox"></div>
+    <div class="site-content">
+        <!--栏目标题-->
+        <div class="column">
+            <img src="__IMG__/img/detail_bg.jpg">
+        </div>
+        <volist name="info" id="vo"> 
+            <div class="info_content">
+                        <div class="info_mod">
+                            <div class="t-no20">{$vo.category}</div>
+                            <div class="info_t">{$vo.title}</div>
+                            <div class="info_a">
+                                <div class="info_a_p">
+                                    <img src="__IMG__/img/photo-img.jpg">
+                                </div>
+                                <p class="info_a_tit">{$vo.authors}</p>
+                                <p class="info_a_time">{:date('Y.m.d', $vo['createtime'])}</p>
+                            </div>
+                            <div class="fgx">
+                                <img src="__IMG__/img/fgx.jpg">
+                            </div>
+                        </div>
+                        <div class="style_b">
+                        	<!--改回从后台编辑-->
+                            <div class="text_t"></div>
+                            <div class="text_c iconfont">
+                                <span>{$vo.intro}</span>
+                            </div>
+                            <!--<img src="__IMG__/img/c_x_t.png">-->
+                        </div>
+                         <!--详情内容-->
+                        <div class="sens_detail">
+                            {$cnt}
+                        </div>
+                        <!--详情内容-->
+                    <div class="t-ly">来源：<a href="http://{$vo.source_url}" target="_blank">{$vo.source_url}</a></div>
+                    <div class="tag_mod clearfix">
+                                <div class="fl">
+                                            <foreach name="tags" item="lable" key="k">
+                                                <i><a href="{:U('Choiceness/fine_tags')}?id={$lable[0]['id']}">{$lable[0]['tname']}</a></i>&nbsp;&nbsp;
+                                            </foreach>
+                                </div>
+                              <div id="share">
+                                 <div class="bshare-custom">
+                                        <div class="fr shareIcon chd">
+                                     <!-- <a href="#" class="iconfont icon-facebook"></a>
+                                            <a href="#" class="iconfont icon-twitter"></a>
+                                            <a href="#" class="iconfont icon-in"></a> -->
+                                            <a title="分享到QQ" class="iconfont icon-qq bshare-qqim" href="javascript:void(0);"></a>
+                                            <a title="分享到微信" class="iconfont icon-weixin bshare-weixin" href="javascript:void(0);"></a>
+                                            <a title="分享到新浪微博" class="iconfont icon-weibo bshare-sinaminiblog" href="javascript:void(0);"></a>
+                                        </div>
+                                    </div>
+                               </div>
+
+                     
+                </div>
+                            <div class="thumbs">
+                                <a class="thumbsIcon" id="js_thumbsIcon" aid="{$info[0]['id']}" href="javascript:;">
+                                    <img class="tb_gif" src="__IMG__/img/zy01.gif">
+                                </a>
+                                <?php if($info[0]['is_praise'] == 0){ ?>
+                                    <div class="thumbs_tex" pstate="0"><span>可赞</span></div>
+                                <?php }else{ ?>
+                                    <div class="thumbs_tex" pstate="1"><span>已赞</span></div>
+                                <?php } ?>
+                                <div class="thumbs_num" id="js_thumbs_num">{$or_details[0]['praise_nums']}</div>
+                            </div>
+                            <div class="c-more collection" style="margin:0 auto;">
+                                        <eq name="collectioned" value="0">
+                                                    <a href="javascript:;" type="0" id="js_collectionBtn">COLLECTION</a>
+                                    <else/> 
+                                                    <a href="javascript:;" type="1" id="js_collectionBtn">CANCEL</a>
+                                        </else>
+                                    </eq>
+                            </div>
+
+        </volist>
+    </div>
+      <div class="inspiration">
+            <i class="w184">MORE INSPIRATION</i>
+        </div>
+        <!--内容列表-->
+        <div class="list_box pt68">
+            <ul class="list-ul clearfix">
+                <volist name="more_articles" id="in">
+                   <li>
+                        <a href="choice_details.html?id={$in.id}" target="_blank">
+                            <div class="img"><img src="{$in.cover_img}"></div>
+                            <p class="c-tit"><span class="w_cname jx_titles">{$in.cname}</span></p>
+                            <div class="yc_h"><p class="c-text">{$in.intro}</p></div>
+                        </a>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+</div>
+<!--收藏-->
+<div class="pop_box change_collection orgin_collection">
+            <div class="pop_box_mod">
+                    <div class="pop_head">
+                        <a class="close_pop" href="javascript:void(0);"></a>
+                    </div>
+                    <div class="mgh350">
+                         <input class="w258 create_input" type="text" placeholder="创建新收藏夹">
+                        <a class="setupBtn" href="javascript:void(0);">创建</a>
+                        <div id="cname" class="s-opetion">
+                            <div class="con">
+                                      <volist name="names" id="na">
+                                            <p class="opt" value="{$na.id}">{$na.collection_table_name}</p>
+                                      </volist>
+                            </div>
+                            <div class="con2"></div>  
+                            <div class="selDown"></div>  
+                        </div>
+                    <a class="pop_okBtn confirm_change" style="position:absolute; left:105px;top:155px" href="javascript:void(0);">确认</a>
+                </div>
+        </div>
+</div>
+<!--中部内容end-->
+
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+
+
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+
+
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+ <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=3&amp;lang=zh"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<script type="text/javascript">
+var is_login = {$is_login};
+$(document).ready(function() {
+        
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+        coSense.loader.init(false);
+         coSense.loader.toFooter();
+        proing(); 
+        function datasubmit(loc,num,$js_thumbs,thumbs_tex){
+            $.post("{:U('choiceness/like')}",{id:loc,like:num},function(r){
+                if(r.code == 200){
+                    thumbs_tex.html("已赞");
+                    $js_thumbs.html(num);
+                }
+                $.Prompt(r.msg);
+            },'json')
+        }
+        $("a#js_collectionBtn").on('click', function(event) {
+            event.preventDefault();
+
+            if(is_login == 0) {
+                $.Prompt('请先登录');
+                return false;
+            }
+
+            var type = $(this).attr("type");
+            var hasOpt = $("div.con .opt").length;
+            if(type == 0){
+                $("div.orgin_collection").show();
+                if(hasOpt > 0){
+                            $("div#cname").show();
+                            $(".con2").text($("div.con .opt").eq(0).text());
+                            $('.con2').attr("value",$("div.con .opt").eq(0).attr("value"));
+                            $(".opt").on("click",function(){
+                                // $("#con p").removeClass('checked');
+                                // $(this).addClass('checked');
+                                $('.con2').attr("value",$(this).attr("value"));
+                                $(".con").hide();
+                                $(".con2").show();
+                                $(".con2").text($(this).text());
+                                $("a.confirm_change").show();
+                        })
+                        if(hasOpt > 1){
+                                    $(".selDown").show();
+                        }else{
+                                    $(".selDown").hide();
+                        }
+                        if($(".con").height() > 160){
+                                $("#cname").css("overflow-y","scroll");
+                                $("#cname").css("overflow-x","hidden")
+                         }
+                    }else{
+                           $("div#cname").hide();
+                    }
+            }else{
+                $.post("{:U('Activity/del_collectioned')}",{id:<?php echo I('param.id','',false); ?>},function(r){
+                    $("a#js_collectionBtn").attr('type',0);
+                    $("a#js_collectionBtn").text('COLLECTION');
+                },'json')
+            }
+        });
+        $("a.close_pop").on('click', function(event) {
+            $("div.orgin_collection").hide();
+        });
+
+        $("a.setupBtn").on('click', function() {
+                var new_collection =$("input.create_input").val();
+                if(new_collection == ""){
+                    $.Prompt("收藏夹名称不能为空");
+                    return;
+                }
+                $.post("{:U('Choiceness/choose_collection')}",{collection_table_name:new_collection},function(r){
+                        $.Prompt(r.msg);
+                        $("input.create_input").val("");
+                        var val = r.data[0]['id'];
+                        //得到了最新添加的收藏夹id
+                        var name = r.data[0]['collection_table_name'];
+                        //得到了最新添加的收藏夹名称                     
+                        var html = '<p class="opt" value="'+val+'">'+name+'</p>';
+                        $(".con").append(html);
+                        $(".con2").text(name);
+                        $('.con2').attr("value",val);
+                        $("#cname").show();
+                        $(".con").hide();
+                        $(".con2").show();
+                        $(".opt").on("click",function(){                            
+                                $('.con2').attr($(this).attr("value"));
+                                $("a.confirm_change").show();
+                                $(".con").hide();
+                                $(".con2").show();
+                        })
+                        if($(".con").height()  > 32){
+                                $(".selDown").show();
+                        }else{
+                                $(".selDown").hide();
+                        }
+                        if($(".con").height() > 160){
+                                $("#cname").css("overflow-y","scroll");
+                                $("#cname").css("overflow-x","hidden")
+                         }
+                },'json')
+        });
+        $("#con p").on("click",function(event){
+            var event = event || window.event;
+            event.stopPropagation();
+            $('.con2').attr("value",$(this).attr("value"));
+            
+            $("a.confirm_change").show();
+            $(".con").hide();
+            $(".con2").show();
+        })
+        $(".selDown").on("click",function(){
+                $(".selDown").hide();
+                $(".con2").hide();
+                $(".con").show();
+                $("a.confirm_change").hide();
+        });
+        $(".con2").on("click",function(){
+                $(".selDown").hide();
+                $(".con2").hide();
+                $(".con").show();
+                $("a.confirm_change").hide();
+        });
+        $("input.create_input").on('focus',function(){
+            $(".con").hide();
+            $(".con2").show();
+        });
+
+        // $("a.setupBtn").on('click', function() {
+        //     var new_collection =$("input.create_input").val();
+        //     if(new_collection == ""){
+        //         $.Prompt("收藏夹名称不能为空");
+        //         return;
+        //     }
+        //     $.post("{:U('Choiceness/choose_collection')}",{collection_table_name:new_collection},function(r){
+        //         $.Prompt(r.msg);
+        //         $("input.create_input").val("");
+        //         var val = r.data[0]['id'];
+        //         //得到了最新添加的收藏夹id
+
+        //         var name = r.data[0]['collection_table_name'];
+        //         //得到了最新添加的收藏夹名称
+                
+        //         var html = '<option value="'+val+'">'+name+'</option>';
+        //         $("select#cname").append(html);
+        //     },'json')
+        // });
+        $("a.confirm_change").on('click', function() {
+            var cid = $('.con2').attr('value');
+            $.post("{:U('Choiceness/collectioned')}",{cid:cid,id:<?php echo I('param.id','',false); ?>},function(r){
+                if(r.code == -7){
+                    $.Prompt(r.msg);
+                    $("div.orgin_collection").hide();
+                    return;
+                }
+                $.Prompt(r.msg);
+                $("div.orgin_collection").hide();
+                $("a#js_collectionBtn")[0].innerHTML = "CANCEL";
+                $("a#js_collectionBtn").attr('type',1);
+            },'json')
+        });
+        //点赞js_thumbsBtn
+        var islock;
+        $("a#js_thumbsIcon").on('click',function(){
+            var $num = parseInt($(this).nextAll("div#js_thumbs_num").text()),
+            _this = $(this);
+            if(islock) return;
+            islock = true;
+            var article_id = $(this).attr("aid"),
+            t = $(this).next().attr("pstate"),
+            praise_type = 1;
+            $(this).addClass("on");
+            setTimeout(function(){
+                _this.removeClass('on');
+            }, 1000);
+            if(t == 0){
+                $num += 1;
+                $(this).next().find("span").text("已赞");
+                $(this).next().attr("pstate",1);
+            }else{
+                $num -= 1;
+                $(this).next().find("span").text("可赞");
+                $(this).next().attr("pstate",0);
+            }
+            _this.nextAll("div#js_thumbs_num").text($num);
+            $.post('{:U("/Public/praise_production")}', {article_id: article_id,type:t,praise_type:praise_type}, function(data) {
+                console.log(data.msg);
+                islock = false;
+            });
+        });
+</script>
+</html>

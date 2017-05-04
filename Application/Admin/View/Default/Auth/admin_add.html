@@ -1,0 +1,99 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">权限管理</a> <a href="{:U('admin_lst')}" class="current">用户管理</a> <a href="#" class="current">用户添加</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+					            <div class="control-group">
+					              	<label class="control-label">用户名：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="用户名" name="username" value="{$info.username}" autocomplete="off" />
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">登录密码：</label>
+					              	<div class="controls">
+					                	<input type="password" class="span3" placeholder="<?php if(I('id',0)){echo '不填写表示不修改';}else{echo '登录密码';} ?>" name="password" value="" autocomplete="off" />
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">选择角色：</label>
+					              	<div class="controls">
+										<select name="group_id">
+											<option value="0">请选择</option>
+											<?php foreach($role_lst as $v){ ?>
+												<option value="{$v.id}" <?php if($v['id'] == $info['group_id']){echo 'selected';} ?>>{$v.title}</option>
+											<?php } ?>
+										</select>
+					              	</div>
+					            </div>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script>
+        	function submit_form() {
+        		var username = $('input[name=username]').val();
+        		var password = $('input[name=password]').val();
+        		var group_id = $('select[name=group_id]').val();
+        		var id = {:I('id', 0)};
+
+        		if(username == '') {
+        			show_error('请输入用户名!');
+        			return false;
+        		}
+        		if(id == 0) {
+	        		if(password == '') {
+	        			show_error('请输入密码!');
+	        			return false;
+	        		}
+        		}
+
+        		if(group_id == 0) {
+        			show_error('请选择管理员角色!');
+        			return false;
+        		}
+
+        		$.post("__SELF__", {username:username, password:password, group_id:group_id, id:id}, function(r){
+					if(r.code == 0) {
+						layer.msg(r.msg, {icon:1, time:1000});
+						setTimeout(function () { 
+  				       		window.location.href = "{:U('Auth/admin_lst')}";
+  				    	}, 1000);
+					}else{
+						layer.msg(r.msg, {icon:2, time:2000});
+					}
+        		},'json')
+        	}
+
+        	function show_error(msg) {
+        		layer.msg(msg, {icon:2, time:1000});
+        	}
+        </script>
+    </body>
+</html>

@@ -1,0 +1,127 @@
+
+<div style="margin:20px;">
+<div class="container-fluid" style="margin:5px;">
+	<span style="font-weight:bold;">&nbsp;&nbsp;用户名称</span>: 
+	<input type="text" name="select_nickname" value="{:I('nickname', '')}" placeholder="请输入用户名称">
+	&nbsp;&nbsp;<button type="button" onclick="name_select()" class="btn btn-primary" style='position:relative;top:-5px;'>搜索</button>
+	
+	<button onclick="box_add()" class="btn btn-primary" style='position:relative;top:-5px;'>添加</button> 
+	<button onclick="box_close()" class="btn btn-danger"  style='float:right;position:relative;top:-5px;'>x</button> 
+</div>
+<div style="border:1px solid #ccc">
+<table class="table table-bordered table-striped" style="height:auto; max-height:500px;">
+	<thead>
+		<tr>
+			<th class='span2'><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"></th>
+			<th class='span3'>用户名称</th>
+			<th class='span3'>邮箱</th>
+			<th class='span3'>注册时间</th>
+			
+		</tr>
+	</thead>
+	<tbody class="box_list">
+		<?php if($lst){  ?>
+			<foreach name='lst' item='vo'>
+				<tr class="odd gradeX">
+					
+					<td><input type="checkbox" name="selected[]" value="{$vo.id}"></td>
+					<td>{$vo.nickname}</td>
+					<td>{$vo.email}</td>
+					<td>{$vo.reg_time|date='Y-m-d H:i:s',###}</td>
+				</tr>
+			</foreach>
+		<?php }else{ ?>
+			<tr class="odd gradeX">
+				<td colspan="9">没有数据</td>
+			</tr>
+		<?php } ?>
+	</tbody>
+</table>
+
+<div style='text-align:center;'>
+
+	<div class="widget-content">
+		<div class="pagination">
+			<ul>
+				<if condition="$page ELT 1">
+				<li class="disabled"><a href="javascript:void(0)">上一页</a></li>
+				<else />
+				<li><a onclick="get_page_list({$page-1})" href="javascript:;">上一页</a>
+				</if>
+				
+				<if condition="$page egt $pageTotal">
+				<li class="disabled"><a href="javascript:void(0)">下一页</a></li>
+				<else />
+				<li><a onclick="get_page_list({$page+1})"  href="javascript:;">下一页</a></li>
+				</if>
+				<li>&nbsp;&nbsp;第{$page}页</li>
+				<li>&nbsp;&nbsp;共计{$count}条</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<script>
+	var id = {$id};
+	
+	//翻页
+	function get_page_list(page){
+		$.post("{:U('add_member_list')}",{id:id, page:page},function(r){
+					
+			$("#ajax_spec_data").html('')
+			$("#ajax_spec_data").append(r);
+			$("#ajax_spec_data").show();
+			
+		})
+	}
+	
+	//添加
+	function box_add(){
+		var ids = [];
+		$(".box_list [input[name='selected']][checked]").each(function(key, val){ 
+			ids[key] = this.value;
+			
+		});
+		
+		if(ids == null || ids == ''){
+			layer.msg('请勾选用户',{icon:2,time:1000});
+			return false;
+		}
+		
+		$.post("{:U('add_member')}",{id:id, ids:ids},function(r){
+			if(r.code == 1) {
+				layer.msg('添加成功',{icon:1,time:1000});
+				
+				setTimeout(function () {
+				   box_close();
+				}, 1000);
+			}else{
+				layer.msg(r.msg, {icon:2,time:1000});
+			}
+		},'json')
+	}
+	
+	//搜索
+	function name_select(){
+		var name = $("input[name=select_nickname]").val();
+		
+		$.post("{:U('add_member_list')}",{id:id, nickname:name},function(r){
+				
+			$("#ajax_spec_data").html('')
+			$("#ajax_spec_data").append(r);
+			$("#ajax_spec_data").show();
+			
+		})
+	}
+	
+	//关闭弹框
+	function box_close(){
+		$("#ajax_spec_data").html('');
+		$("#ajax_spec_data").hide();
+		
+	}
+	
+</script>
+

@@ -1,0 +1,1334 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style type="text/css">
+    .pop_box_mod {
+        width: 580px;
+        height: 350px;
+        background-color: #fff;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin: -210px 0 0 -290px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .pop_info_text {
+        width: 100%;
+        height: 218px;
+        margin: 0;
+        line-height: 218px;
+    }
+    
+    .set_fl_back1 {
+        background: url('__ROOT__/Public/Home/images/set_pBg1.jpg') no-repeat;background-size: 95% 90%;background-position: center;
+    }
+    .set_fl_back2 {
+        background: url('__ROOT__/Public/Home/images/set_pBg2.jpg') no-repeat;background-size: 95% 90%;background-position: center;
+    }
+    .set_fl_back3 {
+        background: url('__ROOT__/Public/Home/images/set_pBg3.jpg') no-repeat;background-size: 95% 90%;background-position: center;
+    }
+    .set_fl_back4 {
+        background: url('__ROOT__/Public/Home/images/set_pBg4.jpg') no-repeat;background-size: 95% 90%;background-position: center;
+    }
+    .zuzhi .fl_info{
+            overflow: hidden;
+            padding-left: 20px;
+    }
+    .zuzhi .fl_info li{
+            display: block;
+            float: left;
+            width: 55px;
+            height: 55px;
+            background: red;
+            margin: 0 20px 20px 0;
+            cursor: pointer;
+    }
+    .details {
+            /*background: url('__ROOT__/Public/Home/images/showBox.png') no-repeat 100% 100% center #fff;*/
+            box-shadow: 1px 1px 4px #cbcbcb;
+            background: #fff;
+    }
+    .details h2{
+            font-weight: bold;
+            font-size: 18px;
+            padding: 0;
+            margin: 0;
+    }
+    .details p{
+            margin-bottom: 5px;
+    }
+    .sex_man{
+            color: #1face2;
+    }
+    .sec_woman{
+            color: #f65e97;
+    }
+    .gerenInfo{
+        display: none;
+    }
+    .renzheng_sucess{
+            text-align: center;
+            font-size: 20px;
+            margin-top: 60px;
+    }
+    .renzheng_sucess p{
+            margin-top: 20px;
+            padding-left: 15px;
+    }
+</style>
+<!--中部-->
+<div class="wrap">
+    <div class="per_content">
+        <include file="layout/gr_header" />
+        <div class="bute_mod">
+            <div class="set_mod_box">
+                <div class="set_fl">
+                    <div style="" class="set_fl_back set_fl_back{$user_info.bg_pic}" id="bjxk_select" bid="{$user_info.bg_pic}" onclick="to_change_bg($(this))" ></div> 
+                    <div class="rep_pho">
+                        <div class="photo_b" id="tx_select">
+                             <?php if(!session('user.avatar')){ ?>
+                                 <img class="p-img" src="__IMG__/img/tx.jpg">
+                             <?php }else{ ?>
+                                <img class="p-img" src="<?php echo session('user.avatar'); ?>" />
+                             <?php } ?>
+                        </div>
+                        <a class="no18-cor031" id="tx_select1">更换头像</a>
+                    </div>
+                    <!-- <a class="no18-cor031" style="position: absolute;left: -15px;top: 95%; z-index: 2;" id="bjxk_select">更换相框背景</a> -->
+                </div>
+                <div class="set_fl_tex">
+                    <div class="top_tab js_messageTab">
+                        <a class="fn_aLink curr" href="javascript:void(0);">基本资料</a>
+                        <a class="fn_aLink" href="javascript:void(0);">认证信息</a>
+                        <a class="fn_aLink" href="javascript:void(0);">账户安全</a>
+                    </div>
+                    <!--基本资料-->
+                    <div>
+                        <!--填好的个人基本信息-->
+                            <?php if($user_info['type'] == 1){ ?>
+                            <div class="center_mod js_scroll_content1 gerenInfo" style="display:block">
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">昵称:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666">{$user_info.nickname}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">性别:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666">
+                                            <eq name="user_info.sex" value="0">男<else/>女</eq>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">地址:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666">{$user_info.pdaddress}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">个人领域:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666"><?php echo  str_replace(',','/',$user_info['industry']); ?></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">个人简介:</div>
+                                    <div class="fl_info hgb" style="">
+                                        <span class="no16-cor666">{$user_info.synopsis}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2" style="">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info">
+                                        <a class="comBtn" id="editMsg" href="javascript:void(0);">修改资料</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php }else{ ?>
+                            <!--填好的组织基本信息-->
+                            <div class="center_mod js_scroll_content1 zuzhiInfo" style="display:block">
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">组织名称:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666">{$user_info.nickname}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">地址:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666">{$user_info.pdaddress}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">涉及领域:</div>
+                                    <div class="fl_info">
+                                        <span class="no16-cor666"><?php echo  str_replace(',','/',$user_info['industry']); ?></span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">组织介绍:</div>
+                                    <div class="fl_info hgb" style="">
+                                        <span class="no16-cor666">{$user_info.synopsis}</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2" style="">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info">
+                                        <a class="comBtn" id="editMsg" href="javascript:void(0);">修改资料</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+
+                        <!-- 修改组织信息 -->
+
+                        <div class="center_mod js_scroll_content modifyzuzhiInfo" style="display:none">
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">组织名称:</div>
+                                    <div class="fl_info">
+                                        <?php if(!$user_info['nickname']){ ?>
+                                            <input type="text" class="nichens">
+                                        <?php }else{ ?>
+                                            <span name="nickname" class="no16-cor666">{$user_info.nickname}</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">地址:</div>
+                                    <div class="fl_info clearfix">
+                                            <select name="province" class='span3 p-select' onchange="choose_province($(this))" >
+                                            <option value="0">请选择省</option>
+                                            <foreach name='pro_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['province']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                        <select name="city" class='span3 p-select' onchange="choose_city($(this))">
+                                            <option value="0">请选择市</option>
+                                            <foreach name='city_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['city']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                        <select name="area" class='span3 p-select' onchange="choose_area($(this))">
+                                            <option value="0">请选择区/县</option>
+                                            <foreach name='area_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['area']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">涉及领域:</div>
+                                    <div class="fl_info clearfix">
+                                        <div class="input-btm fl">
+                                            <input type="text" class="input" placeholder="个人领域">
+                                            <a class="sxi-btn fr">添加</a>
+                                        </div>
+                                        <div class="no14-a6a fl">(例如：平面设计师、摄影爱好者)</div>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2 ">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info clearfix" style="">
+                                        <ul class="gor-list clearfix" style="margin-bottom: 0">
+                                            <foreach name='tags' item='vo'>
+                                                <li><span>{$vo}</span><i class="close">x</i></li>
+                                            </foreach>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2 mgt11">
+                                    <div class="fl_tit">组织简介:</div>
+                                    <div class="fl_info">
+                                        <textarea name="synopsis" class="input_textarea">{$user_info.synopsis}</textarea>
+                                        <p class="area_p">还可以输入<span style="color: #f85252"><?php echo 200 - mb_strlen($user_info["synopsis"],"UTF8"); ?></span>字</p>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2" style="">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info">
+                                        <a class="comBtn" id="saveUserinfo" type="button" href="javascript:void(0);">保 存</a>
+                                    </div>
+                                </div>
+                            </div>
+         
+                        <!--修改个人信息-->
+                            <div class="center_mod js_scroll_content modifyGerenInfo" style="display:none">
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">昵称:</div>
+                                    <div class="fl_info">
+                                        <?php if(!$user_info['nickname']){ ?>
+                                            <input type="text" class="nichens">
+                                        <?php }else{ ?>
+                                            <span name="nickname" class="no16-cor666">{$user_info.nickname}</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">性别:</div>
+                                    <div class="fl_info clearfix">
+                                          <eq name="user_info.sex" value="0">
+                                            <div class="radio fl" >
+                                                <label class="cheak on">
+                                                    <div class="option"></div>
+                                                    <span class="opt-text" dataval="0">男</span>
+                                                </label>
+                                            </div>
+                                            <div class="radio fl" >
+                                                <label class="cheak">
+                                                    <div class="option"></div>
+                                                    <span class="opt-text" dataval="1">女</span>
+                                                </label>
+                                            </div>
+                                        <else/>
+                                             <div class="radio fl" >
+                                                <label class="cheak">
+                                                    <div class="option"></div>
+                                                    <span class="opt-text" dataval="0">男</span>
+                                                </label>
+                                            </div>
+                                            <div class="radio fl" >
+                                                <label class="cheak on">
+                                                    <div class="option"></div>
+                                                    <span class="opt-text" dataval="1">女</span>
+                                                </label>
+                                            </div>
+                                        </eq>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">地址:</div>
+                                    <div class="fl_info clearfix">
+                                            <select name="province" class='span3 p-select' onchange="choose_province($(this))" >
+                                            <option value="0">请选择省</option>
+                                            <foreach name='pro_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['province']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                        <select name="city" class='span3 p-select' onchange="choose_city($(this))">
+                                            <option value="0">请选择市</option>
+                                            <foreach name='city_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['city']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                        <select name="area" class='span3 p-select' onchange="choose_area($(this))">
+                                            <option value="0">请选择区/县</option>
+                                            <foreach name='area_lst' item='vo'>
+                                                <option value="{$vo.id}" <?php if($vo['id'] == $user_info['area']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.name}</option>
+                                            </foreach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2">
+                                    <div class="fl_tit">个人领域:</div>
+                                    <div class="fl_info clearfix">
+                                        <div class="input-btm fl">
+                                            <input type="text" class="input" placeholder="个人领域">
+                                            <a class="sxi-btn fr">添加</a>
+                                        </div>
+                                        <div class="no14-a6a fl">(例如：平面设计师、摄影爱好者)</div>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2 ">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info clearfix" style="">
+                                        <ul class="gor-list clearfix" style="margin-bottom: 0">
+                                            <foreach name='tags' item='vo'>
+                                                <li><span>{$vo}</span><i class="close">x</i></li>
+                                            </foreach>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2 mgt11">
+                                    <div class="fl_tit">个人简介:</div>
+                                    <div class="fl_info">
+                                        <textarea name="synopsis" class="input_textarea">{$user_info.synopsis}</textarea>
+                                        <p class="area_p">还可以输入<span style="color: #f85252"><?php echo 200 - mb_strlen($user_info["synopsis"],"UTF8"); ?></span>字</p>
+                                    </div>
+                                </div>
+                                <div class="clearfix mgbfz2" style="">
+                                    <div class="fl_tit"></div>
+                                    <div class="fl_info">
+                                        <a class="comBtn" id="saveUserinfo" type="button" href="javascript:void(0);">保 存</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+
+                    </div>
+
+                    <!--认证信息-->
+                    <div style="display: none">
+                        <!--未认证-->
+                        <div class="center_mod js_scroll_content2 renzhen_before">
+                            <!--组织机构-->
+                            <?php if($user_info['type'] == 2){ ?>
+                                <!--已认证-->
+                                <div class="center_mod js_scroll_content3" style="display: block">
+                                    <div class="clearfix mgt30">
+                                        <div class="fl_tit">公司名称:</div>
+                                        <div class="fl_info">
+                                            <span class="no16-cor666">{$user_info.nickname}</span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix mgt30">
+                                        <div class="fl_tit">已获标签:</div>
+                                        <div class="fl_info">
+                                            <span class="icon_sjs {:$user_info['v_ident']? 'curr' : ''}" title="认证设计师"></span><!--加curr --表示已认证-->
+                                            <span class="icon_sjs1 {:$user_info['co_ident']? 'curr' : ''}" title="邀请设计师"></span>
+                                            <span class="icon_sjs2 {:$user_info['cc_ident']? 'curr' : ''}" title="公司设计师"></span>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="clearfix mgt30" >
+                                        <div class="fl_tit">组织成员:</div>
+                                        <div class="fl_info">
+                                                    <ul class="pho-list clearfix">
+                            <volist name="m_list" id="fans">
+                               <li><img src="{$fans.avatar}"></li>
+                            </volist>
+                         </ul>
+                                        </div>
+                                    </div> -->
+                                    <div class="clearfix mgt30 zuzhi">
+                                                <div class="fl_tit">组织成员:</div>
+                                                <div class="fl_info">
+                                                            <ul class="pho-list clearfix">
+                                                                            <volist name="m_list" id="fans">
+                                                                                        <li ids="{$fans.id}"><img src="{$fans.avatar}"></li>
+                                                                            </volist>
+                                                            </ul>
+                                                </div>                                  
+                                    </div>
+                                </div>
+                            <?php }elseif($user_info['type'] == 1){ ?>
+                            
+                            <!--认证前-->
+                            <?php if($user_info['is_renzheng'] == 0){ ?>
+                                <div class="rzs_infoBg"><img src="__IMG__/img/rz_img.jpg"></div>
+                                <div style="margin-bottom:0px;">
+                                    <a class="comBtn" id="comBtn" href="javascript:void(0);" style="margin: auto">个人认证</a>
+                                    <p class="no16-cor666-mgt40">组织用户需要认证，请<a  href="../Public/about_us.html">联系我们</a></p>
+                                </div>
+                            <?php }elseif($user_info['is_renzheng'] == 1){ ?>
+                            <!--申请认证后显示-->
+                                <div class="renzheng_sucess"><img src="__IMG__/ssuccess_tips.gif" alt=""><p>完成申请！</p></div>
+                                <div class="no16-cor666-mgt40 renzheng_after" style="display: none;margin-top:0"><p><img style="margin-bottom:20px" class="img" src="__IMG__/img/rz_img.jpg" alt=""></p><p class="text">申请认证中，这可能需要1-2个工作日...</p></div>
+                            <?php }elseif($user_info['is_renzheng'] == 2){ ?>
+                                <!--已认证-->
+                                <div class="center_mod js_scroll_content3" style="display: block">
+                                    <div class="clearfix mgt30">
+                                        <div class="fl_tit">真实姓名:</div>
+                                        <div class="fl_info">
+                                            <span class="no16-cor666">{$user_info.renzheng_name}</span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix mgt30">
+                                        <div class="fl_tit">已获标签:</div>
+                                        <div class="fl_info">
+                                            <span class="icon_sjs curr" title="认证设计师"></span><!--加curr --表示已认证-->
+                                            <span class="icon_sjs1 {:$user_info['co_ident']? 'curr' : ''}" title="邀请设计师"></span>
+                                            <span class="icon_sjs2 {:$user_info['cc_ident']? 'curr' : ''}" title="公司设计师"></span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix mgt30  geren" >
+                                        <div class="fl_tit">加入组织:</div>
+                                        <div class="fl_info">
+                                            <?php if(!$group_lst){ ?>
+                                                <span class="no16-cor666">未加入</span>
+                                                <a  href="../Public/about_us.html" onclick="add_team_tel()"  class="no16-corf8b62d" >联系我们</a>
+                                            <?php }else{ ?>
+                                                <?php foreach($group_lst as $v){ ?>
+                                                    <span class="no16-cor666">{$v.nickname}</span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            
+                                            <span id="add_team_tel" style="color:blue; display:none;" ><?php echo C('SERVICE_TEL')?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php } ?>
+                        </div>
+                        <!--申请认证-->
+                        <div class="center_mod js_scroll_content2 renzhen" style="display: none">
+                            <div class="apc_tit">申请认证 / <span class="no18-cor666">填写以下信息，认证官审核通过后，即可成为CO-SENSE认证创作者</span></div>
+                            <div class="group1 clearfix">
+                                <div class="input-btm fl" style="margin:15px 25px 0 0;">
+                                    <input onfocus="$('#true_name_tip').text('')" type="text" name="true_name" class="input" placeholder="真实姓名" style="width: 190px;">
+                                    <span id="true_name_tip" style="display:block;position: absolute;right: 0;bottom: -17px;color: red;"></span>
+                                </div>
+                                
+                                <div class="input-btm fl" style="margin:15px 25px 0 0;">
+                                    <input onfocus="$('#phone_tip').text('')" type="text" name="phone" class="input" placeholder="手机号码" style="width: 190px;">
+                                    <span id="phone_tip" style="display:block;position: absolute;right: 0;bottom: -17px;color: red;"></span>
+                                </div>
+                                
+                                <div class="input-btm fl" style="margin:15px 0 0 0;">
+                                    <input onfocus="$('#email_tip').text('')" type="text" name="email" class="input" placeholder="邮箱" style="width: 190px;">
+                                    <span id="email_tip" style="display:block;position: absolute;right: 0;bottom: -17px;color: red;"></span>
+                                </div>
+                                
+                            </div>
+                            <div class="group2 mgt40">
+                                <div class="no16-cor6">身份证</div>
+                                <ul class="czp_ul clearfix">
+                                    <li>
+                                        <div class="dot dot_face">
+                                            <a type='file' id="sfz_info1" name='photo1' class="add_sfz" href="javascript:void(0);"></a>
+                                            <p class="no14-cor999-pt10" style="text-align: center">身份证正面照</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dot dot_back">
+                                            <a type='file' id="sfz_info2" name='photo2' class="add_sfz" href="javascript:void(0);"></a>
+                                            <p class="no14-cor999-pt10" style="text-align: center">身份证背面照</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="no14-cor999-pt10 mgt10">*对于上传的身份证件，CO-SENSE承诺保密原则，不透露给第三方。</div>
+                            </div>
+                            <div class="mgt40">
+                                <a type="submit" class="comBtn renzheng" href="javascript:void(0);">申请认证</a>
+                            </div>
+                        </div>
+                        <!--完成申请-->
+                        <div class="center_mod" style="display: none">
+                            <div class="apl_wc">
+                                <img src="__IMG__/success_tips.gif" width="80" height="80">
+                                <p>完成申请!</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!--账号安全-->
+                    <div class="mod_three" style="display: none">
+                        <div class="center_mod js_scroll_content4">
+                            <!--<div class="clearfix mgt30">-->
+                                <!--<div class="fl_tit">真实姓名:</div>-->
+                                <!--<div class="fl_info">-->
+                                    <!--<span class="no16-cor666">可以使用手机 <b>13*******24</b> 直接登录</span>-->
+                                <!--</div>-->
+                                <!--<a class="revise" href="javascript:void(0);">修改</a>-->
+                            <!--</div>-->
+                            <?php if($user_info['user_email']){ ?>
+                            <div class="clearfix mgt30">
+                                <div class="fl_tit">邮箱账号:</div>
+                                <div class="fl_info">
+                                    <span class="no16-cor666" style="display: none">未绑定邮箱，绑定后可使用该邮箱直接登录</span>
+                                    <!--已绑定邮箱<a href="" style="color: #f05c61;padding-left: 25px">激活邮箱</a>-->
+                                    <span class="no16-cor666">可以使用邮箱 <b>{$user_info.user_email}</b> 直接登录 </span>
+                                </div>
+                                <a class="revise" id="edit_email" href="javascript:void(0);">修改</a>
+                            </div>
+                            <?php } ?>
+                            <div class="clearfix mgt30">
+                                <div class="fl_tit">第三方账号:</div>
+                                <div class="fl_info">
+                                    <i class="icon_qq"></i>
+                                    <?php if(!$user_info['qq_id']){ ?>
+                                        <span class="no16-cor666">未绑定QQ，绑定后可使用该QQ直接登录</span>
+                                    <?php }else{ ?>
+                                        <span class="no16-cor666">已绑定QQ</span>
+                                    <?php } ?>
+                                </div>
+                                <?php if(!$user_info['qq_id']){ ?>
+                                    <a class="revise" href="{:U('Public/to_login',array('type'=>'qq'))}">绑定</a>
+                                <?php }else{ ?>
+                                    <?php if($user_info['user_email']){ ?>
+                                        <a class="revise" href="javascript:;" onclick="to_out_bind($(this),1)">解绑</a>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
+                            <div class="clearfix mgt24" style="">
+                                <div class="fl_tit"></div>
+                                <div class="fl_info">
+                                    <i class="icon_weib"></i>
+                                    <?php if(!$user_info['weibo_id']){ ?>
+                                        <span class="no16-cor666">未绑定微博，绑定后可使用该微博直接登录</span>
+                                    <?php }else{ ?>
+                                        <span class="no16-cor666">已绑定微博</span>
+                                    <?php } ?>
+                                </div>
+                                <?php if(!$user_info['weibo_id']){ ?>
+                                    <a class="revise" href="{:U('Public/to_login',array('type'=>'sina'))}">绑定</a>
+                                <?php }else{ ?>
+                                    <?php if($user_info['user_email']){ ?>
+                                        <a class="revise" href="javascript:;" onclick="to_out_bind($(this),2)">解绑</a>
+                                    <?php } ?>
+                                <?php } ?>
+                            </div>
+                            <!--<div class="clearfix mgt24" style="">-->
+                                <!--<div class="fl_tit"></div>-->
+                                <!--<div class="fl_info">-->
+                                    <!--<i class="icon_fb"></i>-->
+                                    <!--<span class="no16-cor666">未绑定Facebook，绑定后可使用该Facebook直接登录</span>-->
+                                <!--</div>-->
+                                <!--<a class="revise" href="javascript:void(0);">绑定</a>-->
+                            <!--</div>-->
+                            <!--<div class="clearfix mgt24" style="">-->
+                                <!--<div class="fl_tit"></div>-->
+                                <!--<div class="fl_info">-->
+                                    <!--<i class="icon_tw"></i>-->
+                                    <!--<span class="no16-cor666">未绑定Twitter,绑定后可使用该Twitter直接登录</span>-->
+                                <!--</div>-->
+                                <!--<a class="revise" href="javascript:void(0);">绑定</a>-->
+                            <!--</div>-->
+                            <?php if($user_info['user_email']){ ?>
+                            <div class="clearfix mgt43">
+                                <div class="fl_tit">登录密码:</div>
+                                <div class="fl_info">
+                                    <span class="no16-cor666" style="color:#1e1f24">******</span>
+                                </div>
+                                <a class="revise" id="edit_password" href="javascript:void(0);">修改</a>
+                            </div>
+                            <?php } ?>
+                            <div class="clearfix mgt30 xm1">
+                                <div class="fl_tit"></div>
+                                <div class="fl_info">
+                                    <a class="comBtn" id="outlogin" href="javascript:void(0);">退出登录</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!--邮箱激活-->
+<div class="pop_box" id="jihuo_email">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        
+        <!-- <div class="pop_info_text">验证邮件已过期，请重新发送验证邮件</div>
+        <a class="pop_okBtn" href="javascript:void(0);">重新发送</a> -->
+        <div class="pop_info_text"> 验证邮件已发出，请在24小时内登录您的邮箱验证。</div>
+        <a class="pop_okBtn" id="edit_email_login_url" target="_blank" href="javascript:void(0);">立即登录</a>
+        <!--<div class="pop_info_text"> 确认解除绑定？</div>-->
+        <!--<a class="pop_okBtn" href="javascript:void(0);">确认</a>-->
+    </div>
+</div>
+
+<div class="pop_box" id="outBind">
+            <div class="pop_box_mod">
+                        <div class="pop_head">
+                                    <a class="close_pop" href="javascript:void(0);"></a>
+                        </div>
+                        <div class="pop_info_text"> 确认解除绑定？</div>
+                        <a class="pop_okBtn infoOutBind" href="javascript:void(0);">确认</a>
+            </div>
+</div>
+
+<!--修改邮箱-->
+<div class="pop_box" id="edit_email_box">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="mgh350 mgt44" style="margin-top: 70px">
+            <input class="w258 wbf" type="text" id="edit_email_new" placeholder="新邮箱">
+        </div>
+        <div class="mgh350 mgt10" style="margin-bottom: 68px">
+            <div class="code_img"><img src="{:U('Public/getVerify', array('msgtype'=>2))}"></div>
+            <input class="w258" style="padding-right: 105px" type="text" id="edit_email_code" placeholder="验证码">
+            <a class="setupBtn" href="javascript:void(0);">刷新</a>
+        </div>
+        <a class="pop_okBtn" id="edit_email_submit" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+<!--修改密码-->
+<div class="pop_box" id="edit_password_box">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="mgh350 mgt44">
+            <input class="w258 wbf old_password" type="password" placeholder="原始密码">
+        </div>
+        <div class="mgh350 mgt10">
+            <input class="w258 wbf new_password" type="password" placeholder="新密码">
+        </div>
+        <div class="mgh350 mgt10" style="margin-bottom: 45px">
+            <input class="w258 wbf repeat_new_password" type="password" placeholder="确认新密码">
+        </div>
+        <a class="pop_okBtn edit_password_submit" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+</body>
+<script>
+    window.onload = function(){
+            $(".renzheng_sucess").hide();
+    };
+</script>
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script type="text/javascript" src="__JS__/jquery.nicescroll.min.js"></script>
+<script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+<script src="__JS__/cropper.js"></script>
+<script src="__JS__/html2canvas.min.js"></script>
+<script>
+    var img_wd = 300;
+    var img_hg = 300;
+    function getbase64url(callback){
+        var canvas = $('div#txcjquy img.txqy').cropper("getCroppedCanvas",{
+                width:$("div.cropper-crop-box").width(),
+                height:$("div.cropper-crop-box").height()
+         });
+        //生成base64图片数据
+        var dataUrl = canvas.toDataURL("image/jpeg");
+        imagesAjax(dataUrl,callback)
+    }
+    function imagesAjax(src,callback) {
+        var data = {};
+        data.img = src;
+        $.ajax({
+            url: '{:U("base64imgsave_Upload")}',
+            data: data,
+            type: "POST",
+            dataType: 'json',
+            success: function(re) {
+                callback(re);
+            }
+        });
+    }
+    function add_team_tel(){
+        $("#add_team_tel").show();
+    }
+    
+    //刷新验证码
+    function edit_virefy_code(){
+        var code_path = "{:U('Public/getVerify', array('msgtype'=>2))}";
+        $(".code_img").find('img').attr('src',code_path);
+    }
+    
+    $(function(){
+            $("a#outlogin").on('click', function(event) {
+                event.preventDefault();
+                $.post('{:U("/User/outlogin")}', function(r) {
+                    window.location.href = "{:U('/Index/index')}";
+                });
+            });
+            var user_type = {$user_info.type};
+            $("a#editMsg").on('click', function(event) {
+                event.preventDefault();
+                $(this).parents("div.center_mod").hide();
+                if(user_type == 1) {
+                    $(".modifyzuzhiInfo").hide();
+                    $('.modifyGerenInfo').show();
+                }else{
+                    $(".modifyzuzhiInfo").show();
+                    $('.modifyGerenInfo').hide();
+                }
+             });
+            $("label.cheak").on('click', function(event) {
+                event.preventDefault();
+                $("label.cheak").removeClass('on');
+                $(this).addClass('on');
+            });
+            $(".js_scroll_content,.js_scroll_content1,.js_scroll_content2,.js_scroll_content3,.js_scroll_content4").niceScroll({
+                cursorcolor : "#fff",//滚动条颜色
+                cursorwidth : "0px",
+                cursorborder : "0px solid #fff",
+                background : "",//滚动条背景颜色
+                cursorborderradius : "0px",
+                horizrailenabled : false,
+                autohidemode : false,
+                boxzoom : false,
+                railalign:'right'
+            });
+            $("a.sxi-btn").on('click', function(event) {
+                event.preventDefault();
+                var vasl = $(this).prev().val(),
+                flag = true;
+                 if($.trim(vasl) == ""){
+                    return;
+                }
+                $.each($("ul.gor-list").find("li"), function(index, val) {
+                      if(vasl == $(this).find("span").text()){
+                        $.Prompt("已经存在相同标签!");
+                        flag = false;
+                        return false;
+                      }
+                });
+                if(!flag) return;
+                $(this).prev().val("");
+                $("ul.gor-list").append('<li><span>'+vasl+'</span><i class="close">x</i></li>');
+            });
+            $("ul.gor-list").on('click', "i.close",function(event) {
+                event.preventDefault();
+                $(this).parent().remove();
+            });
+            $("a#saveUserinfo").on('click', function(event) {
+                var user_type = {$user_info.type};
+                if(user_type == 1) {
+                    var tt = '.modifyGerenInfo';
+                }else{
+                    var tt = '.modifyzuzhiInfo';
+                }
+
+                event.preventDefault();
+                var sex = $("label.on").find("span.opt-text").attr("dataval"),
+                province = $(tt+" select[name='province']").find("option:selected").attr("value"),
+                city = $(tt+" select[name='city']").find("option:selected").attr("value"),
+                area = $(tt+" select[name='area']").find("option:selected").attr("value"),
+                nickname = $(tt).find('.nichens').val();
+                industry = new Array(),
+                synopsis = $(tt+" textarea.input_textarea").val();
+                $.each($(tt+" ul.gor-list").find("li"), function(index, val) {
+                    industry.push($(this).find("span").text());
+                });
+    
+                $.post('{:U("/UserCenter/personal_revise")}',{sex: sex,province:province,city:city,area:area,industry:industry,synopsis:synopsis,nickname:nickname}, function(data) {
+                    var data = eval("("+data+")");
+                    if(data.code == 0){
+                        // $(".js_scroll_content").hide().prev().show();
+//                      $.Prompt("修改成功!");
+//                      setTimeout(shuaxin,1000);
+						shuaxin();
+                        function shuaxin (){
+                            window.location.href = "{:U('UserCenter/personal_set')}"
+                        }
+                    }else{
+                        $.Prompt(data.msg);
+                    }
+                });
+            });
+            
+            //关闭弹窗
+            $(".close_pop").on('click', function(event) {
+                $(".pop_box").hide();
+                
+            });
+            
+            //修改邮箱---弹窗
+            $("#edit_email").on('click', function(event) {
+                $("#edit_email_box").show();
+            });
+            //刷新验证码
+            $(".setupBtn").on('click', function(event) {
+                edit_virefy_code();
+            });
+            //修改邮箱---发送邮件
+            $("#edit_email_submit").on('click', function(event) {
+                var new_email = $("#edit_email_new").val();
+                var new_code = $("#edit_email_code").val();
+                
+                if(new_email == ""){
+                    $.Prompt("邮箱必须填写");
+                    return false;
+                }
+                var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if(!myreg.test(new_email)){
+                    $.Prompt("邮箱格式必须填写正确");
+                    return false;
+                }
+                if(new_code == ""){
+                    $.Prompt("验证码必须填写");
+                    return false;
+                }
+                
+                
+                event.preventDefault();
+                $.post('{:U("/UserCenter/send_email_new")}',{email:new_email,code:new_code}, function(r) {
+                    
+                    if(r.code == 0){
+                        $(".pop_box").hide();
+                        
+                        $("#edit_email_login_url").attr('href', '');
+                        $("#edit_email_login_url").attr('href', r.data.url);
+                        
+                        $("#jihuo_email").show();
+                    }else{
+                        $.Prompt(r.msg);
+                        edit_virefy_code();
+                    }
+                },'json');
+            });
+            
+            
+            //修改密码
+            $("#edit_password").on('click', function(event) {
+                $("#edit_password_box").show();
+            });
+
+            //修改密码
+            $(".edit_password_submit").on('click', function(event) {
+                var old_password = $('.old_password').val();
+                var new_password = $('.new_password').val();
+                var repeat_new_password = $('.repeat_new_password').val();
+
+                //1、判断原始密码
+                if(old_password == '') {
+                    $.Prompt("请输入原始密码");
+                    return false;
+                }
+
+                //2、判断新密码
+                if(new_password == '') {
+                    $.Prompt("请输入新密码");
+                    return false;
+                }
+                if(repeat_new_password == '') {
+                    $.Prompt("请确认新密码");
+                    return false;
+                }
+                var myreg =  /^[\w\W]{6,20}$/;
+                if(!myreg.test(new_password)){
+                    $.Prompt("密码为6~20位字符");
+                    return false;
+                }
+                if(new_password != repeat_new_password) {
+                    $.Prompt("两次密码不相等");
+                    return false;
+                }
+
+                $.post("{:U('UserCenter/re_set_password')}", {o_pwd:old_password,n_pwd:new_password}, function(r){
+                    if(r.code == 0) {
+                        $.Prompt(r.msg);
+                        $("#edit_password_box").hide();
+                    }else{
+                        $.Prompt(r.msg);
+                    }
+                },'json')
+            });
+
+            //超过200字 阻止在此输入
+            var zqval = "";
+            $("textarea.input_textarea").on('keyup',function(event) {
+                event.preventDefault();
+                var len = $(this).val().length;
+                $(this).next().find("span").text(200-parseInt(len));
+                if(len > 200){
+                    $(this).val(zqval);
+                    return;
+                }
+                zqval = $(this).val();
+            });
+            $("a.fn_aLink").on('click', function(event) {
+                event.preventDefault();
+                $(this).addClass('curr').siblings().removeClass('curr');
+                var ind = $(this).index();
+                $(this).parent().parent().children().hide().eq(0).show();
+                $(this).parent().parent().children().eq(ind+1).show();
+                if(ind==0){
+                     $(".js_scroll_content").hide().prev().show();
+                }
+            });
+
+            var tab_type = "{:I('t', '1')}";
+            var tab_error = "{:I('e', 0)}";
+            if(tab_type == 'z') {
+                $('.js_messageTab').find('.fn_aLink').removeClass('curr');
+                $('.js_messageTab').find('.fn_aLink').eq(2).addClass('curr');
+                $('.js_messageTab').find('.fn_aLink').eq(2).addClass('curr').click();
+
+                $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                $body.animate({scrollTop: $('.js_messageTab').offset().top}, 50);
+                
+                if(tab_error == 1) {
+                    $.Prompt('该微博帐号已绑定');
+                }else if(tab_error == 2){
+                    $.Prompt('该QQ帐号已绑定');
+                }else if(tab_error == 3) {
+                    $.Prompt('微博帐号绑定成功');
+                }else if(tab_error == 4) {
+                    $.Prompt('QQ帐号绑定成功');
+                }
+            }
+
+            $("div.photo_b").on('click', function(event) {
+                event.preventDefault();
+            });
+             /*选择头像*/
+            or_img_up("tx_select",'{:U("user_upimg")}',function(uploader,files){
+                for(var i = 0, len = files.length; i<len; i++){
+                    var file_name = files[i].name; //文件名
+                    //构造html来更新UI 更新原创作品 列表
+                    var html = '<img id="file-' + files[i].id +'" class="p-img" src="/php/Public/Home/images/img/tx.jpg">';
+                    $("div.photo_b").html(html);
+                    !function(i){
+                        previewImage(files[i],function(imgsrc){
+                            $('#file-'+files[i].id).attr("src",imgsrc);
+                        });
+                    }(i);
+                }
+            },function(uploader,file,r){
+                var rep = r.response;
+                var r = $.parseJSON(rep);
+                $('#file-'+file.id).attr("src",r.url);
+                uploader.removeFile(file);
+            });
+        /*选择头像*/
+        or_img_up("tx_select1",'{:U("user_upimg")}',function(uploader,files){
+            for(var i = 0, len = files.length; i<len; i++){
+                var file_name = files[i].name; //文件名
+                //构造html来更新UI 更新原创作品 列表
+                !function(i){
+                    previewImage(files[i],function(imgsrc){
+                        var ht = '<div class="pop_box delete_works" style="display:block;" id="txcjquy">\
+                                <div class="pop_box_mod">\
+                                    <div class="pop_head"><a class="close_pop" href="javascript:void(0);"></a></div>\
+                                    <div class="pop_info_text"><img class="txqy" src=""/></div>\
+                                    <a class="pop_okBtn tx_btn_confirm" href="javascript:void(0);">确认</a>\
+                                </div>\
+                            </div>';
+                        $(document.body).append($(ht));
+                        $('div#txcjquy img.txqy').attr("src",imgsrc);
+                        /***封面图片剪切*****/
+                        var $image = $('div#txcjquy img.txqy'),
+                        options = {
+                          aspectRatio: 1 / 1,
+                        };
+                        $image.cropper(options);
+                    });
+                }(i);
+            }
+        },function(uploader,file,r){
+            uploader.removeFile(file);
+        });
+        $(document.body).on("click","a.tx_btn_confirm",function(e){
+              getbase64url(function(re){
+               if(re.status == '1') {
+                    var fmurl = re.url;
+                    $("div.photo_b img.p-img").attr("src",fmurl);
+                    $.post('{:U("user_upimg_update")}', {txurl: fmurl}, function(data, textStatus, xhr) {
+                       var data =  eval("("+data+")");
+                       if(data.code == 0){
+                        $('div#txcjquy').remove();
+                       }
+                    });
+                }
+            });
+        });
+        $(document.body).on("click","a.close_pop",function(e){
+                        $('div#txcjquy').remove();
+        });
+        
+        /*选择头像框*/
+        /*or_img_up("bjxk_select",'{:U("userback_upimg")}',function(uploader,Files){
+            for(var i = 0, len = Files.length; i<len; i++){
+                var file_name = Files[i].name; //文件名
+                !function(i){
+                    previewImage(Files[i],function(imgsrc){
+                         $("#bjxk_select").css("background-image","url("+imgsrc+")");
+                    });
+                }(i);
+            }
+        },function(uploader,file,r){
+            uploader.removeFile(file);
+        });*/
+
+        /*选择身份证正面图片*/
+        or_img_up("sfz_info1",'{:U("sfz_face_upimg")}',function(uploader,files){
+            for(var i = 0, len = files.length; i<len; i++){
+                var file_name = files[i].name; //文件名
+                //构造html来更新UI 更新原创作品 列表
+                $("div.dot_face").html("");
+                var html = '<img id="file-' + files[i].id +'" class="p-img" src="/Public/Home/images/img/tx.jpg">';
+                $("div.dot_face").html(html);
+                !function(i){
+                    previewImage(files[i],function(imgsrc){
+                        $('#file-'+files[i].id).attr("src",imgsrc);
+                    });
+                }(i);
+            }
+        },function(uploader,file,r){
+                var rep = r.response;
+                var r = $.parseJSON(rep);
+                $('#file-'+file.id).find("input").val(r.url);
+                $('#file-'+file.id).parents("div.js_issuePop2").find(".nextBtn").removeClass('no');
+                uploader.removeFile(file);
+        });
+        /*选择身份证背面图片*/
+        or_img_up("sfz_info2",'{:U("sfz_back_upimg")}',function(uploader,files){
+            for(var i = 0, len = files.length; i<len; i++){
+                var file_name = files[i].name; //文件名
+                //构造html来更新UI 更新原创作品 列表
+                $("div.dot_back").html("");
+                var html = '<img id="file-' + files[i].id +'" class="p-img" src="/Public/Home/images/img/tx.jpg">';
+                $("div.dot_back").html(html);
+                !function(i){
+                    previewImage(files[i],function(imgsrc){
+                        $('#file-'+files[i].id).attr("src",imgsrc);
+                    });
+                }(i);
+            }
+        },function(uploader,file,r){
+                var rep = r.response;
+                var r = $.parseJSON(rep);
+                $('#file-'+file.id).find("input").val(r.url);
+                $('#file-'+file.id).parents("div.js_issuePop2").find(".nextBtn").removeClass('no');
+                uploader.removeFile(file);
+        });
+        coSense.loader.catTab();
+        coSense.loader.toFooter();
+        coSense.loader.bannerWheel($('.per_bg'),2);
+    });
+        function or_img_up(id,url,callback,callback1){
+            var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+                browse_button : id,
+                url : url,
+                flash_swf_url : 'js/Moxie.swf',
+                silverlight_xap_url : 'js/Moxie.xap',
+                multi_selection: false,
+                file_data_name:'photo',
+                filters: {
+                  mime_types : [ //只允许上传图片文件
+                    { title : "图片文件", extensions : "jpg,gif,png" }
+                  ],
+                    max_file_size : '800kb', //最大只能上传400kb的文件
+                    prevent_duplicates : true //不允许选取重复文件
+                }
+            });
+            uploader.init(); //初始化
+            uploader.bind('FileUploaded',function(uploader,file,r){
+                callback1(uploader,file,r);
+            });
+            //绑定文件添加进队列事件
+            uploader.bind('FilesAdded',function(uploader,files){
+                $.each(uploader.files, function (i, file) {
+                    if (uploader.files.length <= 1) {
+                        return;
+                    }
+                    uploader.removeFile(file);
+                });
+                $("#js_uploadImgAre").hide();
+                uploader.start();
+                callback(uploader,files);
+            });
+        }
+        //plupload中为我们提供了mOxie对象
+        function previewImage(file,callback){
+            if(!file || !/image\//.test(file.type)) return; 
+            if(file.type=='image/gif'){
+                var fr = new mOxie.FileReader();
+                fr.onload = function(){
+                    callback(fr.result);
+                    fr.destroy();
+                    fr = null;
+                }
+                fr.readAsDataURL(file.getSource());
+            }else{
+                var preloader = new mOxie.Image();
+                preloader.onload = function() {
+                    // preloader.downsize( img_wd, img_hg );//先压缩一下要预览的图片,宽300，高300
+                    var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+                    callback && callback(imgsrc); //callback传入的参数为预览图片的url
+                    preloader.destroy();
+                    preloader = null;
+                };
+                preloader.load( file.getSource() );
+            }   
+        }
+</script>
+<script>
+            /**
+             * 选择省
+             * @return {[type]} [description]
+             */
+            function choose_province(thisf) {
+                var pro_id = parseInt(thisf.val());
+
+                //初始化
+                if(pro_id == 0) {
+                    $('select[name=city]').html("<option value='0'>请选择市</option>");
+                    $('select[name=area]').html("<option value='0'>请选择区/县</option>");
+                }else{
+                    $.get("{:U('ajax_get_area_son')}", {pid:pro_id}, function(r){
+                        if(r.code == 0) {
+                            var str = "<option value='0'>请选择市</option>";
+                            $.each(r.data,function(n,v) {
+                                str += "<option value='"+v.id+"'>"+v.name+"</option>";
+                            });
+                            $('select[name=city]').html(str);
+                            $('select[name=area]').html("<option value='0'>请选择区/县</option>");
+                        }
+                    },'json')
+                }
+                $('input[name=province_detail]').val(thisf.find("option:selected").text());
+            }
+
+            /**
+             * 选择市
+             * @return {[type]} [description]
+             */
+            function choose_city(thisf) {
+                var city_id = parseInt(thisf.val());
+
+                //初始化
+                if(city_id == 0) {
+                    $('select[name=area]').html("<option value='0'>请选择区/县</option>");
+                }else{
+                    $.get("{:U('ajax_get_area_son')}", {pid:city_id}, function(r){
+                        if(r.code == 0) {
+                            var str = "<option value='0'>请选择区/县</option>";
+                            $.each(r.data,function(n,v) {
+                                str += "<option value='"+v.id+"'>"+v.name+"</option>";
+                            });
+                            $('select[name=area]').html(str);
+                        }
+                    },'json')
+                }
+
+                $('input[name=city_detail]').val(thisf.find("option:selected").text());
+            }
+
+            function choose_area(thisf) {
+                $('input[name=area_detail]').val(thisf.find("option:selected").text());
+            } 
+            
+            $("a#comBtn").on('click',function(){
+                $("div.renzhen_before").css('display','none');
+                $("div.renzhen").css('display','block');
+            });
+            $(".renzheng_after").css('display','block');
+            $("a.renzheng").on('click',function(){
+                var true_name = $("input[name='true_name']").val();
+                if(true_name == ""){
+                    $('#true_name_tip').text('真实姓名必须填写');
+                    return false;
+                }
+                var phone = $("input[name='phone']").val();
+                if(phone == ""){
+                    $('#phone_tip').text('电话号码必须填写');
+                    return false;
+                }
+                if(!IsTel(phone)){
+                	$('#phone_tip').text('电话号码格式必须填写正确');
+                    return false;
+                }
+                var email = $("input[name='email']").val();
+                if(email == ""){
+                    $('#email_tip').text('邮箱必须填写');
+                    return false;
+                }
+                var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                if(!myreg.test(email)){
+                	$('#email_tip').text('邮箱格式必须填写正确');
+                    return false;
+                }
+                var img_face = $("div.dot_face").find("img").length;
+                if(img_face == 0){
+                    $.Prompt("身份证正面照片必须选择");
+                    return false;
+                }
+                var img_back = $("div.dot_back").find("img").length;
+                if(img_back == 0){
+                    $.Prompt("身份证背面照片必须选择");
+                    return false;
+                }
+                $.post('{:U("UserCenter/authentication")}',{true_name:true_name,phone:phone,email:email}, function(r) {
+                            var r = JSON.parse(r);                       
+                            $("div.renzhen").css('display','none');
+                            $(".renzheng_sucess").show();
+                            $.Prompt(r.msg);
+                });
+            });
+            /*验证手机号格式*/
+            function IsTel(Tel){
+                var re=new RegExp(/^((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/);
+                var retu=Tel.match(re);
+                if(retu){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+            function to_change_bg(thisf) {
+                bid = thisf.attr('bid');
+                obid = bid;
+                bid ++
+                if(bid > 4) bid = 1;
+
+                $.post("{:U('to_change_bg')}", {bid: bid}, function(r){
+                    if(r.code == 0) {
+                        $('.set_fl_back').addClass('set_fl_back'+bid);
+                        $('.set_fl_back').removeClass('set_fl_back'+obid);
+                        thisf.attr('bid', bid);
+                    }else{
+                        $.Prompt("切换失败，请重试");
+                    }
+                },'json')
+            }
+
+            function to_out_bind(thisf,type){
+                          $('#outBind').show();
+                          $('.infoOutBind').on('click',function(){
+                                        $.post("{:U('to_out_bind')}", {type:type}, function(r){
+                                                      if(r.code == 0) {
+                                                                    $('#outBind').hide();
+                                                                    var fa = thisf.parents('.clearfix').eq(0).find('.fl_info');
+                                                                   if(type == 1) {
+                                                                            var str = '<i class="icon_qq"></i><span class="no16-cor666">未绑定QQ，绑定后可使用该QQ直接登录</span>';
+                                                                            fa.html(str);
+                                                                            thisf.attr('href', "{:U('Public/to_login',array('type'=>'qq'))}");
+                                                                   }else{
+                                                                            var str = '<i class="icon_weib"></i><span class="no16-cor666">未绑定微博，绑定后可使用该微博直接登录</span>';
+                                                                            fa.html(str);
+                                                                            thisf.attr('href', "{:U('Public/to_login',array('type'=>'sina'))}");
+                                                                   }
+                                                                   thisf.html('绑定');
+                                                       }else{
+                                                                    $.Prompt(r.msg);
+                                                       }
+                                          },'json')
+                          });                          
+            }
+</script>
+<script>    
+            $(function(){
+                    var m_json = new Array();
+                    m_json = {:json_encode($m_list)};
+     
+                    $(".zuzhi .fl_info li").hover(
+                            function(e){
+                                    var id = $(this).attr('ids');
+                                    var now_j;
+                                    $.each(m_json, function (index, item) {
+                                        if(item.id == id) {
+                                            now_j = item;
+                                            return false;
+                                        }
+                                    });
+
+                                    $("body").append(
+                                        "<div class='details'>"+
+                                                "<h2>"+now_j.nickname+(now_j.sex == 0 ? "<i class='sex_man iconfont icon-xingbie-nan'></i>" : "<i class='sex_woman iconfont icon-xingbie-nv'></i>")+"</h2>"+
+                                                "<p>"+
+                                                        "<i class='iconfont icon-addr'></i>   <span>"+now_j.address+"</span>"+
+                                                "</p>"+
+                                                "<p style='margin-bottom:10px'>"+now_j.industry+"</span>"+
+                                                "</p>"+
+                                                "<p>"+
+                                                        "<i class='icon-gzr iconfont icon-fensi'></i>  <span>"+now_j.fans+"</span>"+
+                                                "</p>"+
+                                        "</div>"
+                                    );
+                                      $(".details").css({
+                                                position:"absolute",
+                                                top:e.pageY + 40,
+                                                width:300,
+                                                height:150,
+                                                left:e.pageX + 40,
+                                                paddingTop:15,
+                                                paddingLeft:20
+                                      }).show("slow");
+                            },
+                            function(e){
+                                    $(".details").remove();
+                            });
+            });
+</script>
+

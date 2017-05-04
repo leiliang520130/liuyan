@@ -1,0 +1,176 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">个人认证相关管理</a> <a href="#" class="current">用户列表</a></div>
+            </div>
+
+			<!--收索部分开始-->
+			<div class="container-fluid">
+				<hr>
+				<div class="row-fluid">
+					<div class="span12">
+						<form  style="padding:3px 0; float:left;"  class="form-inline col-lg-7" method="get" action="__SELF__" id="com_from">
+							<div class="row">
+								<div class="widget-title col-lg-12">
+										<div class= "form-group">
+											<span style="font-weight:bold;">&ensp;&nbsp;&nbsp;开始时间</span>: <input id="txtStartDate" class="Wdate" type="text" onFocus="WdatePicker(WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'}))" placeholder="请输入开始时间" value="{:I('start', '')}" name="start"/>
+											<span style="font-weight:bold;">&nbsp;&nbsp;结束时间</span>: <input id="txtEndDate" class="Wdate" type="text" onFocus="WdatePicker(WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'}))" placeholder="请输入结束时间" name="end" value="{:I('end', '')}"/>
+											<span style="font-weight:bold;">&nbsp;&nbsp;分类</span>:
+											<select name="category_id">
+												<option value="0">请选择</option>
+												<foreach name='cate_lst' item='vo'>
+													<option value="{$vo.id}" <?php if($vo['id'] == I('category_id', 0)){ ?> selected="selected" <?php } ?> >{$vo.tname}</option>
+												</foreach>
+											</select>
+										</div>
+								</div>
+							</div>
+							<br>
+							<div class="form-group">
+								<div class= "form-group">
+									<span style="font-weight:bold;">&nbsp;&nbsp;昵称</span>: <input type="text" name="nickname" value="{:I('nickname', '')}" placeholder="请输入昵称"><span style="font-weight:bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱</span>: <input type="text" name="email" value="{:I('email', '')}" placeholder="请输入邮箱">
+									&nbsp;&nbsp;<button type="submit" class="btn btn-info" >搜索</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--收索结束-->
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+				        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>用户列表</h5>
+				        </div>
+			          	<div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped" style="border:1px solid #ddd !important;">
+				              	<thead>
+					                <tr>
+					                  	<th>序号</th>
+					                  	<th>昵称</th>
+					                  	<th>姓名</th>
+					                  	<th>工作单位</th>
+					                  	<th>研究领域</th>
+					                  	<th>国籍</th>
+					                  	<th>称谓</th>
+					                  	<th>邮箱</th>
+					                  	<th>联系方式</th>
+					                  	<th>facebook</th>
+					                  	<th>注册时间</th>
+					                  	<th>最后登录时间</th>
+					                  	<th>操作</th>
+					                </tr>
+				              	</thead>
+				              	<tbody>
+				              		<?php if($lst){  ?>
+					              		<?php $p = I('p', 1); ?>
+					              		<?php $k = 1; ?>
+					              		<foreach name='lst' item='vo'>
+							                <tr class="odd gradeX">
+							                  	<td><?php echo ($p-1)*10+$k; ?></td>
+							                  	<td>{$vo.nickname}</td>
+							                  	<td>{$vo.frist_name}{$vo.last_name}</td>
+												<td>{$vo.company}</td>
+							                  	<td>{$vo.tname}</td>
+							                  	<td>{$vo.name}</td>
+							                  	<td>{$vo.cname}</td>
+												<td>{$vo.email1}</td>
+							                  	<td>{$vo.telphone}</td>
+							                  	<td>{$vo.facebook}</td>
+							                  	<td>{:date('Y/m/d H:i', $vo['reg_time'])}</td>
+							                  	<td>{:$vo['last_login_time'] ? date('Y/m/d H:i', $vo['last_login_time']) : ''}</td>
+							                  	<td>
+													<eq name="vo.status" value="0">
+														<button class='btn btn-danger' onclick="shenhe_lst(1,'{$vo.id}')" >未审核</button>
+														<else/>
+														<button class='btn btn-danger' onclick="shenhe_lst(0,'{$vo.id}')" >已审核</button>
+													</eq>
+												</td>
+							                </tr>
+							                <?php $k++; ?>
+						            	</foreach>
+						            <?php }else{ ?>
+						           	 	<tr class="odd gradeX">
+						           	 		<td colspan="9">没有数据</td>
+						           	 	</tr>
+						            <?php } ?>
+			              		</tbody>
+			            	</table>
+			            	<div style='text-align:center;'><include file="Common/page" /></div>
+			         	 </div>
+			        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script type="text/javascript" src="__PUBLIC__/Admin/My97DatePickerBeta4.8b2/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <script>
+
+			function shenhe_lst(type,id) {
+				if(type == 1) {
+					var msg = '您确定要取消会员审核吗？';
+				}else{
+					var msg = '您确定要通过会员审核吗？';
+				}
+				layer.confirm(msg, {
+					btn: ['确定','取消'] //按钮
+				}, function(){
+					$.post("{:U('User/renzheng')}",{id:id,type:type},function(r){
+						if(r.code == 0) {
+							layer.msg('审核通过',{icon:1,time:1000});
+							setTimeout(function () {
+								window.location.reload(true);
+							}, 1000);
+						}else{
+							layer.msg('审核失败，请重试',{icon:2,time:1000});
+						}
+					},'json')
+				}, function(){
+				});
+			}
+
+
+			function to_locked(type,uid) {
+				if (type == 0) {
+					var msg = '您确定要解锁用户吗？';
+				} else {
+					var msg = '您确定要锁定用户吗？';
+				}
+				layer.confirm(msg, {
+					btn: ['确定', '取消'] //按钮
+				}, function () {
+					$.post("{:U('User/to_locked')}", {uid: uid, type: type}, function (r) {
+						if (r.code == 0) {
+							layer.msg('成功', {icon: 1, time: 1000});
+							setTimeout(function () {
+								window.location.reload(true);
+							}, 1000);
+						} else {
+							layer.msg('失败，请重试', {icon: 2, time: 1000});
+						}
+					}, 'json')
+				}, function () {
+				});
+			}
+        </script>
+    </body>
+</html>

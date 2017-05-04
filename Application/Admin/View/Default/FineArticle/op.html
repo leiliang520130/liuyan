@@ -1,0 +1,303 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="{:U('lst')}" class="current">精选相关管理</a> <a href="javascript:;" class="current"><?php if(I('id', 0)){echo '编辑';}else{echo '添加';} ?></a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+				          		<input type="hidden" name="id" value="{:I('id', 0)}">
+					            <div class="control-group">
+					              	<label class="control-label">标题：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="标题" name="title" value="{$info.title}" />
+					              	</div>
+					            </div>
+				              	<div class="control-group">
+				                	<label class="control-label">封面图片</label>
+				                	<div class="controls">
+				                		<input readonly="readonly" id="icon_url" type="text" name="cover_img" value="{$info['cover_img']}" class="required" />
+				                		<a href="javascript:void(0)" id="icon" class="btn">选择</a>
+				                		<a href="javascript:void(0)" id="start" style="margin-right: 10px" class="btn">上传</a>
+				                		<div id="file-list"></div>
+				                	</div>
+				              	</div>
+					            <div class="control-group">
+					              	<label class="control-label">分类：</label>
+					              	<div class="controls">
+					                	<select name="category_id" class='span3'>
+					                		<option value="0">请选择分类</option>
+					                		<foreach name='cate_lst' item='vo'>
+					                			<option value="{$vo.id}" <?php if($vo['id'] == $info['category_id']){ ?> selected="selected" <?php } ?> >{$vo._name}{$vo.cname}</option>
+					                		</foreach>
+					                	</select>
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">标签：</label>
+					              	<div class="controls">
+					                	<div>
+					                		<select class="tags_choose" id="tags_choose">
+					                			<option value="0">请选择标签</option> 
+					                			<foreach name='tags_lst' item='vo'>
+					                				<option value="{$vo.id}">{$vo.tname}</option>
+					                			</foreach> 
+					                		</select>
+					                		&nbsp;<a class='btn btn-success' href="javascript:;" style='position:relative;top:-15px;' onclick="add_tags()">添加</a>
+					                		&nbsp;<a class='btn btn-success' href="javascript:;" style='position:relative;top:-15px;' onclick="inser_tags()">手动输入</a>
+					                	</div>
+										<div id="tags_add_lst">
+				                			<?php foreach($info['tags'] as $v){ ?>
+				                				<p><input type="text" name="tags[]" tid="0" value="{$v['tname']}">&nbsp;<a href="javascript:;" onclick="del_tag($(this))"><i class="icon-remove"></i>删除</a></p>
+				                			<?php } ?>
+										</div>
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">来源url：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span6" placeholder="来源" name="source_url" value="{$info.source_url}" />
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">简介：</label>
+					              	<div class="controls">
+					                	<textarea name="intro" cols="41" rows="5" class="span6">{$info.intro}</textarea>
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">内容：</label>
+					              	<div class="controls">
+					                	<script id="cnt" type="text/plain" style="width:800px;height:400px;" name='cnt' >{:htmlspecialchars_decode($info['cnt'])}</script>
+					              	</div>
+					            </div>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/s/tinyselect.css">
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+        <script src="__PUBLIC__/Admin/s/tinyselect.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.config.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/ueditor/ueditor.all.min.js"></script>
+	    <script type="text/javascript" src="__PUBLIC__/Admin/ueditor/lang/zh-cn/zh-cn.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+	    <script src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+		<script>
+			$('.tags_choose').tinyselect();
+			var tags_lst = {:json_encode($tags_lst)};
+			var ue = UE.getEditor('cnt');
+			ue.addListener("ready", function () {
+			    // ue.setContent('abc');
+			    // alert(ue.getContent())
+			});
+
+			//添加已有标签
+			function add_tags() {
+				var tid = parseInt($('#tags_choose').val());
+				if(tid == 0) {
+					layer.msg('请选择标签', {icon:2,time:1000});
+					return false;
+				}
+
+				var names = '';
+	 			$.each(tags_lst,function(n,v) {
+	                if(parseInt(v.id) == tid) {
+	                	names = v.tname;
+	                }
+	            });
+
+	 			var str = '<p><input type="text" name="tags[]" value="'+names+'">&nbsp;<a href="javascript:;" onclick="del_tag($(this))"><i class="icon-remove"></i>删除</a></p>';
+	            $('#tags_add_lst').append(str)
+			}
+
+			//手动输入标签
+			function inser_tags() {
+				var str = '<p><input type="text" name="tags[]" tid="0" value="">&nbsp;<a href="javascript:;" onclick="del_tag($(this))"><i class="icon-remove"></i>删除</a></p>';
+				$('#tags_add_lst').append(str)
+			}
+
+			//删除标签
+			function del_tag(thisf) {
+				thisf.parents('p').eq(0).remove();
+			}
+
+			function submit_form() {
+				//验证标题
+				if($('input[name=title]').val() == '') {
+					$('input[name=title]').focus();
+					layer.msg('请输入标题', {icon:2,time:1000});
+					return false;
+				}
+				//验证标题
+				if($('input[name=cover_img]').val() == '') {
+					$('input[name=cover_img]').focus();
+					layer.msg('请上传封面图片', {icon:2,time:1000});
+					return false;
+				}
+				//验证分类
+				if($('select[name=category_id]').val() == 0) {
+					$('select[name=category_id]').focus();
+					layer.msg('请选择分类', {icon:2,time:1000});
+					return false;
+				}
+				//验证标签是否为空
+				var cc = $("input[name^='tags']").length
+				var tags = $("input[name^='tags']");
+				if(parseInt(cc) == 0) {
+					$('select[name=category_id]').focus();
+					layer.msg('请输入标签', {icon:2,time:1000});
+					return false;
+				}
+				//验证是否输入空标签和验证是否有相同的标签
+				var flag = 0;
+				var is_empty = 0;
+				for(var i=0;i<cc;i++){
+					var t1 = tags[i].value;
+					if(t1 == '') is_empty = 1;
+					for(var j=0;j<cc;j++) {
+						var t2 = tags[j].value;
+
+						if(i!=j && t1==t2) {
+							flag = 1;
+						}
+					}
+	            }
+	            if(is_empty == 1) {
+					$('select[name=category_id]').focus();
+					layer.msg('不能输入空标签', {icon:2,time:1000});
+					return false;
+	            } 
+	            if(flag == 1) {
+					$('select[name=category_id]').focus();
+					layer.msg('不能输入相同的标签', {icon:2,time:1000});
+					return false;
+	            } 
+	            //验证简介
+	            if($('textarea[name=intro]').val() == '') {
+					$('textarea[name=intro]').focus();
+					layer.msg('简介不能为空', {icon:2,time:1000});
+					return false;	
+	            }
+	            //验证内容
+	            if(ue.getContent() == '') {
+	            	layer.msg('内容不能为空', {icon:2,time:1000});
+					return false;
+	            }
+
+	            //异步添加
+	            $.post("{:U('op')}", $('#com_form').serialize(), function(r){
+	            	if(r.code == 0) {
+						layer.msg('成功',{icon:1,time:1000});
+		    			setTimeout(function () { 
+					       window.location.href="{:U('lst')}";
+					    }, 1000);
+	            	}else{
+	            		layer.msg('失败，请重试',{icon:2,time:1000});
+	            	}
+	            },'json')
+			}
+		</script>
+
+		<script type="text/javascript">
+			var img_wd = 150;
+			var img_hg = 150;
+			var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+				browse_button : 'icon',
+				url : '{:U("upimg")}',
+				flash_swf_url : 'js/Moxie.swf',
+				silverlight_xap_url : 'js/Moxie.xap',
+				multi_selection: false,
+				file_data_name:'photo',
+				filters: {
+				  mime_types : [ //只允许上传图片文件
+				    { title : "图片文件", extensions : "jpg,gif,png" }
+				  ],
+					max_file_size : '10000kb', //
+					prevent_duplicates : true //不允许选取重复文件
+				}
+			});
+			uploader.init(); //初始化
+			uploader.bind('FileUploaded',function(uploader,file,r){
+				var rep = r.response;
+				var r = $.parseJSON(rep);
+				$('#icon_url').val(r.url);
+				uploader.removeFile(file);
+				$('#file-list li').remove();
+			});
+
+			//绑定文件添加进队列事件
+			uploader.bind('FilesAdded',function(uploader,files){
+				$.each(uploader.files, function (i, file) {
+			        if (uploader.files.length <= 1) {
+			            return;
+			        }
+			        uploader.removeFile(file);
+			    });
+				$('#file-list li').remove();
+				for(var i = 0, len = files.length; i<len; i++){
+					var file_name = files[i].name; //文件名
+					
+					//构造html来更新UI
+					var html = '<li style="margin-top:15px;" id="file-' + files[i].id +'"></li>';
+					$(html).appendTo('#file-list');
+					!function(i){
+						previewImage(files[i],function(imgsrc){
+							$('#file-'+files[i].id).append('<img src="'+ imgsrc +'" />');
+						})
+				    }(i);
+				}
+			});
+
+			//plupload中为我们提供了mOxie对象
+			function previewImage(file,callback){
+				if(!file || !/image\//.test(file.type)) return; 
+				if(file.type=='image/gif'){
+					var fr = new mOxie.FileReader();
+					fr.onload = function(){
+						callback(fr.result);
+						fr.destroy();
+						fr = null;
+					}
+					fr.readAsDataURL(file.getSource());
+				}else{
+					var preloader = new mOxie.Image();
+					preloader.onload = function() {
+						preloader.downsize( img_wd, img_hg );//先压缩一下要预览的图片,宽300，高300
+						var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+						callback && callback(imgsrc); //callback传入的参数为预览图片的url
+						preloader.destroy();
+						preloader = null;
+					};
+					preloader.load( file.getSource() );
+				}	
+			}
+
+			//最后给"开始上传"按钮注册事件
+			document.getElementById('start').onclick = function(){
+			    uploader.start(); //调用实例对象的start()方法开始上传文件，当然你也可以在其他地方调用该方法
+			}
+		</script>
+    </body>
+</html>

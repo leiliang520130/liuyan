@@ -1,0 +1,152 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style>
+        .showMember{
+                margin-bottom: 26px;
+        }
+        .showMember .pho-list li{
+                margin-bottom: 14px;
+        }
+</style>
+<!--中部内容-->
+<div class="wrap">
+    <!--悬停显示效果-->
+    <div class="show_img">
+        <img class="js_mImg" src="">
+        <div class="mbg"><div></div></div>
+    </div>
+    <!--左边内容列表-->
+    <div class="lf-content">
+        <ul class="p-list-boc js_listHover">
+            <volist name="res" id="vo">
+                <li>
+                    <a href="{:U('Original/original_detail1')}?oid={$vo.id}" target="_blank">
+                        <div class="img"><img class="img-o" src="{$vo.cover_curimg}"></div>
+                        <p class="no-18pt30">{$vo.title}</p>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+
+    <!--右边用户信息-->
+    <div class="fx_infoMod">
+        <div class="o-fx-dix">
+            <div class="clearfix">
+                <div class="fl p-photo">
+                    <img width="100%" height="100%" src="{$use_info[0]['avatar']}">
+                </div>
+                <div class="fl p-text-c org">
+                    <p class="p01">
+                        <span class="p-name">{$use_info[0]['nickname']}</span>
+                        <!-- <i class="sex_man iconfont icon-xingbie-nan"></i> -->
+                    </p>
+                    <p class="p02">
+                        <i class="icon-addr"></i>
+                        <span class="span_text">{$use_info[0]['address']}</span>
+                    </p>
+                    <p class="p03">
+                        <span class="span_text" title="{$use_info[0]['industry']}"><?php echo str_replace(",","&#8197;/&#8197;",$use_info[0]['industry']); ?></span>
+                    </p>
+                    <p class="follow_me_orgg">
+                        <eq name="type" value="0">
+                            <a class="followBtn" aid="0" uid="<?php echo I('tid') ?>" href="javascript:void(0);">FOLLOW</a>
+                        <else/>
+                            <a class="followBtn" aid="1" uid="<?php echo I('tid') ?>" href="javascript:void(0);">CANCEL</a>
+                        </eq>
+                        <i class="icon-gzr iconfont icon-fensi"></i>
+                        <span class="t-no12-33">{$use_info[0]['fans_number']}</span>
+                    </p>
+                </div>
+            </div>
+            <!-- 原来的布局 -->
+            <!-- <div class="gm-txt">Member：</div>
+            <ul class="pho-list clearfix">
+                        <volist name="fans_info" id="fans">
+                                <li><a title="{$fans.nickname}"><img src="{$fans.avatar}"></a></li>
+                        </volist>
+            </ul> -->
+            
+            <!-- 新建的布局 -->
+            <div class="showMember">
+                        <div class="gm-txt">Member：</div>
+                        <ul class="pho-list clearfix">
+                                    <volist name="fans_info" id="fans">
+                                                <li><a title="{$fans.nickname}"><img src="{$fans.avatar}"></a></li>
+                                    </volist>
+                        </ul>
+            </div>    
+            <div class="rz-div ogd">
+                <i class="icon-co" title="特邀设计师"></i>
+                <i class="icon-v" title="认证设计师"></i>
+                <i class="icon-cc" title="公司设计师"></i>
+            </div>
+        </div>
+        <div class="o-ordMod">
+            <div class="no14-cor1e1">
+                {$use_info[0]['synopsis']}
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+    coSense.loader.init(false);
+    coSense.loader.originalJS();
+     coSense.loader.toFooter();
+    proing();
+    $(function(){
+        $(".js_listHover li").hover(function(){
+            $(this).addClass('h');
+            var $img = $(this).find('img').attr('src');
+            $('.show_img').addClass('curr').children('.js_mImg').attr('src',$img);
+
+        },function(){
+            $(this).removeClass('h');
+            $('.show_img').removeClass('curr');
+        })
+        $("a.followBtn").on('click',function(){
+            var aid = $(this).attr("aid");
+            var uid = $(this).attr("uid");
+            $.post("{:U('Public/fans_follow')}",{id:uid,type:aid},function(r){
+                $.Prompt(r.msg);
+                window.location.reload(true);      
+            },'json')
+        });
+    })
+</script>
+</html>

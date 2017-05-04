@@ -1,0 +1,142 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> 
+					<a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> 
+					<a href="{:U('Mechanism/index')}" class="current">组织机构列表</a>
+					<a href="javascript:;" class="current">组织机构成员列表</a>
+					<a href="javascript:;" style="color:red;" class="current">{$info.nickname}</a>
+				</div>
+            </div>
+
+			<!--收索部分开始-->
+			<div class="container-fluid">
+				<hr>
+				
+				<div class="row-fluid">
+					<div class="span12">
+						<form  style="padding:3px 0; float:left;"  class="form-inline col-lg-7" method="get" action="__SELF__" id="com_from">
+								
+							<br>
+							<div class="form-group">
+								<div class= "form-group">
+									<span style="font-weight:bold;">&nbsp;&nbsp;用户名称</span>: <input type="text" name="nickname" value="{:I('nickname', '')}" placeholder="用户名称">
+									&nbsp;&nbsp;<button type="submit" class="btn btn-primary" style='position:relative;top:-5px;'>搜索</button>
+									
+									<input type="hidden" name="id" value="{$info.id}">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="span12"></div>
+				</div>
+				<div class="row-fluid">
+					<a class='btn btn-danger' onclick="history.go(-1)" href="javascript:;">返回</a>
+                </div>
+			</div>
+			<!--搜索结束-->
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+			        <div class="widget-box">
+				        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>组织机构列表</h5>
+				        </div>
+			          	<div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped">
+				              	<thead>
+					                <tr>
+					                  	<th class='span1'>序号</th>
+					                  	<th class='span2'>会员名称</th>
+					                  	<th class='span2'>邮箱</th>
+					                  	<th class='span1'>粉丝数量</th>
+					                  	<th class='span1'>关注数量</th>
+										<th class='span1'>注册时间</th>
+										<th class='span1'>操作</th>
+					                </tr>
+				              	</thead>
+				              	<tbody>
+				              		<?php if($lst){  ?>
+					              		<?php $p = I('p', 1); ?>
+					              		<?php $k = 1; ?>
+					              		<foreach name='lst' item='vo'>
+							                <tr class="odd gradeX">
+							                  	<td><?php echo ($p-1)*10+$k; ?></td>
+							                  	<td>{$vo.nickname}</td>
+							                  	<td>{$vo.email}</td>
+							                  	<td>{$vo.fans_number}</td>
+							                  	<td>{$vo.focus_on}</td>
+												<td>{$vo.reg_time|date='Y-m-d H:i:s',###}</td>
+												<td><a class='btn btn-danger' onclick="del_lst({$vo.id})" >删除</a></td>
+							                </tr>
+							                <?php $k++; ?>
+						            	</foreach>
+						            <?php }else{ ?>
+						           	 	<tr class="odd gradeX">
+						           	 		<td colspan="9">没有数据</td>
+						           	 	</tr>
+						            <?php } ?>
+			              		</tbody>
+			            	</table>
+			            	<div style='text-align:center;'><include file="Common/page" /></div>
+			         	 </div>
+			        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script type="text/javascript" src="__PUBLIC__/Admin/My97DatePickerBeta4.8b2/My97DatePicker/WdatePicker.js" charset="utf-8"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+		<script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <script>
+        	var mid = {$info.id};
+			function del_lst(id) {
+				layer.confirm('您确定要删除吗？', {
+				  btn: ['确定','取消'] //按钮
+				}, function(){
+	        		$.post("{:U('delete_member')}",{id:id, mid:mid},function(r){
+		            	if(r.code == 1) {
+							layer.msg('删除成功',{icon:1,time:1000});
+			    			setTimeout(function () { 
+						       window.location.reload(true);
+						    }, 1000);
+		            	}else{
+		            		layer.msg('删除失败，请重试',{icon:2,time:1000});
+		            	}
+	        		},'json')
+				}, function(){
+				});
+        	}
+			
+			function get_member(id){
+				
+				$.post("{:U('member')}",{id:id},function(r){
+					if(r.code == 0) {
+						layer.msg('成功',{icon:1,time:1000});
+						setTimeout(function () { 
+						   window.location.reload(true);
+						}, 1000);
+					}else{
+						layer.msg('失败，请重试',{icon:2,time:1000});
+					}
+				},'json')
+			}
+        	
+        </script>
+    </body>
+</html>

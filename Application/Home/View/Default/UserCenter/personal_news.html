@@ -1,0 +1,478 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+
+<!--中部-->
+<style>
+    .js_tow_get_more{
+        width: 100%;
+        height: 20px;
+        background: url("__PUBLIC__/Home/images/icon_down.png") center no-repeat #eee;
+    }
+
+    .js_tow_get_more_over{
+        width: 100%;
+        height: 20px;
+        background: url("__PUBLIC__/Home/images/icon_up.png") center no-repeat #eee;
+    }
+</style>
+<div class="wrap">
+    <div class="per_content ew_k">
+          <!-- 上中下部分 -->
+        <include file="layout/gr_header" />
+        <div class="iss_mod_fn">
+            <div class="clearfix fn_nav js_messageTab">
+                <a class="fn_aLink curr" href="javascript:void(0);">系统消息</a>
+                <a class="fn_aLink" href="javascript:void(0);">评论回复</a>
+            </div>
+            <div class="js_messageContent">
+            <!--系统消息-->
+                    <!--没有数据时显示-->
+                    <eq name="smsg['system']" value="0">
+                         <div class="mgt30-bor bfz65 noboder">
+                        <div class="fn_nod emptcen"></div>
+                    <else/>
+                     <div class="mgt30-bor bfz65">
+                        <ul class="news_d" id="js_newsCont">
+                            <foreach name="smsg['system']" item="val">
+                                <li>
+                                    <a class="del_listBtn  js_delLiBtn" href="javascript:void(0);"><input class="art_id" type="hidden" value="{$val.id}"/></a>
+                                    <div class="info_photo"><img src="__IMG__/img/new_pho.jpg"></div>
+                                    <div class="info_title">CO-SENSE</div>
+                                    <div class="info_time">{:$val['createtime']?date('Y.m.d',$val['createtime']):''}</div>
+                                    <div class="info_txt">{$val.content}{$val.img_url}</div>
+                                </li>
+                            </foreach>
+                        </ul>
+                        <?php if(count($smsg['system']) >= 10){ ?>
+                            <div class="c-more"><a class="msg_more" bid="1" type='1' href="javascript:;">MORE</a></div>
+                        <?php } ?>
+                    </eq>
+                </div>
+                <!--评论回复-->
+                
+                    <!--没有数据时显示-->
+                    <eq name="smsg['com']" value="0">
+                        <div class="mgt30-bor bfz65 noboder"  style="display: none">
+                        <div class="fn_nod emptcen"></div>
+                    <else/>
+                    <div class="mgt30-bor bfz65"  style="display: none">
+                        <ul class="news_d news_d_lst">
+                            <foreach name="smsg['com']" item="val">
+                                <li>
+                                    <div class="pal-r0">
+                                        <a value="{$val.id}" class="zan_listBtn js_thumbsBtn" href="javascript:void(0);">{$val.praise_nums}</a>
+                                        <a class="pingl_listBtn js_commentBtn" atype='1' pid='{$val.id}' to_uid='{$val.uid}' zx_pid='{$val.zx_pid}' href="javascript:void(0);">{$val.com_nums}</a>
+                                    </div>
+                                    <eq name="val['d_type']" value="1">
+                                        <div class="info_photo">
+                                            <eq name="val['user_type']" value="1">
+                                                <a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl"><img src="{$val.avatar}"></a>
+                                            <else />
+                                                <a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl"><img src="{$val.avatar}"></a>
+                                            </eq>
+                                        </div>
+                                        <div class="info_title">
+										<eq name="val['user_type']" value="1">
+    										<a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl">{$val.nickname}</a>
+    										<else />
+    										<a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl">{$val.nickname}</a>
+										</eq>
+										对我的原创作品
+										<if condition="$val['type'] eq 2">
+										    <a href="{:U('Original/original_detail1')}?oid={$val[aid]}" class="fwl">《{$val.title}》</a>进行了评论:</div>
+                                        <else />
+										    <a href="{:U('Activity/active_detail')}?id={$val[aid]}" class="fwl">《{$val.title}》</a>进行了评论:</div>
+										</if>
+										<div class="info_time">{:$val['createtime']?date('Y.m.d',$val['createtime']):''}</div>
+                                        <div class="info_txt">{$val.cnt}</div>
+                                    <else/>
+                                        <div class="info_photo">
+                                            <eq name="val['user_type']" value="1">
+                                                <a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl"><img src="{$val.avatar}"></a>
+                                            <else />
+                                                <a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl"><img src="{$val.avatar}"></a>
+                                            </eq>
+                                        </div>
+                                        <div class="info_title">
+                                        <eq name="val['user_type']" value="1">
+                                            <a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl">{$val.nickname}</a>
+                                            <else />
+                                            <a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl">{$val.nickname}</a>
+                                        </eq>
+                                        对我在
+										<if condition="$val['type'] eq 2">
+										    <a href="{:U('Original/original_detail1')}?oid={$val[aid]}" class="fwl">《{$val.title}》</a>的评论的评论进行了回复:</div>
+                                        <else />
+										    <a href="{:U('Activity/active_detail')}?id={$val[aid]}" class="fwl">《{$val.title}》</a>的评论的评论进行了回复:</div>
+										</if>
+										
+										<div class="info_time">{:$val['createtime']?date('Y.m.d',$val['createtime']):''}</div>
+                                        <div class="info_txt">{$val.cnt}</div>
+                                    </eq>
+                                    <!--二级评论框-->
+                                    <div class="js_comSendMod">
+                                    </div>
+                                    <ul class="list_ul_tow">
+                                        <foreach name="val['son_lst']" item="chval">
+                                            <li>
+                                                <div class="pal-r0">
+                                                    <a value="{$chval.id}" type="0" class="zan_listBtn js_thumbsBtn" href="javascript:void(0);">{$chval.praise_nums}</a>
+                                                    <a class="pingl_listBtn js_commentBtn" atype='2' pid='{$val.id}' to_uid='{$val.uid}' zx_pid='{$val.zx_pid}' href="javascript:void(0);">{$chval.com_nums}</a>
+                                                    <input type="hidden" class="pid" name="pid" value="{$val.pid}"/>
+                                                </div>
+                                                <div class="info_photo">
+                                                    <eq name="val['user_type']" value="1">
+                                                        <a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl"><img src="{$chval.avatar}"></a>
+                                                    <else />
+                                                        <a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl"><img src="{$chval.avatar}"></a>
+                                                    </eq>
+                                                </div>
+                                                <div class="info_title">
+                                                    <eq name="val['user_type']" value="1">
+                                                        <a href="{:U('Original/original_detail2')}?tid={$val['uid']}" class="fwl">{$chval.nickname}</a>
+                                                    <else />
+                                                        <a href="{:U('Original/original_detail3')}?tid={$val['uid']}" class="fwl">{$chval.nickname}</a>
+                                                    </eq>
+                                                </div>
+                                                <div class="info_time">{:$chval['createtime']?date('Y.m.d',$chval['createtime']):''}</div>
+                                                <div class="info_txt">@{$chval['to_nickname']}：{$chval.cnt}</div>
+                                                <div class="js_comSendMod">
+                                                </div>
+                                            </li>
+                                        </foreach>
+                                    </ul>
+                                    <?php if($val['son_lst_count'] > 10){ ?>
+                                        <div class="more_pl js_tow_get_more" nowpage="1" ismore="1" fid="{$val.id}"><a></a></div>
+                                    <?php } ?>
+								</li>
+                            </foreach>
+                        </ul>
+                        <?php if(count($smsg['com']) >= 10){ ?>
+                            <div class="c-more"><a class="msg_more" bid="1" type='2' href="javascript:;">MORE</a></div>
+                        <?php } ?>
+                    </eq>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!--删除-->
+<div class="pop_box">
+    <div class="pop_box_mod">
+        <div class="pop_head">
+            <a class="close_pop" href="javascript:void(0);"></a>
+        </div>
+        <div class="pop_info_text">删除后将无法恢复，确认删除？</div>
+        <a class="pop_okBtn" href="javascript:void(0);">确认</a>
+    </div>
+</div>
+</body>
+<script>
+</script>
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script>
+    $(function(){
+        coSense.loader.catTab();
+        coSense.loader.toFooter();
+        coSense.loader.bannerWheel($('.per_bg'),2);
+        //close_pop
+        $(".close_pop,.js_okBtn").on('click',function(){
+            $(this).closest('.pop_box').hide();
+        });
+        //系统，评论消息切换
+        $('.js_messageTab a').on('click',function(){
+            var $index = $(this).index();
+            $(this).addClass('curr').siblings().removeClass('curr');
+            $('.js_messageContent>div.mgt30-bor').hide().eq($index).show();
+        });
+        //删除当前li消息js_delLiBtn
+        $(document).on('click',".js_delLiBtn",function(){
+            var b = $(this).children().val();
+            $('.pop_box').show();
+            var num = 1;
+            $(this).parent().attr('data-id',1);
+            $(document.body).data("msgid",$(this).find("input").val());
+            $('#li_num').val(num);
+        });
+        $("a.pop_okBtn").on("click",function(){
+            $('.pop_box').hide();
+            var url="{:U('UserCenter/del_system_msg')}";
+            var msgid = $(document.body).data("msgid");
+            var data={
+                id:msgid,
+            }
+            $.post(url,data,function(res){
+                console.log(res);
+                var rese = eval("("+res+")");
+                if(rese.code===106){
+                    $('input[value='+msgid+']').parents("li").remove();
+                }
+            });
+        });
+        $('.js_okBtn').on('click',function(){
+            var $li = $("#js_newsCont").children('li');
+            var $num = $('#li_num').val();
+            $li.each(function(){
+                var $id = $(this).data('id');
+                if($id == $num){
+                    $(this).remove();
+                }
+            })
+        });
+
+
+        //点击加载更多
+        $(document).on('click',".msg_more",function(){
+            thisf = $(this);
+            var bid = parseInt($(this).attr('bid'));
+            bid ++;
+            $(this).attr('bid', bid);
+            var type = parseInt($(this).attr('type'));
+            var url1 = "{:U('Original/original_detail2')}";
+            var url2 = "{:U('Original/original_detail3')}";
+            var u1 = "{:U('Original/original_detail1')}";
+            var u2 = "{:U('Activity/active_detail')}";
+
+            $.get("__SELF__", {page:bid, s_type:type, r_type:1}, function(r){
+                    if(type == 1) {
+                        if(r.data.system.length != 0) {
+                            $.each(r.data.system,function(n,v) {
+                                var htm = '<li>\
+                                        <a class="del_listBtn  js_delLiBtn" href="javascript:void(0);"><input class="art_id" type="hidden" value="'+v.id+'"/></a>\
+                                        <div class="info_photo"><img src="__IMG__/img/new_pho.jpg"></div>\
+                                        <div class="info_title">CO-SENSE</div>\
+                                        <div class="info_time">'+v.createtime+'</div>\
+                                        <div class="info_txt">'+v.content+v.img_url+'</div>\
+                                    </li>';
+                            })
+                        }else{
+                            thisf.attr('ismore', 0);
+                            thisf.css('background', '#c9c9c9');
+                            thisf.html('NO MORE');
+                            thisf.removeClass('msg_more');
+                            $.Prompt('加载到底了');
+                        }
+                    }else{
+                        var html = '';
+                        if(r.data.com.length != 0) {
+                            $.each(r.data.com,function(n,v) {
+                                html += '<li>\
+                                            <div class="pal-r0">\
+                                                <a value="'+v.id+'" class="zan_listBtn js_thumbsBtn" href="javascript:void(0);">'+v.praise_nums+'</a>\
+                                                <a class="pingl_listBtn js_commentBtn" atype="1" pid="'+v.id+'" to_uid="'+v.uid+'" zx_pid="'+v.zx_pid+'" href="javascript:void(0);">'+v.com_nums+'</a>\
+                                            </div>';
+                                if(v.d_type == 1) {
+                                    html += '<div class="info_photo">';
+                                    if(v.user_type == 1) {
+                                        html += '<a href="'+url1+'?tid='+v.uid+'" class="fwl"><img src="'+v.avatar+'"></a>';
+                                    }else{
+                                        html += '<a href="'+url2+'?tid='+v.uid+'" class="fwl"><img src="'+v.avatar+'"></a>';
+                                    }
+                                    html += '</div><div class="info_title">';
+                                    if(v.user_type == 1) {
+                                        html += '<a href="'+url1+'?tid='+v.uid+'" class="fwl">'+v.nickname+'</a>';
+                                    }else{
+                                        html += '<a href="'+url2+'?tid='+v.uid+'" class="fwl">'+v.nickname+'</a>';
+                                    }
+                                    html += '对我的原创作品';
+                                    if(v.type == 2) {
+                                        html += '<a href="'+v.u1+'?oid='+v.aid+'" class="fwl">《'+v.title+'》</a>进行了评论:</div>';
+                                    }else{
+                                        html += '<a href="'+v.u2+'?oid='+v.aid+'" class="fwl">《'+v.title+'》</a>进行了评论:</div>';
+                                    }
+                                    html += '<div class="info_time">'+v.createtime+'</div>\
+                                            <div class="info_txt">'+v.cnt+'</div>';
+                                }else{
+                                    html += '<div class="info_photo">';
+                                    if(v.user_type == 1) {
+                                        html += '<a href="'+url1+'?tid='+v.uid+'" class="fwl"><img src="'+v.avatar+'"></a>';
+                                    }else{
+                                        html += '<a href="'+url2+'?tid='+v.uid+'" class="fwl"><img src="'+v.avatar+'"></a>';
+                                    }
+                                    html += '</div><div class="info_title">';
+                                    if(v.user_type == 1) {
+                                        html += '<a href="'+url1+'?tid='+v.uid+'" class="fwl">'+v.nickname+'</a>';
+                                    }else{
+                                        html += '<a href="'+url2+'?tid='+v.uid+'" class="fwl">'+v.nickname+'</a>';
+                                    }
+                                    html += '对我在';
+                                    if(v.type == 2) {
+                                        html += '<a href="'+u1+'?oid='+v.aid+'" class="fwl">《'+v.title+'》</a>的评论的评论进行了回复:</div>';
+                                    }else{
+                                        html += '<a href="'+u2+'?id='+v.aid+'" class="fwl">《'+v.title+'》</a>的评论的评论进行了回复:</div>';
+                                    }
+                                    html += '<div class="info_time">'+v.createtime+'</div>';
+                                    html += '<div class="info_txt">'+v.cnt+'</div>';
+                                }
+                                html += '<div class="js_comSendMod">\
+                                            </div>\
+                                            <ul class="list_ul_tow">';
+                                // if(v.son_lst.length != 0) {
+                                    $.each(v.son_lst,function(nm,vv) {
+                                        html += '<li>\
+                                                <div class="pal-r0">\
+                                                    <a value="'+vv.id+'" type="0" class="zan_listBtn js_thumbsBtn" href="javascript:void(0);">'+vv.praise_nums+'</a>\
+                                                    <a class="pingl_listBtn js_commentBtn" atype="2" pid="'+vv.id+'" to_uid="'+vv.uid+'" zx_pid="'+vv.zx_pid+'" href="javascript:void(0);">'+vv.com_nums+'</a>\
+                                                    <input type="hidden" class="pid" name="pid" value="'+vv.pid+'"/>\
+                                                </div>\
+                                                <div class="info_photo">';
+                                        if(vv.user_type == 1) {
+                                            html += '<a href="'+url1+'?tid='+vv.uid+'" class="fwl"><img src="'+vv.avatar+'"></a>';
+                                        }else{
+                                            html += '<a href="'+url2+'?tid='+vv.uid+'" class="fwl"><img src="'+vv.avatar+'"></a>';
+                                        }
+                                        html += '</div><div class="info_title">';
+                                        if(vv.user_type == 1) {
+                                            html += '<a href="'+url1+'?tid='+vv.uid+'" class="fwl">'+vv.nickname+'</a>';
+                                        }else{
+                                            html += '<a href="'+url2+'?tid='+vv.uid+'" class="fwl">'+vv.nickname+'</a>';
+                                        }
+                                        html += '</div>'; 
+                                        html += '<div class="info_time">'+vv.createtime+'</div><div class="info_txt">@'+vv.to_nickname+'：'+vv.cnt+'</div>'; 
+                                        html += '<div class="js_comSendMod"></div></li>';   
+                                    })
+                                // }
+                                html += '</ul>';
+                                if(v.son_lst_count > 10) {
+                                    html += '<div class="more_pl js_tow_get_more" nowpage="1" ismore="1" fid="'+v.id+'"><a></a></div>';
+                                }
+                                html += '</li>';
+
+                                $('.news_d_lst').append(html);
+                            })
+                        }else{
+                            $.Prompt('加载到底了');
+                            thisf.attr('ismore', 0);
+                            thisf.css('background', '#c9c9c9');
+                            thisf.html('NO MORE');
+                            thisf.removeClass('msg_more');
+                            $.Prompt('加载到底了');
+                        }
+                    }
+            }, 'json')
+        })
+
+        //展开二级评论框
+        $(document).on('click',".js_commentBtn",function(){
+            var $this = $(this);
+            $this.toggleClass('add');
+            var $sendHtml = '<div class="comSendMod">' +
+                    '<textarea class="textarea_info" style="background-color:#fff"></textarea> ' +
+                    '<div class="mgt30-tr"> <a class="plh_Btn js_sendBtn" href="javascript:void(0);" atype='+$this.attr('atype')+' pid='+$this.attr('pid')+' to_uid='+$this.attr('to_uid')+' zx_pid='+$this.attr('zx_pid')+' >SEND</a></div></div>';
+            if($this.hasClass('add')){
+                $this.parent().parent().children(".js_comSendMod").html($sendHtml);
+            }
+            else{
+                $this.parent().parent().children(".js_comSendMod").html('');
+            }
+
+        });
+//        发送评论
+        $(document).on('click','.js_sendBtn',function(){
+            var thisf = $(this);
+            var pid = $(this).attr('pid');
+            var to_uid = $(this).attr('to_uid');
+            var zx_pid = $(this).attr('zx_pid');
+            var atype = $(this).attr('atype');
+            var url = "{:U('Original/original_detail2')}";
+            var url1 = "{:U('Original/original_detail3')}";
+
+            var val = $(this).parent().prev('textarea').val();
+
+
+            var temp = $(this).closest('.js_comSendMod').parent().children('.pal-r0').find('.js_commentBtn');
+            var zanNum = parseInt(temp.text());
+
+            var html = '';
+            if(val == ''){
+                $.Prompt('评论内容不能为空！');
+                return false;
+            }else{
+                temp.text(zanNum+1);
+            }
+
+			$.post("{:U('UserCenter/comment_add')}", {zx_pid:zx_pid, pid:pid, to_uid:to_uid, cnt:val}, function(r){
+                var str =   '<li>';
+                    str +=  '<div class="pal-r0">';
+                    str +=  '<a value="'+r.data.id+'" class="zan_listBtn js_thumbsBtn" href="javascript:void(0);">0</a>';
+                    str +=  '<a class="pingl_listBtn js_commentBtn" pid="'+r.data.id+'" to_uid="'+r.data.uid+'" zx_pid="'+r.data.zx_pid+'" href="javascript:void(0);">{$chval.com_nums}</a>';
+                    str +=  '</div><div class="info_photo">';
+                    if(r.data.user_type == 1) {
+                        str += '<a href="'+url+'?tid='+r.data.uid+'" class="fwl"><img src="'+r.data.avatar+'"></a>';
+                    }else{
+                        str += '<a href="'+url1+'?tid='+r.data.uid+'" class="fwl"><img src="'+r.data.avatar+'"></a>';
+                    }        
+                    str += '</div><div class="info_title">';            
+                    if(r.data.user_type == 1) {
+                        str += '<a href="'+url+'?tid='+r.data.uid+'" class="fwl">'+r.data.nickname+'</a>';
+                    }else{
+                        str += '<a href="'+url1+'?tid='+r.data.uid+'" class="fwl">'+r.data.nickname+'</a>';
+                    } 
+                    str += '</div>';            
+                    str += '<div class="info_time">'+r.data.c_time+'</div>';    
+                    str += '<div class="info_txt">@'+r.data.to_nickname+'：'+r.data.cnt+'</div>';           
+                    str += '<div class="js_comSendMod"></div></li>';
+
+                if(atype == 2) {
+                    thisf.closest('.js_comSendMod').parents('.list_ul_tow').append(str)
+                }else{
+                    thisf.closest('.js_comSendMod').parent().children('.list_ul_tow').append(str);
+                }
+
+                thisf.closest('.js_comSendMod').html('');
+            }, 'json');
+        });
+
+        //点赞js_thumbsBtn
+        $(document).on('click','.js_thumbsBtn',function(){
+            var id = parseInt($(this).attr("value"));
+            var _this = $(this);
+
+            $.post('{:U("UserCenter/praise_comment")}', {id:id}, function(data) {
+                if(data.code == 1) {
+                    var num = parseInt(_this.text())+1;
+                    _this.text(num);
+
+                    _this.css("background","url('/Public/Home/images/zan2_icon.png') no-repeat");
+                }else{
+                    var num = parseInt(_this.text())-1;
+                    _this.text(num);
+
+                    _this.css("background","url('/Public/Home/images/zan_icon.png') no-repeat");
+                }
+            }, 'json');
+        });
+
+        //加载更多的二级评论
+        $(document).on('click','.js_tow_get_more',function(){
+            var thisf = $(this);
+            var id = thisf.attr('fid');
+            var nowpage = (parseInt(thisf.attr('nowpage'))+1);
+            var is_more = (parseInt(thisf.attr('ismore')));
+
+            $.get("{:U('Comment/son_lst')}", {id:id, page:nowpage}, function(r){
+                thisf.attr('nowpage', nowpage);
+                if(parseInt(r.data.length) != 0) {
+                    var str = '';
+                    $.each(r.data,function(n,v) {
+                        str += '<li><div class="pal-r0"><a class="zan_listBtn js_thumbsBtn" href="javascript:void(0);" ids="'+v.id+'">'+v.praise_nums+'</a><a class="pingl_listBtn js_commentBtn" myuid="'+v.uid+'" pid="'+v.id+'" zxpid="'+id+'" href="javascript:void(0);" >'+v.com_nums+'</a></div><div class="info_photo"><img src="'+v.avatar+'"></div><div class="info_title">'+v.nickname+'</div><div class="info_time">'+v.time+'</div><div class="info_txt">@'+v.to_nickname+':'+v.cnt+'</div><div class="js_comSendMod"></div></li>';
+                    })
+
+                    thisf.prev('.list_ul_tow').eq(0).append(str);
+                }else{
+                    $('.js_tow_get_more').addClass('js_tow_get_more_over');
+                    $('.js_tow_get_more').removeClass('js_tow_get_more');
+                }
+            },'json')
+        });
+    })
+</script>
+</html>

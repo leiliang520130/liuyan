@@ -1,0 +1,108 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+		<link rel="StyleSheet" href="__PUBLIC__/Admin/dtree/dtree.css" type="text/css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/dtree/dtree.js"></script>
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">权限管理</a> <a href="{:U('role_lst')}" class="current">角色管理</a> <a href="#" class="current">角色添加</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+				          		<input type="hidden" name="id" value="{:I('id', 0)}">
+					            <div class="control-group">
+					              	<label class="control-label">角色名：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="角色名" name="role_name" value="{$info.title}" />
+					              	</div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">权限分配：</label>
+					              	<div class="controls">
+										<div class="dtree" style="padding-top:5px;">
+											<script type="text/javascript">
+												var img_url = '__PUBLIC__/Admin/dtree/';
+												var role_lst = {:json_encode($role_lst)};
+
+												d = new dTree('d');
+												d.add(0,-1,'权限列表');
+									 			$.each(role_lst,function(n,v) {
+									                d.add(v.id,v.pid,'authority',v.id,v.title,v.check);
+									            });	
+
+												document.write(d);
+												
+												d.closeAll();
+											</script>
+										</div>
+					              	</div>
+					            </div>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script>
+        	function submit_form() {
+        		//1、选中的权限
+				var obj = document.all.authority;
+				var role_str = '';	
+				var id = {:I('id', 0)};
+				
+				for(i=0;i<obj.length;i++){
+					if(obj[i].checked){					
+						role_str += obj[i].value+',';				
+					}
+				}	
+				//2、角色名
+				var role_name = $('input[name=role_name]').val();
+		
+				//3、验证
+				if(role_name == '') {
+					show_error('请输入角色名!');
+					return false;
+				}
+				if(role_str == '') {
+					show_error('请选择权限!');
+					return false;
+				}
+
+				$.post("__SELF__", {role_name:role_name, role_str:role_str, id: id}, function(r){
+					if(r.code == 0) {
+						layer.msg(r.msg, {icon:1, time:1000});
+						setTimeout(function () { 
+  				       		window.location.href = "{:U('Auth/role_lst')}";
+  				    	}, 1000);
+					}else{
+						layer.msg(r.msg, {icon:2, time:2000});
+					}
+				},'json')
+        	}
+
+        	function show_error(msg) {
+        		layer.msg(msg, {icon:2, time:1000});
+        	}
+        </script>
+    </body>
+</html>

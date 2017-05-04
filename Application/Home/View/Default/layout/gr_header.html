@@ -1,0 +1,38 @@
+        <div class="per_bg">
+            <div class="per_bgWqy"></div>
+            <div class="no24_perBtm">在同一个世界，遇见另一个自己</div>
+            <div class="per_cod">
+                <div class="per_photo">
+                    <?php if(session('user.avatar')){ ?>
+                        <img class="img" src="<?php echo session('user.avatar'); ?>" alt="">
+                    <?php }else{ ?>
+                        <img class="img" src="__IMG__/img/tx.jpg" alt="">
+                    <?php }?>
+                    <span class="span_name"><?php echo session('user.nickname'); ?></span>
+                </div>
+                <volist name="fans_info" id="vo" key="k">
+                    <div class="oth_pho pho{$k-1}">
+                        <span class="o-line"></span>
+                        <?php if($vo['type'] == 1){ ?>
+                            <a href="{:U('Original/original_detail2')}?tid={$vo.id}"><img class="img" src="{$vo.avatar}" alt=""></a>
+                            <a href="{:U('Original/original_detail2')}?tid={$vo.id}"><span class="span_name">{$vo.nickname}</span></a>
+                        <?php }else{ ?>
+                            <a href="{:U('Original/original_detail3')}?tid={$vo.id}"><img class="img" src="{$vo.avatar}" alt=""></a>
+                            <a href="{:U('Original/original_detail3')}?tid={$vo.id}"><span class="span_name">{$vo.nickname}</span></a>
+                        <?php } ?>
+                    </div>
+                </volist>
+            </div>
+
+        </div>
+        <div class="per_clum" id="js_perClum">
+            <ul class="clearfix">
+                <li <?php echo $res['typeid'] ==1?"class='curr'":""; ?>><a href="{:U('personal')}#js_perClum">粉丝(<eq name="userCount" value="0">0<else/>{$userCount}</eq>)</a></li>
+                <li <?php echo $res['typeid'] ==4?"class='curr'":""; ?>><a href="{:U('personal_follow')}#js_perClum">关注(<eq name="fansCount" value="0">0<else/>{$fansCount}</eq>)</a></li>
+                <li <?php echo $res['typeid'] ==5?"class='curr'":""; ?>><a href="{:U('personal_issuance')}#js_perClum">发布</a></li>
+                <li <?php echo $res['typeid'] ==2?"class='curr'":""; ?>><a href="{:U('personal_collect')}#js_perClum">收藏</a></li>
+                <li <?php echo $res['typeid'] ==6?"class='curr'":""; ?>><a href="{:U('personal_news')}#js_perClum">消息</i></a></li>
+                <li <?php echo $res['typeid'] ==3?"class='curr'":""; ?>><a href="{:U('personal_contribute#js_perClum')}">投稿</a></li>
+                <li <?php echo $res['typeid'] ==7?"class='curr'":""; ?>><a href="{:U('personal_set')}#js_perClum">账号设置</a></li>
+            </ul>
+        </div>

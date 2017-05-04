@@ -1,0 +1,625 @@
+<script>
+    var email = '{$email}';
+    if(email != '') {
+        window.onload=function(){
+            coSense.loader.showreg();
+            $("div.text-area").hide();
+        }
+		
+	}
+	var count_down;
+	//找回密码--重置密码--页面弹出效果
+	function get_reward_html(){
+		var type = '{$type}';
+		if(type == 'reward') {
+		
+			$(".dz-mod").addClass('open');
+			$(".menu-btn-outer>div").addClass('on');
+			
+			$(".js_popBox").hide();
+			$('.forget-box01').show();
+		}
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	//获取第三方登录地址
+	function get_order_login(){
+		/*
+		$.post("{:U('User/get_order_login')}", {} , function(r){
+            console.log(r);
+			if(r.code == 0){
+				$("#wblogin").attr('href', r.data.weibo);
+			}
+			
+			
+        },'json')
+		*/
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+    //验证邮箱
+    function check_email(email) {
+        if(email == '') {
+            $('#reg_mobile_pop .reg_mobile_error').html('请输入邮箱!');
+            return 1;
+        }
+        var reg =  /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        if(!reg.test(email)){
+            $('#reg_mobile_pop .reg_mobile_error').html('请输入正确的邮箱!');
+            return 1;
+        }
+
+        return 0;
+    }
+    //清除邮箱显示错误
+    function clear_email_error() {
+        $('#reg_mobile_pop .reg_mobile_error').html('');
+    }
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //检测昵称
+    function check_nickname(nickname) {
+        if(nickname == '') {
+            $('#email_register_show .nickname_error').html('请输入昵称!');
+            return 1;
+        }
+        var reg = /^([\w\W]){2,10}$/g
+        if(!reg.test(nickname)){
+            $('#email_register_show .nickname_error').html('昵称范围在2~10位之间!');
+            return 1;
+        }
+    }
+    //清除昵称错误提示
+    function clear_nickname_error() {
+        $('#email_register_show .nickname_error').html('');
+    }
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //检测密码
+    function check_password(password) {
+        if(password == '') {
+            $('#email_register_show .password_error').html('请输入密码!');
+            return 1;
+        }
+        var reg = /^([\w\W]){6,20}$/g
+        if(!reg.test(password)){
+            $('#email_register_show .password_error').html('密码范围在6~20位之间!');
+            return 1;
+        }
+    }
+    //清除密码显示错误
+    function clear_password_error() {
+        $('#email_register_show .password_error').html('');
+    }
+
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //检测重复密码
+    function check_re_password(re_password) {
+        if(re_password == '') {
+            $('#email_register_show .re_password_error').html('再次输入密码!');
+            return 1;
+        }
+
+        if($('#email_register_show input[name=password]').val() != re_password) {
+            $('#email_register_show .re_password_error').html('您两次输入的账号密码不一致!');
+            return 1;
+        }
+
+        var reg = /^([\w\W]){6,20}$/g
+        if(!reg.test(re_password)){
+            $('#email_register_show .re_password_error').html('密码范围在6~20位之间!');
+            return 1;
+        }
+    }
+    //清除重复密码显示错误
+    function clear_re_password_error() {
+        $('#email_register_show .re_password_error').html('');
+    }
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    function check_accept() {
+        if(!$('.is_accept_rule').hasClass('icon-gou')){
+            $.Prompt('请阅读并同意条款');
+            return 1;
+        }
+    }
+
+    function login_action() {
+        if($('#form_login input[name=email]').val() == '') {
+            $('#email_tips').text('请输入邮箱！');
+            return false;
+        }
+        if($('#form_login input[name=password]').val() == '') {
+            $('#password_tips').text('请输入密码！');
+            return false;
+        }
+        
+        $.post("{:U('User/login')}", $('#form_login').serialize(), function(r){
+            if(r.code == 0) {
+                window.location.href="{:U('UserCenter/personal')}";
+            }else{
+                $('#password_tips').text(r.msg);
+                $('#form_login input[name=password]').val('');
+            }
+        },'json')
+    }
+	function send_active_email() {
+		$.post("{:U('user/send_active_email')}",{email:$('#success_reg_email').text()}, function(r){
+			if(r.code == 0) {
+				$.Prompt('发送成功');
+			}else{
+				$.Prompt(r.msg)
+			}
+		},'json')
+	}
+	
+    function proing(){
+    	//邮箱激活发送倒计时
+		var timer;
+		count_down = function (){
+			var cd_num = 59;
+			timer = setInterval(function(){
+				$('#re_send_email').html(cd_num + 's');
+				cd_num--;
+				if(cd_num<10){
+					cd_num = '0' + cd_num;
+				}
+				if(cd_num == 00){
+					$('#re_send_email').html('<span calss="resend" onmouseover="this.style.cssText=\'color:#f7bd47\'" onmouseout="this.style.cssText=\'color:#000\'" onclick = "count_down ()">重新发送</span>');					$
+					clearInterval(timer);
+				}
+			},1000);
+		}
+        //qq第三方登录
+		$("#qqlogin").click(function(){
+			$.Prompt('功能开发中');
+			return false;
+			
+			childWindow = window.open("{:U('User/qq_ordert_login')}","TencentLogin","width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");
+        });
+		
+		//js_gou-lable勾選
+        $(".js_gou-lable").on("click",function(e){
+            e.stopPropagation();
+            $(this).children('.check-box').toggleClass('icon-gou');
+        });
+        //js_regBtn点击注册出现注册框
+        $(".js_regBtn").on("click",function(e){
+            e.stopPropagation();
+            $(".js_popBox").hide();
+			
+			//$(".js_loginBox").hide();
+            $(".js_register_box").show();
+            $("div.text-area").hide();
+        });
+        //js_next_reg-1
+        $(".js_next_reg-1").on("click",function(e){
+            e.stopPropagation();
+            //1、判断邮箱是否正确
+            $email = $('#reg_mobile_pop input[name=email]').val();
+            if(parseInt(check_email($email)) == 1) {return false};
+
+            //2、判断是否输入验证码
+            var len = $('#embed-captcha').find('div.gt_success').length;
+            if(len < 2) {
+            	$('#reg_mobile_pop .reg_mobile_error').text('请输入正确的验证码！');
+            	return false;
+            }
+            //3、注册
+            $.post("{:U('User/reg')}", $('#reg_step_1').serialize(), function(r){
+                if(r.code == 0) {
+                    $('#success_reg_email_url').attr('href', r.data.url);
+                    $('#success_reg_email').html(r.data.email);
+                    $(".js_register_box").hide();
+                    $(".logins").hide();
+                    count_down ();
+                    $(".js_emailRegSuc_jhuo").show();
+                }else{
+                    $('#reg_mobile_pop .reg_mobile_error').text('此帐号已被注册！');
+                    yzcode();
+                    $('#reg_mobile_pop .reg_mobile_error').text('');
+                    return false;
+                }
+            },'json')
+        });
+
+        $(".js_turnLogin").on("click",function(e){
+            e.stopPropagation();
+            $(this).closest('.js_popBox').hide();
+            $(".js_loginBox,.box-left .text-area").show();
+
+        });
+        
+		//忘记密码
+        $(".js_forgetBtn").on("click",function(e){
+            e.stopPropagation();
+            
+            $(this).closest('.js_popBox').hide();
+            $(".forget-box").show();
+        });
+        $(".js_forgetBtn").hover(function(){
+        	$(this).css('color','#f7bd47')
+        	},function(){
+        	$(this).css('color','#666')
+        	})
+        //忘记密码-1
+        $(".js_next-f-btn1").on("click",function(e){
+            e.stopPropagation();
+            var val = $("#js_phoneOrEmail").val();
+            if(val == ''){
+                $.Prompt('请输入邮箱');
+                return false;
+            } 
+			
+			if(parseInt(check_email(val)) == 1) {
+				$.Prompt('输入邮箱格式有误');
+				return false
+			};
+			
+			$.ajax({
+				'type' : 'post',
+				'url' : "{:U('User/get_reward')}",
+				'data' : {email:val},
+				'dataType' : 'json',
+				'success' : function(data){
+					console.log('----',data)
+					if(data.code == 0){
+						e.stopPropagation();
+						//弹出第二步页面
+						$(".js_popBox").hide();
+						
+						$(".forget-box02-2 .cor1").attr('href',data.data.url); 
+						
+						$('.forget-box02-2').show();
+						
+					}else{
+						$.Prompt(data.msg);
+					}
+				},
+				
+				
+			})
+			
+			
+        });
+        
+		//忘记密码-2
+        $(".js_next-f-btn2").on("click",function(e){
+            e.stopPropagation();
+            $(this).closest('.js_popBox').hide();
+            $(".forget-box01").show();
+        });
+		
+        ////忘记密码-3
+        $(".js_next-f-btn3").on("click",function(e){
+            
+			var reward_password = $('input[name=reward_password]').val();
+			var re_reward_password = $('input[name=re_reward_password]').val();
+			
+			if(reward_password == ''){
+				$.Prompt('请输入新密码');
+				return false;
+			}
+			
+			var reg = /^([\w\W]){6,20}$/g
+			if(!reg.test(reward_password)){
+				$.Prompt('密码范围在6~20位之间!');
+				return false;
+			}
+			
+			if(reward_password != re_reward_password){
+				$.Prompt('两次密码输入不一致');
+				return false;
+			}
+			
+			 $.post("{:U('User/update_reward_password')}", {password:reward_password}, function(r){
+                if(r.code == 0) {
+                    
+					$('.js_popBox').hide();
+					$(".forget-box03").show();
+					setTimeout(function(){
+						$('.dz-mod').removeClass('open');
+						$('.menu-btn1,.menu-btn').removeClass('on');
+					},1000);
+                }else{
+                    $.Prompt(r.msg)
+                    return false;
+                }
+            },'json')
+		});
+
+        //js_emailNext
+        $(".js_emailNext").on("click",function(e){
+            e.stopPropagation();
+            var email = $('#email_register_show input[name=email]').val();
+            var nickname = $('#email_register_show input[name=nickname]').val();
+            var password = $('#email_register_show input[name=password]').val();
+            var re_password = $('#email_register_show input[name=re_password]').val();
+
+            //2、验证昵称
+            var check2 = parseInt(check_nickname(nickname));
+
+            //3、验证密码
+            var check3 = parseInt(check_password(password));
+            var check4 = parseInt(check_re_password(re_password));
+
+            //4、检测隐私条款
+            var check5 = parseInt(check_accept());
+
+            //5、验证
+            if(check2 == 1 || check3 == 1 || check4 == 1 || check5 == 1) return false;
+
+            //4、提交请求
+            $.post("{:U('User/register')}", $('#email_register_show').serialize(), function(r){
+                if(r.code == 0) {
+                    $('#success_reg_email').html(r.data.email);
+                    $('#success_reg_email_url').attr('href', r.data.url);
+
+                    $(".js_emailReg").hide();
+                    $('.js_emailRegSuc').show();
+                }else{
+                    $('#email_register_show .nickname_error').html(r.msg);
+                    return false;
+                }
+            },'json')
+        });
+    }
+</script>
+<?php $bg_img = M('background_reg')->where(array('id'=>1))->getField('bg_img'); ?>
+<!--登录-注册-忘记密码-->
+<div class="dz-mod">
+    <div class="plr-auto clearfix">
+        <div class="box-left" id="box-left_bg" style="background:url('{$bg_img}') no-repeat !important">
+-->            <div class="text-area" >
+                <p class="no16-ff" style="margin-bottom: 20px;">注册一个专属于你的Co-sense账号，拥有一个属于你的创意圈子，在Co-sense平台上你会发现很多和你有许多共同爱好的朋友；</p>
+                <p class="no16-ff">在创意领域，你不是孤军奋战！遇见他 (她) 就如同在同一个世界遇见了另一个自己</p>
+                <p style="margin-top:9.5rem;"><a class="btn-wid js_regBtn" href="javascript:void(0);">注册</a></p>
+                <div class="footer_icon loginfs">
+                    <span style="display: block;font-size: 14px;font-size: 1.4rem;color: #e8e8e8;margin-right: -7px;float: left;font-family: PingFang-Medium;">第三方登录：</span>
+                    <a href="{:U('Public/to_login', array('type'=>'qq'))}" id="qqlogin1" class="iconfont icon-qq"></a>
+                    <a href="{:U('Public/to_login', array('type'=>'sina'))}" id="wblogin1" class="iconfont icon-weibo"></a>
+                </div>
+            </div>
+        </div>
+        <div class="box-right">
+            <!--登录-->
+            <form method="post" action="{:U('User/login')}" id="form_login">
+                <div class="login_box js_loginBox js_popBox">
+                    <div style="height:200px;overflow:hidden;">
+                        <div class="input-box">
+                            <input onfocus="$('#email_tips').text('')" class="input" name="email" type="text" id="mailComplete" autocomplete="off" placeholder="输入邮箱">
+                        </div>
+                        <span id="email_tips" style="display:block;text-align: right;color: red;height: 17px;"></span>
+                        <div class="input-box">
+                            <input onfocus="$('#password_tips').text('')" class="input"  name="password" type="password" id="mailComplete1" autocomplete="off" placeholder="输入密码">
+                        </div>
+                        <span id="password_tips" style="display:block;text-align: right;color: red;height: 17px;"></span>
+                        <div class="t-r-text" style="float: right;margin-top: 20px;"><a href="javascript:void(0);" class="js_forgetBtn">忘记密码?</a></div>
+                    </div>
+                    <div class="mgt-ato clearfix">
+                        <button class="btn-wid fl bor-f7b932" type="button" onclick="login_action()">登录</button>
+                    </div>
+                </div>
+            </form>
+            <!--注册-->
+            <form id="reg_step_1" onsubmit="return false;">
+                <div class="register_box js_register_box js_popBox" id="reg_mobile_pop" style="display: none">
+                    <div style="overflow:hidden;">
+                        <input type="hidden" name="type" value="pc">
+                        <div class="input-box">
+                            <input class="input" name="email" type="text" placeholder="输入邮箱" autocomplete="off" id="mailComplete2" onfocus="clear_email_error()" onblur="check_email($(this).val())" >
+                        </div>
+                        <span id="AAA" class="reg_mobile_error" style='color:red;height:23px;display:block;text-align: right;'></span>
+                        <div id="re-embed-captcha">
+                        	<div id="embed-captcha"></div>
+                        	<span id="embed_tips" style="display:block;text-align: right;color: red;height: 17px;"></span>
+                        </div>
+                    </div>
+                    <div class="clearfix recodenext" style="padding-top: 14.8rem;">
+                        <button class="btn-wid fl bor-f7b932 js_next_reg-1" type="button" >下一步</button>
+                        <div class="fl youts">已有账户，<a href="javascript:void(0);" class="js_turnLogin">返回登录</a></div>
+                    </div>
+                </div>
+            </form>
+            <!--第三方注册-->
+            <div class="login_box js_popBox" style="display: none">
+                <div class="input-box">
+                    <input class="input" type="text" id="mail_qr_zh" placeholder="输入账号">
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" placeholder="昵称">
+                    <span class="error">昵称已被使用！</span>
+                </div>
+                <label class="bhg_label js_gou-lable"><span class="check-box iconfont icon-gou"></span>我已阅读并接受<a href="javascript:void(0);"> 版权声明</a> 和 <a href="javascript:void(0);">隐私保护</a> 条款</label>
+                <div class="clearfix">
+                    <a class="btn-wid fl bor-f7b932" href="javascript:void(0);">下一步</a>
+                    <div class="fl youts">已有账户，<a href="javascript:void(0);" class="js_turnLogin">返回登录</a></div>
+                </div>
+            </div>
+            <!--注册二 填写信息-->
+            <div class="register_box02" style="display: none">
+                <div class="input-box-s clearfix">
+                    <div class="radio fl" >
+                        <label class="cheak on">
+                            <input type="radio" name="sex" value="" />
+                            <div class="option"></div>
+                            <span class="opt-text">男</span>
+                        </label>
+                    </div>
+                    <div class="radio fl" >
+                        <label class="cheak">
+                            <input type="radio" name="sex" value="" />
+                            <div class="option"></div>
+                            <span class="opt-text">女</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="input-box-s clearfix">
+                    <div class="fl mgr30">
+                        <select class="p-select">
+                            <option>选择国家</option>
+                            <option>中国</option>
+                            <option>美国</option>
+                            <option>法国</option>
+                        </select>
+                    </div>
+                    <div class="fl mgr30">
+                        <select class="p-select">
+                            <option>选择省份</option>
+                            <option>中国</option>
+                            <option>美国</option>
+                            <option>法国</option>
+                        </select>
+                    </div>
+                    <div class="fl">
+                        <select class="p-select">
+                            <option>选择城市</option>
+                            <option>中国</option>
+                            <option>美国</option>
+                            <option>法国</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-box-s clearfix">
+                    <div class="input-btm fl">
+                        <input type="text" class="input" placeholder="个人领域">
+                        <a class="sxi-btn fr">添加</a>
+                    </div>
+                    <div class="no14-a6a fl">(例如：平面设计师、摄影爱好者)</div>
+                </div>
+                <div class="input-box-s">
+                    <ul class="gor-list clearfix">
+                        <li>平面设计师<i class="close">x</i></li>
+                        <li>纹身师<i class="close">x</i></li>
+                        <li>UI设计师<i class="close">x</i></li>
+                        <li>摄影爱好者<i class="close">x</i></li>
+                    </ul>
+                </div>
+                <div class="clearfix">
+                    <a class="btn-wid fl bor-f7b932" href="javascript:void(0);">完成</a>
+                </div>
+            </div>
+            <!--邮箱注册一-->
+            <form id="email_register_show">
+                <div class="register_box01 js_emailReg js_popBox" style="display: none">
+                    <div class="input-box">
+                        <input class="input" type="text" placeholder="输入邮箱" value="{$email}" disabled>
+                        <input type="hidden" name="email" value="{$email}">
+                        <span class="error email_error"></span>
+                    </div>
+                    <div class="input-box">
+                        <input class="input" type="text" placeholder="输入昵称" name="nickname" onfocus="clear_nickname_error()" onblur="check_nickname($(this).val())">
+                        <span class="error nickname_error"></span>
+                    </div>
+                    <div class="input-box">
+                        <input class="input" type="password" placeholder="输入密码" name="password" onfocus="clear_password_error()" onblur="check_password($(this).val())">
+                        <span class="error password_error"></span>
+                    </div>
+                    <div class="input-box">
+                        <input class="input" type="password" placeholder="再次输入密码" name="re_password" onfocus="clear_re_password_error()" onblur="check_re_password($(this).val())" >
+                        <span class="error re_password_error"></span>
+                    </div>
+                    <label class="bhg_label js_gou-lable"><span class="check-box is_accept_rule iconfont icon-gou"></span>我已阅读并接受<a href="javascript:void(0);"> 版权声明</a> 和 <a href="javascript:void(0);">隐私保护</a> 条款</label>
+                    <div class="clearfix">
+                        <a class="btn-wid fl bor-f7b932 js_emailNext" href="javascript:void(0);">下一步</a>
+                        <div class="fl youts">已有账户，<a href="javascript:void(0);" class="js_turnLogin">返回登录</a></div>
+                    </div>
+                </div>
+            </form>
+            <div class="register_box04 js_popBox" style="display: none">
+                <div class="input-box">
+                    <input class="input" type="text" placeholder="输入手机号">
+                </div>
+                <div class="input-box">
+                    <input class="input xzk01" type="text" placeholder="输入手机验证码">
+                    <input disabled="disabled" class="btn-code curr" value="重新发送(59)">
+                    <span class="error">验证码错误！</span>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="text" placeholder="输入昵称">
+                    <span class="error">昵称已被使用！</span>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="password" placeholder="输入密码">
+                    <span class="error">密码范围在6~20位之间！</span>
+                </div>
+                <div class="input-box">
+                    <input class="input" type="password" placeholder="再次输入密码">
+                    <span class="error">您两次输入的账号密码不一致！</span>
+                </div>
+                <label class="bhg_label js_gou-lable"><span class="check-box iconfont icon-gou"></span>我已阅读并接受<a href="javascript:void(0);"> 版权声明</a> 和 <a href="javascript:void(0);">隐私保护</a> 条款</label>
+                <div class="clearfix">
+                    <a class="btn-wid fl bor-f7b932" href="javascript:void(0);">下一步</a>
+                    <div class="fl youts">已有账户，<a href="javascript:void(0);" class="js_turnLogin">返回登录</a></div>
+                </div>
+            </div>
+
+            <!--邮箱激活成功-->
+            <div class="register_box03 js_emailRegSuc_jhuo" style="display: none">
+                <div class="s-info"><img src="__IMG__/sucss.png">激活邮件发送成功</div>
+                <div class="s-info-text">
+                    验证邮件已经发送到 <span id="success_reg_email"></span> ， <br>请 <a class="cor1" target="_blank" href="#" id="success_reg_email_url">点击查收邮件</a> 激活账号。<br>没收收到激活邮件？请耐心等待，或者
+                    <a  class="cor2" id="re_send_email" href="javascript:;"></a>
+                </div>
+            </div>
+
+            <!--邮箱注册成功-->
+            <div class="register_box03 js_popBox js_emailRegSuc" style="display: none">
+                <div class="s-info"><img src="__IMG__/sucss.png">注册成功</div>
+                <div class="s-info-text">
+<!--                     验证邮件已经发送到 <span></span> ， <br>请 <a class="cor1" target="_blank" href="#" >点击查收邮件</a> 激活账号。<br>没收收到激活邮件？请耐心等待，或者 <a  class="cor2">重新发送</a> -->
+                </div>
+                <a class="btn-wid  bor-f7b932 js_turnLogin" href="javascript:void(0);">返回登录</a>
+            </div>
+
+            <!--忘记密码--->
+            <div class="forget-box js_popBox" style="display: none">
+                <div class="input-box">
+                    <input class="input" id="js_phoneOrEmail" type="text" placeholder="输入邮箱">
+                </div>
+                <div class="t-r-text"><a  href="javascript:void(0);" class="js_turnLogin">我想起密码了</a></div>
+                <a class="btn-wid  bor-f7b932 js_next-f-btn1" href="javascript:void(0);" style="margin-top: 20%">下一步</a>
+            </div>
+			
+            <!--忘记密码3-->
+            <div class="forget-box01 js_popBox" style="display: none">
+                <div class="input-box">
+                    <input class="input" type="password" name="reward_password" placeholder="输入新密码">
+                </div>
+                <div class="input-box">
+                    <input class="input" type="password" name="re_reward_password" placeholder="确认密码">
+                </div>
+                <a class="btn-wid  bor-f7b932 js_next-f-btn3" href="javascript:void(0);" style="margin-top: 20%">重置</a>
+            </div>
+            <!--忘记密码2-手机号提示-->
+            <div class="forget-box02-1 js_popBox" style="display: none">
+                <div class="input-box">
+                    <input readonly="readonly" id="js_phoneNum" class="input" type="text" value="">
+                </div>
+                <div class="input-box">
+                    <input class="input xzk01" type="text" placeholder="输入手机验证码">
+                    <input disabled="disabled" class="btn-code curr" value="重新发送(59)">
+                    <span class="error">验证码错误！</span>
+                </div>
+                <a class="btn-wid  bor-f7b932 js_next-f-btn2" href="javascript:void(0);" style="margin-top: 20%">确定</a>
+            </div>
+            <!--忘记密码2-邮箱提示-->
+            <div class="forget-box02-2 js_popBox" style="display: none">
+                <div class="s-info"><img src="__IMG__/ts-i.png">提示</div>
+                <div class="s-info-text">
+                    重置密码的链接已被发送到你的邮箱， <br>请 <a class="cor1" href="#">点击查收邮件</a> 重置密码。
+                </div>
+                <a class="btn-wid  bor-f7b932 js_turnLogin" href="javascript:void(0);">确定</a>
+            </div>
+            <!--忘记密码四-成功-->
+            <div class="forget-box03 js_popBox" style="display: none">
+                <div class="s-info"><img src="__IMG__/sucss.png">密码重置成功</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--登录注册忘记密码end -->

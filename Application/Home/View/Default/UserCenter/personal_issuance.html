@@ -1,0 +1,1246 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<!--中部-->
+<style>
+	.slideGroup {
+		width: 10000px;
+	}
+	
+	.alr_updown {
+		width: 560px;
+		height: 70px;
+		overflow: hidden;
+	}
+	
+	.alr_updown ul {
+		height: 70px;
+	}
+	
+	a.prevStop,
+	a.nextStop {
+		opacity: 0.2;
+	}
+	
+	.playBtn {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100px;
+		height: 100px;
+		margin-top: -50px;
+		margin-left: -50px;
+		cursor: pointer;
+		background: url("__PUBLIC__/Home/images/img/play.png") right no-repeat;
+	}
+</style>
+<div class="wrap">
+	<div class="per_content">
+		<include file="layout/gr_header" />
+		<!--发布-->
+		<div class="iss_mod">
+			<?php if(count($ores) == 0){ ?>
+			<!--未上传-->
+			<div class="iss_bg js_issuePop1">
+				<div class="wfb_box">
+					<div class="wfb_box_bg">
+						<a class="iss_btn js_goissBtn" href="javascript:void(0);"></a>
+					</div>
+					<p class="no20-c0c0c0">发布你的第一个作品，让世界看到你的存在</p>
+				</div>
+			</div>
+			<?php }else{ ?>
+			<!--已经有发布的作品了-->
+			<div class="iss_mod_end">
+				<ul class="iss_mod_list clearfix">
+					<li>
+						<a class="iss_mod_btn" href="javascript:void(0);">
+							<div class="fb_btnDiv">
+								<span class="fb_icon"></span>
+								<p class="txt0">发布作品</p>
+							</div>
+						</a>
+					</li>
+					<foreach name="ores" item="obj">
+						<li oid="{$obj.id}" onclick="javascript:window.location.href='{:U('/Original/original_detail1')}?oid={$obj['id']}'">
+							<div class="or_fm_img">
+								<img src="{$obj.cover_curimg}">
+							</div>
+							<p class="opus_info">{$obj.title}</p>
+							<a class="edited_btn" href="javascript:void(0);">编辑</a>
+							<a class="deled_btn js_deled_btn" href="javascript:void(0);">删除</a>
+						</li>
+					</foreach>
+				</ul>
+			</div>
+			<?php } ?>
+
+			<!--已上传-->
+			<div class="iss_ed js_issuePop2" style="display: none">
+				<div class="upload_box">
+					<div class="no_uploading js_uploadImgAre" id="js_uploadImgAre">
+						<i class="no_uploadingIcon"></i>
+						<p class="up_text_info">要想达到最佳浏览效果，请上传 1260像素 以上的图片</p>
+					</div>
+					<ul class="upload_boxUl"></ul>
+					<div class="clear" style="width: 100%; height: 0; overflow: hidden; clear: both;"></div>
+				</div>
+				<div class="operate_clum">
+					<div class="upload_btn" id="or_upload_img">
+						<i class="upload_icon"></i>上传文件
+					</div>
+					<div class="upload_btn ja_upload_btnVideo">
+						<i class="upload_icon imv"></i>导入视频
+					</div>
+					<div class="upload_btn" id="insert_text">
+						<i class="upload_icon txt"></i>插入文本
+					</div>
+					<div class="mga">
+						<a class="nextBtn js_nextBtn no" href="javascript:void(0);">下一步</a>
+					</div>
+				</div>
+			</div>
+			<!--选择封面-->
+			<div class="cover_mod js_issuePop3" style="display: none">
+				<div class="s_cover clearfix">
+					<div class="cover_pic_mod">
+						<div class="cover_pic_mod_tit">上传封面</div>
+						<div class="cover_box">
+							<img src="__IMG__/xzfmk.jpg">
+						</div>
+						<div class="no16_99_pt40">选择封面</div>
+						<div class="clearfix slideGroup">
+							<a class="left_slide" style="display:block;left:-22px" href="javascript:void(0);"></a>
+							<div class="alr_updown">
+								<ul id="cover_list"></ul>
+							</div>
+							<a class="right_slide" style="display:block;left:570px" href="javascript:void(0);"></a>
+							<a class="up_load_btn" style="left:630px;right:0" id="up_fm_img" href="javascript:void(0);"></a>
+						</div>
+					</div>
+					<div class="yl_pic_mod">
+						<div class="yl_pic" id="imageHead">
+							<img src="__IMG__/img/yl_pic.png">
+						</div>
+						<div class="no16-1e1-pt20">封面预览</div>
+					</div>
+				</div>
+				<div class="edit_cover edit_cover1">
+					<div class="no24-1e1-pt20">编辑标题</div>
+					<textarea class="text_textarea" id="or_title" placeholder="请在此输入标题"></textarea>
+					<div class="no16-99-pt18">55</div>
+					<div class="mga mgassss" style="margin-top: 420px">
+						<a class="nextBtn js_nextBtn-s" href="javascript:void(0);">上一步</a>
+						<a class="nextBtn js_nextBtn-1 no" href="javascript:void(0);">下一步</a>
+					</div>
+				</div>
+			</div>
+			<!--设置信息-->
+			<div class="cover_mod js_issuePop4" style="display: none">
+				<div class="s_cover clearfix">
+					<div class="">
+						<div class="cover_pic_mod_tit">作品设置</div>
+						<div class="mgt50 clearfix" id="bqcontent">
+							<div class="fl s-tno20">版权归属:</div>
+							<foreach name="bqres" item="obj">
+								<div class="fl label_rid">
+									<if condition="$obj['id'] eq 1">
+										<label class="on" vid="{$obj.id}">
+                                            <else />
+                                            <label vid = "{$obj.id}">
+                                        </if>
+                                        <span class="s-radio"><i></i></span>
+                                        <div class="s-tex-p tc{$obj.id}">{$obj.vname}</div>
+                                    </label>
+								</div>
+							</foreach>
+						</div>
+						<div class="mgt50 clearfix">
+							<div class="fl s-tno20">作品分类:</div>
+							<div class="input-box-s clearfix">
+								<div class="fl mgr60">
+									<div style="position: relative">
+										<i class="i-arrow"></i>
+										<input class="p_text_name js_clickInput" placeholder="一级分类" autocomplete="off" readonly="readonly">
+										<ul class="select_ul js_selectUl" id="yj_flMenu">
+											<foreach name="flres" item="obj">
+												<if condition="$obj.pid eq 0">
+													<li id="{$obj.id}">{$obj.cname}</li>
+												</if>
+											</foreach>
+										</ul>
+									</div>
+									<!--     <select class="p-select" id="yj_flMenu" style="margin-top: 4px;display: none">
+                                        <option style="display:none" selected>一级分类</option>
+                                         <foreach name="flres" item="obj">
+                                            <if condition="$obj.pid eq 0">
+                                                <option id="{$obj.id}">{$obj.cname}</option>
+                                            </if>
+                                        </foreach>
+                                    </select> -->
+								</div>
+								<div class="fl mgr60">
+									<div style="position: relative">
+										<i class="i-arrow"></i>
+										<input class="p_text_name js_clickInput" id="ej_flMenu_value" placeholder="二级分类" autocomplete="off" readonly="readonly">
+										<ul class="select_ul js_selectUl" id="ej_flMenu"></ul>
+									</div>
+									<!--  <select class="p-select" id="ej_flMenu" style="margin-top: 4px;display: none">
+                                         <option style="display:none" selected>二级分类</option>
+                                    </select> -->
+								</div>
+								</foreach>
+							</div>
+						</div>
+						<div class="mgt40 clearfix">
+							<div class="fl s-tno20">关 键 词:</div>
+							<div class="input-box-s clearfix">
+								<div class="input-btm fl">
+									<input type="text" class="input" placeholder="输入一个关键词">
+									<a class="sxi-btn fr">添加</a>
+								</div>
+								<div class="no14-a6a fl">可输入10个关键词</div>
+							</div>
+						</div>
+						<div class="mgt20 clearfix">
+							<div class="fl s-tno20"></div>
+							<div class="fl clearfix">
+								<div class="bor_div clearfix">
+									<ul class="gor-list bgCorf9 clearfix w01"></ul>
+								</div>
+							</div>
+						</div>
+						<div class="mgt40">
+							<label class="bz_cl"><input type="checkbox" name="checkbox" checked="checked">我保证作品的原创性，上传的图片没有法律纠纷，我对因虚假资料或图片版权引起的法律纠纷负全部责任。</label>
+						</div>
+					</div>
+				</div>
+				<div class="edit_cover">
+					<div class="cover_pic_mod_tit">作品信息</div>
+					<div class="yl_pic1">
+						<img src="__IMG__/img/yl_pic.png">
+					</div>
+					<div class="no20_info">一组创作于凌晨三点的作品一组创作于凌 晨三点的作品</div>
+					<div class="mga" style="margin-top: 160px">
+						<a class="nextBtn js_iss_next_s" href="javascript:void(0);">上一步</a>
+						<a class="nextBtn js_iss_next no" id="or_release" tid="1" href="javascript:void(0);">发布</a>
+					</div>
+				</div>
+			</div>
+			<!--发布成功-->
+			<div class="cover_mod js_fb_sucss" style="display: none">
+				<div class="fb_sucss">
+					<!-- <img width="160" height="160" src="__IMG__/success_tips.gif"> -->
+					<img width="60" height="60" src="__IMG__/success_tips.gif">
+					<p>发布成功!</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!--上传视频弹框-->
+<div class="pop_box js_upVideo">
+	<div class="pop_box_mod">
+		<div class="pop_head">
+			<a class="close_pop" href="javascript:void(0);"></a>
+		</div>
+		<div class="sr_add"><input placeholder="请输入视频的网页地址"></div>
+		<a class="pop_okBtn" id="video_up" href="javascript:void(0);">确认</a>
+	</div>
+</div>
+
+<!--排序弹框-->
+<div class="pop_box js_sortBox">
+	<div class="pop_box_mod oh610">
+		<div class="pop_head">
+			<a class="close_pop" href="javascript:void(0);"></a>
+		</div>
+		<div class="ord_mod">
+			<ul id="px_list-or"></ul>
+		</div>
+		<a class="pop_okBtn" id="confirm_pop" href="javascript:void(0);">确认</a>
+	</div>
+</div>
+<!--删除作品-->
+<div class="pop_box js_cancelPop">
+	<div class="pop_box_mod">
+		<div class="pop_head">
+			<a class="close_pop" href="javascript:void(0);"></a>
+		</div>
+		<div class="pop_info_text">这么棒的作品，删除后不能恢复，确认删除？</div>
+		<a class="pop_okBtn" id="comfim_del_zp" href="javascript:void(0);">确认</a>
+	</div>
+</div>
+
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<include file="layout/userc_js" />
+<script type="text/javascript" src="__PUBLIC__/Admin/plupload-2.1.0/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="__JS__/jquery.SuperSlide.js" charset="utf-8"></script>
+<script type="text/javascript" src="__JS__/Sortable.min.js"></script>
+<script type="text/javascript" src="__JS__/cropper.js"></script>
+<script type="text/javascript" src="__JS__/html2canvas.min.js"></script>
+<script type="text/javascript">
+	var img_wd = 150;
+	var img_hg = 150;
+
+	function getbase64url(callback) {
+		var canvas = $('div.cover_box > img').cropper("getCroppedCanvas", {
+			width: $("div.cropper-crop-box").width(),
+			height: $("div.cropper-crop-box").height()
+		});
+		//生成base64图片数据
+		var dataUrl = canvas.toDataURL("image/jpeg");
+		imagesAjax(dataUrl, callback)
+	}
+
+	function imagesAjax(src, callback) {
+		var data = {};
+		data.img = src;
+		$.ajax({
+			url: '{:U("base64imgsave_Upload")}',
+			data: data,
+			type: "POST",
+			dataType: 'json',
+			success: function(re) {
+				callback(re);
+			}
+		});
+	};
+	//判断是否选择封面和标题
+	function isNextBtn() {
+		var $or_title = $("textarea#or_title"),
+			$cover_img = $('div.cover_box > img');
+		if($or_title.val() != "" && $cover_img.size() && $cover_img.attr("src") != "") {
+			$(".js_issuePop3").find(".js_nextBtn-1").removeClass('no');
+		} else {
+			$(".js_issuePop3").find(".js_nextBtn-1").addClass('no');
+		}
+	};
+	/*==========替换单张图片=============*/
+		var initReplaceBtn = function($item) {
+			var $parent = $("#file-" + $item),
+				itemid = $parent.find(".replaceBtn").attr("id");
+			or_img_up(itemid, false, function(uploader, files) {
+				for(var i = 0, len = files.length; i < len; i++) {
+					! function(i) {
+						previewImage(files[i], function(imgsrc) {
+							$parent.find("img.js_listImg").attr("src", imgsrc);
+						});
+					}(i);
+				}
+			}, function(uploader, file, r) {
+				var rep = r.response;
+				var data = $.parseJSON(rep);
+				$parent.find("input[datatype=2]").val(data.url);
+			});
+		};
+	//封面裁剪
+		function coverImgFn() {
+			/***封面图片剪切*****/
+			$('div.cover_box').children("img").each(function(i,items){
+				if(i==0){
+					var $image = $(this),
+					options = {
+						aspectRatio: 3 / 2,
+						preview: '.yl_pic',
+						iewMode: 1, //显示  
+						dragMode: "move",
+						build: function(e) { //加载开始  
+							//可以放你的过渡 效果  
+						},
+						built: function(e) { //加载完成
+							
+						},
+						zoom: function(e) {
+							//console.log(e.type, e.detail.ratio);
+						},
+						movable: true //是否能移动图片  
+					};
+				   $image.cropper(options);
+				   if($image.attr("src")) {
+						window.isNextBtn();
+					}
+				}else{
+					return false;
+				}
+			});
+		};
+	
+	//滚动到插入文件位置
+	function insertFn(_this) {
+		var itemHeight = 0,
+			itemIndex = 0;
+		if(_this) {
+			var $itemParent = _this.closest("li");
+			itemIndex = $itemParent.index();
+			$itemParent.find(".imp_textarea").focus();
+		};
+		if($("ul.upload_boxUl li").size() > 1) {
+			$("ul.upload_boxUl>li").each(function(i, items) {
+				if(itemIndex > 0) {
+					if(i <= itemIndex) {
+						itemHeight += $(this).outerHeight() + 60;
+					}
+				} else {
+					itemHeight += $(this).outerHeight() + 60;
+				}
+			});
+			if(_this) {
+				itemHeight -= 90;
+			};
+			$("div.upload_box").animate({
+				scrollTop: itemHeight
+			}, 1000);
+		};
+	};
+	$(function() {
+		//自动适配文字高度
+		$(document.body).on("paste cut keydown keyup focus blur", ".imp_textarea", function() {
+			var height, style = this.style;
+			var minheight = 32;
+			var maxheight = 220;
+			this.style.height = minheight + 'px';
+			if(this.scrollHeight > minheight) {
+				if(maxheight && this.scrollHeight > maxheight) {
+					height = maxheight;
+					style.overflow = 'scroll';
+				} else {
+					height = this.scrollHeight;
+					style.overflow = 'hidden';
+				}
+				style.height = height + 'px';
+			}
+		});
+		//自动适配文字高度
+		$(document.body).on("paste cut keydown keyup focus blur", ".text_textarea", function() {
+			var height, style = this.style;
+			var minheight = 78;
+			var maxheight = 220;
+			this.style.height = minheight + 'px';
+			if(this.scrollHeight > minheight) {
+				if(maxheight && this.scrollHeight > maxheight) {
+					height = maxheight;
+					style.overflow = 'scroll';
+				} else {
+					height = this.scrollHeight;
+					style.overflow = 'hidden';
+				}
+				style.height = height + 'px';
+			}
+		});
+		//自动适配文字高度
+		$(document.body).on("blur", ".imp_textarea", function() {
+			if($.trim($(this).val()) == "") {
+				if($(this).parents().hasClass("js_tic_smart")) {
+					$(this).closest(".js_tic_smart").remove();
+				} else {
+					if($(this).parents("ul.upload_boxUl").find('li').length == 1) {
+						$("div#js_uploadImgAre").show();
+						$(this).parents("div.js_issuePop2").find(".nextBtn").addClass('no');
+					}
+					$(this).closest("li").remove();
+					insertFn();
+				}
+			};
+
+		});
+		//超过55字 阻止在此输入
+		var zqval = "";
+		$("textarea#or_title").on('keyup', function(event) {
+			event.preventDefault();
+			var len = $(this).val().length;
+			$(this).next().text(55 - parseInt(len));
+			if(len > 55) {
+				$(this).val(zqval);
+				$(this).next().text(55 - zqval.length);
+
+				return;
+			}
+			isNextBtn();
+			zqval = $(this).val();
+		});
+		/*****分类切换****/
+		$(".js_clickInput").on('click', function(event) {
+			event.preventDefault();
+			var $temp = $(this).prev();
+			$temp.toggleClass('on');
+			if($temp.hasClass('on')) {
+				$(this).next().fadeIn();
+			} else {
+				$(this).next().fadeOut();
+			}
+		});
+		/*****点击切换版权归属******/
+		$("div.label_rid").on('click', function(event) {
+			event.preventDefault();
+			$(this).parent().find("label").removeClass('on');
+			$(this).find("label").addClass('on');
+		});
+		/*****点击切换版权归属**end****/
+		/*****分类切换****/
+		$(document.body).on('click', 'ul#ej_flMenu li', function(event) {
+			var $val = $(this).text();
+			$(this).parent().fadeOut().prev().val($val).attr("id", $(this).attr("id")).prev().removeClass('on');
+			$(this).addClass('on').siblings().removeClass('on');
+			if($("#ej_flMenu").find("li.on").length > 0 && $("ul.gor-list li").length > 0) {
+				$("a#or_release").removeClass('no');
+			} else {
+				$("a#or_release").addClass('no');
+			}
+		});
+		$("ul#yj_flMenu li").on('click', function(event) {
+			event.preventDefault();
+			var $val = $(this).text();
+			$(this).parent().fadeOut().prev().val($val).prev().removeClass('on');
+			$(this).addClass('on').siblings().removeClass('on');
+			var id = $(this).attr("id");
+			$.post('{:U("personal_issuance_flcat")}', {
+				id: id
+			}, function(data, textStatus, xhr) {
+				var data = eval("(" + data + ")"),
+					html = "";
+				if(data.code == 0) {
+					$.each(data.data, function(index, val) {
+						if(val == "") return;
+						html += '<li id="' + val.id + '">' + val.cname + '</li>';
+					});
+					$("#ej_flMenu").html(html).prev().val("");
+				}
+			});
+		});
+		/*****分类切换*end***/
+		/*****点击添加关键字****/
+		$(".sxi-btn").on('click', function(event) {
+			event.preventDefault();
+			var val = $(this).prev().val(),
+				html = "";
+			if($("ul.gor-list li").length >= 10) {
+				$.Prompt("标签最多10个!");
+				return;
+			}
+			if(val != "") {
+				html = '<li><span>' + val + '</span><i class="close">x</i></li>';
+			} else {
+				$.Prompt("不能为空!");
+				return;
+			}
+			$(this).prev().val("");
+			$("ul.gor-list").append($(html));
+
+			if($("#ej_flMenu_value").val() != '' && $("ul.gor-list li").length > 0) {
+				$("a.js_iss_next").removeClass('no');
+			} else {
+				$("a.js_iss_next").addClass('no');
+			}
+		});
+		//删除关键字
+		$("div.bor_div").on('click', 'i.close', function(event) {
+			event.preventDefault();
+			$(this).parent().remove();
+			if($("#ej_flMenu_value").val() != '' && $("ul.gor-list li").length > 0) {
+				$("a#or_release").removeClass('no');
+			} else {
+				$("a#or_release").addClass('no');
+			}
+		});
+		/*****点击添加关键字**end****/
+		// "http://vjs.zencdn.net/v/oceans.mp4"
+
+		/*=========  上传图片处理  =========*/
+		var callbackImgFn_a = function(uploader, files) {
+				for(var i = 0, len = files.length; i < len; i++) {
+					var file_name = files[i].name; //文件名
+					//构造html来更新UI 更新原创作品 列表
+					var html = '<li id="file-' + files[i].id + '">' +
+						'<div class="imp_img" style="z-index:2;">' +
+						'<div class="edit_div clearfix">' +
+						'<a class="fl edit_btn" href="javascript:void(0);"></a>' +
+						'<div class="edit_div_m fl clearfix">' +
+						'<a class="orderByBtn" href="javascript:void(0);"></a>' +
+						'<a class="infoBtn js_smartInfo" href="javascript:void(0);"></a>' +
+						'<a class="replaceBtn" id="replaceBtn' + files[i].id + '" href="javascript:void(0);"></a>' +
+						'<a class="delBtn js_delBtn_zp" href="javascript:void(0);"></a>' +
+						'</div></div>' +
+						'<img class="js_listImg" src="Public/Home/images/img/dr_img.jpg" alt="">' +
+						'<input type="hidden" class="or_content" datatype="2" name="or_imgurl" value="" />' +
+						'</div></li>';
+					$(html).appendTo('ul.upload_boxUl');
+					isUpload();
+					! function(i) {
+						previewImage(files[i], function(imgsrc) {
+							$('#file-' + files[i].id).find("img.js_listImg").attr("src", imgsrc);
+							insertFn();
+						});
+						setTimeout(function() {
+							initReplaceBtn(files[i].id);
+						}, 300);
+					}(i);
+					//uploader.removeFile(Files[i]);
+				}
+			},
+			callbackImgFn_b = function(uploader, file, r) {
+				var rep = r.response;
+				var data = $.parseJSON(rep);
+				$('#file-' + file.id).find("input[datatype=2]").val(data.url);
+				$('#file-' + file.id).parents("div.js_issuePop2").find(".nextBtn").removeClass('no');
+				//uploader.removeFile(file);
+				if(r.status == 200) {}
+			};
+		or_img_up("or_upload_img", true, callbackImgFn_a, callbackImgFn_b);
+		or_img_up("js_uploadImgAre", true, callbackImgFn_a, callbackImgFn_b);
+
+
+		/*选择封面*/
+		or_img_up("up_fm_img", false, function(uploader, files) {
+			for(var i = 0, len = files.length; i < len; i++) {
+				var file_name = files[i].name; //文件名
+				//构造html来更新UI 更新原创作品 列表
+				var html = '<li id="file-' + files[i].id + '"><img src="Public/Home/images/img/up_pic1.jpg" /></li>';
+				if($('div.alr_updown ul').children().length == 0) {
+					$(html).appendTo($('div.alr_updown ul'));
+				} else {
+					$(html).insertBefore($('div.alr_updown ul').children().eq(0));
+				}
+			}
+		}, function(uploader, file, r) {
+			var rep = r.response;
+			var r = $.parseJSON(rep);
+			var $coverBox = $("div.cover_box");
+			$('#file-' + file.id).attr("fm_url", r.url);
+			$('#file-' + file.id).find("img").attr("src", r.url);
+			$coverBox.find("img").attr("src", r.url);
+			$("div.yl_pic img").attr("src", r.url);
+			setTimeout(function(){
+				coverImgFn();
+			},50);
+			//uploader.removeFile(file);
+		});
+
+		//检测当前是否已经有上传文件，如果有，下一步显示可点击状态
+		function isUpload() {
+			var len = $('ul.upload_boxUl').find('li').length;
+			if(len == 0) {
+				$('.js_nextBtn').addClass('no');
+			} else {
+				$('.js_nextBtn').removeClass('no');
+			}
+		};
+
+		$("#video_up").on('click', function(event) {
+			if($("#video_up").hasClass('replace') == false) {
+				event.preventDefault();
+				var v_url = $(this).prev().find("input").val();
+				if(isVDOType(v_url)) {
+					var videohtml = '<li class="videoLi"><div class="imp_img"><video class="up_video" src="' + v_url + '" \
+                                            controls="controls">您的浏览器不支持此种视频格式。</video>\
+                                            <p class="playBtn"><p>\
+                                            <div class="edit_div clearfix">\
+                                                        <a class="fl edit_btn" href="javascript:void(0);"></a>\
+                                                        <div class="edit_div_m fl clearfix">\
+                                                                <a class="orderByBtn" href="javascript:void(0);"></a>\
+                                                                <a class="infoBtn js_smartInfo" href="javascript:void(0);"></a>\
+                                                                <a class="replace_btn" href="javascript:void(0);"></a>\
+                                                                <a class="delBtn js_delBtn_vid" href="javascript:void(0);"></a>\
+                                                        </div></div>\
+                                            <input class="or_content" type="hidden" name="or_video_url" datatype="3" value="' + v_url + '" /></div></li> '
+					$(videohtml).appendTo('ul.upload_boxUl');
+					$("div#js_uploadImgAre").hide();
+					isUpload();
+					$(this).parents("div.js_upVideo").hide();
+					insertFn();
+				} else {
+					$.Prompt("视频格式不合法!!");
+				}
+				$('ul.upload_boxUl').on('click', '.playBtn', function() {
+					$(this).prev()[0].play();
+					$(this).hide();
+				});
+			}
+		});
+
+		//  替换当前选中的video
+		$('ul.upload_boxUl').on('click', '.replace_btn', function() {
+			$('.js_upVideo').show();
+			$("#video_up").addClass('replace');
+			var $this = $(this).parents('.videoLi').find('.up_video');
+
+			$("#video_up").on('click', function(event) {
+				event.preventDefault();
+				var v_url = $(this).prev().find("input").val();
+				if($("#video_up").hasClass('replace')) {
+					if(isVDOType(v_url)) {
+						$this.attr('src', v_url);
+						$this.attr('value', v_url);
+						isUpload();
+					} else {
+						$.Prompt("视频格式不合法!!");
+					}
+				}
+				$('.js_upVideo').hide();
+				$("#video_up").removeClass('replace');
+			});
+		});
+
+		$("div.upload_box").niceScroll({
+			cursorcolor: "#084776", //滚动条颜色
+			cursorwidth: "0px",
+			cursorborder: "0px solid #e9e9e9",
+			background: "", //滚动条背景颜色
+			cursorborderradius: "4px",
+			horizrailenabled: false,
+			autohidemode: false,
+			boxzoom: false,
+			railalign: 'right',
+			enablemousewheel: true
+		});
+	});
+
+	/*验证视频格式*/
+	function isVDOType(s) {
+		var patrn = /\w+(.flv|.rvmb|.mp4|.avi|.wmv)$/;
+		if(!patrn.exec(s)) return false;
+		return true
+	}
+	/***原创图片上传***/
+	function or_img_up(id, isSelection, callback, callback1,callback2) {
+		/*
+		 * isSelection:true为多选|false为单选。
+		 * 
+		 * */
+		var uploader = new plupload.Uploader({ //实例化一个plupload上传对象
+			browse_button: id,
+			url: '{:U("original_upimg")}',
+			flash_swf_url: 'js/Moxie.swf',
+			silverlight_xap_url: 'js/Moxie.xap',
+			multi_selection: isSelection,
+			file_data_name: 'photo',
+			filters: {
+				mime_types: [ //只允许上传图片文件
+					{
+						title: "图片文件",
+						extensions: "jpg,gif,png,jpeg"
+					}
+				],
+				max_file_size: '100mb', //最大只能上传400kb的文件
+				prevent_duplicates: false //不允许选取重复文件
+			}
+		});
+		uploader.init(); //初始化
+		uploader.bind('FileUploaded', function(uploader, file, r) {
+			callback1(uploader, file, r);
+		});
+		//绑定文件添加进队列事件
+		uploader.bind('FilesAdded', function(uploader, files) {
+			$("#js_uploadImgAre").hide();
+			uploader.start();
+			callback(uploader, files);
+		});
+		//上传完了
+		uploader.bind('UploadComplete', function(uploader, files) {
+			if(callback2){
+				callback2(uploader,files);
+			}
+		});
+	}
+	//plupload中为我们提供了mOxie对象
+	function previewImage(file, callback) {
+		if(!file || !/image\//.test(file.type)) return;
+		if(file.type == 'image/gif') {
+			var fr = new mOxie.FileReader();
+			fr.onload = function() {
+				callback(fr.result);
+				fr.destroy();
+				fr = null;
+			}
+			fr.readAsDataURL(file.getSource());
+		} else {
+			var preloader = new mOxie.Image();
+			preloader.onload = function() {
+				// preloader.downsize( img_wd, img_hg );//先压缩一下要预览的图片,宽300，高300
+				var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); //得到图片src,实质为一个base64编码的数据
+				callback && callback(imgsrc); //callback传入的参数为预览图片的url
+				preloader.destroy();
+				preloader = null;
+			};
+			preloader.load(file.getSource());
+		}
+	}
+
+	//拼接 原创发布内容模块******************************/
+	function str_cnt() {
+		var d = new Array(),
+			imgarr = new Array(),
+			html = '',
+			b = $(document.body); //datatype 1 文字 2 图片 3视频
+		$.each($("ul.upload_boxUl").find(".or_content"), function(index, val) {
+			var t = $(this).attr("datatype"),
+				vvl = "";
+			b.data('cdata' + index, $(this).parents("li").clone(true));
+			if(t == 1) {
+				html += '<li class="clearfix" cid="' + index + '">\
+                                                    <span class="trag_icon"></span>\
+                                                    <div class="p_tu">\
+                                                        <img src="__IMG__/img/txt_img.jpg">\
+                                                    </div>\
+                                                    <div class="up_text">' + $(this).val() + '</div>\
+                                                </li>';
+				vvl = '<p dtype="1" style="' + ($(this).attr("style") == undefined ? "" : $(this).attr("style")) + '">' + $(this).val() + '</p>';
+			}
+			if(t == 4) {
+				vvl = "<p dtype='4'>" + $(this).val() + "</p>";
+			}
+			if(t == 2) {
+				imgarr.push($(this).attr("val"));
+				b.data("or_img_data", imgarr);
+				html += '<li cid="' + index + '" class="clearfix">\
+                                                    <span class="trag_icon"></span>\
+                                                    <div class="p_tu">\
+                                                        <img src="' + $(this).val() + '">\
+                                                    </div></li>';
+				vvl = '<img dtype="2" src="' + $(this).val() + '"/>';
+			}
+			if(t == 3) {
+				html += '<li cid="' + index + '" class="clearfix">\
+                                                <span class="trag_icon"></span>\
+                                                <div class="p_tu">\
+                                                    <img src="__IMG__/img/dr_img4.jpg">\
+                                                </div>\
+                                            </li>';
+				vvl = '<video dtype="3" class="up_video" src="' + $(this).val() + '" controls="controls">您的浏览器不支持此种视频格式。</video>';
+			}
+			d.push(vvl);
+			b.data('content_html', html);
+			b.data("or_content", d)
+		});
+		return html;
+	};
+
+	$(function() {
+		/*多功能操作区域*/
+		$("ul.upload_boxUl").on('mouseenter', '.edit_btn', function(event) {
+			event.preventDefault();
+			$(this).parent('.edit_div').addClass('curr');
+		}).on('mouseleave', '.edit_div', function(event) {
+			event.preventDefault();
+			$(this).removeClass('curr');
+		});
+		/*多功能操作区域end*/
+		//insert_text插入文本
+		$('#insert_text').on('click', function(e) {
+			e.stopPropagation();
+			$("div#js_uploadImgAre").hide();
+			var texth = '<li><div class="area_mod js_txt_info">\
+                                                        <div class="edit_div_m01 fl clearfix">\
+                                                            <a class="sortBtn" title="排序" href="javascript:void(0);"></a>\
+                                                            <a class="editBtn_01" title="编辑" href="javascript:void(0);"></a>\
+                                                            <a class="delBtn_01" title="删除" href="javascript:void(0);"></a>\
+                                                            <a class="t-leftBtn" title="文本左对齐" href="javascript:void(0);"></a>\
+                                                            <a class="t-centerBtn" title="文本居中" href="javascript:void(0);"></a>\
+                                                            <a class="t-rightBtn" title="文本右对齐" href="javascript:void(0);"></a>\
+                                                        </div>\
+                                                        <div class="imp_text js_textarea">\
+                                                            <textarea placeholder="在此输入一段文字说明..." autofocus="true" class="imp_textarea or_content" datatype="1"></textarea>\
+                                                        </div>\
+                                                    </div></li>;'
+			$.each($(".imp_textarea"), function(index, val) {
+				if($.trim($(this).val()) == "") {
+					$(this).parents("li").remove();
+				}
+			});
+			$(texth).appendTo('ul.upload_boxUl');
+			var index = $('ul.upload_boxUl').children().find('textarea').length - 1;
+			$('ul.upload_boxUl').children().find('textarea')[index].focus();
+			$(this).parents("div.js_issuePop2").find(".nextBtn").removeClass("no");
+			insertFn();
+
+		});
+		$("ul.upload_boxUl").on('mouseenter', '.js_textarea', function(event) {
+			event.preventDefault();
+			$(this).addClass('curr');
+			$('.edit_div_m01').show();
+		}).on('mouseleave', '.js_txt_info', function(event) {
+			event.preventDefault();
+			$('.edit_div_m01').hide();
+			$('.js_textarea').removeClass('curr');
+		});
+
+		$("ul.upload_boxUl").on('click', '.editBtn_01', function(event) {
+			event.preventDefault();
+			$(this).parent().next().children().focus();
+		});
+		$("ul.upload_boxUl").on('click', '.t-leftBtn', function(event) {
+			event.preventDefault();
+			$(this).parent().next().children().css("text-align", "left");
+		});
+		$("ul.upload_boxUl").on('click', '.t-centerBtn', function(event) {
+			event.preventDefault();
+			$(this).parent().next().children().css("text-align", "center");
+		});
+		$("ul.upload_boxUl").on('click', '.t-rightBtn', function(event) {
+			event.preventDefault();
+			$(this).parent().next().children().css("text-align", "right");
+		});
+		//insert_text插入文本end///
+
+		/*****添加注释*********/
+		$("ul.upload_boxUl").on('click', '.js_smartInfo', function(event) {
+			event.preventDefault();
+			if($(this).parents("li").find('.imp_textarea').length > 0) return;
+			var html = ' <div class="js_tic_smart">\
+                                            <div class="imp_text"> \
+                                            <textarea class="imp_textarea or_content" datatype="4" placeholder="在此输入作品注释..." ></textarea>\
+                                            </div>\
+                                        </div>';
+			$(this).parents("li").append($(html));
+			insertFn($(this));
+		});
+		/*****添加注释*end********/
+		/*****删除文本**删除当前图片*******/
+		$("ul.upload_boxUl").on('click', '.delBtn_01,.js_delBtn_zp,.js_delBtn_vid', function(event) {
+			event.preventDefault();
+			if($(this).parents("ul.upload_boxUl").find('li').length == 1) {
+				$("div#js_uploadImgAre").show();
+				$(this).parents("div.js_issuePop2").find(".nextBtn").addClass('no');
+			}
+			$(this).parents("li").remove();
+		});
+
+		/*****删除文本*end********/
+		/**********排序*发布页面文章结构弹窗*********/
+		$("ul.upload_boxUl").on('click', '.orderByBtn,.sortBtn', function(event) {
+			event.preventDefault();
+			var html = str_cnt();
+			$("div.ord_mod ul").html(html);
+			var el = document.getElementById("px_list-or");
+			new Sortable(el);
+			$('.js_sortBox').show();
+		});
+		$("a#confirm_pop").on('click', function(event) {
+			event.preventDefault();
+			var prcontira = $("ul.upload_boxUl");
+			prcontira.empty();
+			$.each($("ul#px_list-or li"), function(index, val) {
+				var t = $(this).attr("datatype");
+				var $dataLi = $(document.body).data("cdata" + $(this).attr("cid"));
+				prcontira.append($dataLi);
+			});
+			prcontira.find(".curr").removeClass('curr');
+			prcontira.find(".edit_div_m01").hide();
+			$('.js_sortBox').hide();
+			prcontira.children('li').each(function(i, item) {
+				var $items = $(this),
+					replaceBtnId = $items.find(".replaceBtn").attr("id");
+				or_img_up(replaceBtnId, false, function(uploader, files) {
+					for(var i = 0, len = files.length; i < len; i++) {
+						! function(i) {
+							previewImage(files[i], function(imgsrc) {
+								$items.find("img.js_listImg").attr("src", imgsrc);
+							});
+						}(i);
+					}
+				}, function(uploader, file, r) {
+					var rep = r.response;
+					var data = $.parseJSON(rep);
+					$items.find("input[datatype=2]").val(data.url);
+					//uploader.removeFile(file);
+				});
+			});
+		});
+		/**********排序*发布页面文章结构弹窗****end*****/
+		/*****下一步选择封面****/
+		$(".js_nextBtn").on('click', function(e) {
+			e.stopPropagation();
+			if(str_cnt() == "" && $(this).hasClass('no')) {
+				return;
+			};
+			$('div.cover_box').html("<img src=''/>");
+			$('div.yl_pic').html("<img src=''/>");
+			$("div.alr_updown ul").html("");
+			$.each($("ul.upload_boxUl").find("input[datatype='2']"), function(index, val) {
+				var imgUrl = $(this).val();
+				var html = '<li fm_url="' + imgUrl + '"><img src="' + imgUrl + '" /></li>';
+				$("div.alr_updown ul").append($(html));
+			});
+			var els = document.getElementById("cover_list");
+			var sort = new Sortable(els, {
+				onUpdate: function(evt) {
+					var item = evt.item;
+					$('div.cover_box').html("<img src=''/>");
+					$('div.yl_pic').html("<img src=''/>");
+					$('div.cover_box > img').attr("src", $("div.alr_updown ul").find("li").eq(0).attr("fm_url"));
+					/***封面图片剪切*****/
+					coverImgFn();
+				}
+			});
+			$('div.cover_box > img').attr("src", $("div.alr_updown ul").find("li").eq(0).attr("fm_url"));
+			$(this).closest('.js_issuePop2').hide();
+			$('.js_issuePop3').show();
+			/***封面图片剪切*****/
+			if($("ul.upload_boxUl").find("input[datatype='2']").size()>0){
+				coverImgFn();
+			}
+
+			//封面轮播滚动
+			jQuery(".slideGroup").slide({
+				mainCell: ".alr_updown ul#cover_list",
+				prevCell: ".left_slide",
+				nextCell: ".right_slide",
+				autoPage: false,
+				effect: "left",
+				pnLoop: false,
+				autoPlay: false,
+				vis: 7
+			});
+
+			$("#cover_list").find("li").on("click", function() {
+				$(".cover_box").find("img").attr("src", $(this).find("img").attr("src"));
+				$("#imageHead").find("img").attr("src", $(this).find("img").attr("src"));
+			});
+		});
+		$("#cover_list").find("li").on("click", function() {
+			$(".cropper-hidden").attr("src", $(this).find("img").attr("src"));
+		});
+
+		//选择封面的下一部
+		$(".js_nextBtn-1").on('click', function(e) {
+			e.stopPropagation();
+			var f = new Array(),
+				html = '',
+				_this = $(this),
+				b = $(document.body),
+				$cover_img = $('div.cover_box > img');
+			if($.trim($("#or_title").val()) == "" && _this.hasClass('no')) {
+				//$.Prompt("请填写标题！");
+				return
+			} else if($cover_img.attr("src") == "" && $.trim($("#or_title").val()) != "") {
+				//$.Prompt("请上传封面图片！");
+				return false;
+			};
+			getbase64url(function(re) {
+				if(re.status == '1') {
+					var fmurl = re.url;
+					$.each($('div.alr_updown ul').find("li"), function(index, val) {
+						f.push($(this).attr("fm_url"));
+					});
+					b.data('or_fm_img', f);
+					b.data('or_title', $("#or_title").val());
+					b.data('fmurl', fmurl);
+					$("div.yl_pic1 img").attr("src", fmurl);
+					if(f.length == 0 && $("#or_title").val() == "" && _this.hasClass('no')) {
+						return;
+					};
+					$("div.no20_info").text($("#or_title").val());
+					_this.closest('.js_issuePop3').hide();
+					$('.js_issuePop4').show();
+				}
+			});
+		});
+		//发布作品
+		$("#or_release").on('click', function() {
+			var a = $("input[type='checkbox']").is(':checked');
+
+			if(a == false) {
+				$.Prompt("请勾选承诺协议");
+				return false;
+			}
+
+			var tags = $("ul.gor-list").find("span"),
+				_this = $(this),
+				tagarr = new Array(),
+				or_content = $(document.body).data('or_content'),
+				or_fm_img = $(document.body).data('or_fm_img'),
+				fmurl = $(document.body).data('fmurl'),
+				or_title = $(document.body).data('or_title'),
+				Copyrownership = $("#bqcontent").find(" label.on").attr("vid"),
+				cfl = $("#ej_flMenu").prev("input").attr("id"),
+				tid = $("a#or_release").attr("tid");
+
+			$.each(tags, function(index, val) {
+				tagarr.push($(this).text());
+			});
+			if(_this.hasClass('no') || cfl == "" || tagarr.length == 0) {
+				return;
+			}
+
+			var dataobj = {
+				tid: tid,
+				title: or_title,
+				cover_img: or_fm_img,
+				cover_curimg: fmurl,
+				tname: tagarr,
+				cnt: or_content,
+				cid: cfl,
+				bqid: Copyrownership
+			};
+			if(tid == 2) {
+				dataobj.zpid = $("a#or_release").attr("oid");
+			}
+			$.post('{:U("create_orginMsg")}', dataobj, function(data, textStatus, xhr) {
+				var data = eval("(" + data + ")");
+				if(data.code == 0) {
+					_this.closest('.js_issuePop4').hide();
+					$('.js_fb_sucss').show();
+					setTimeout(function() {
+						location.reload();
+					}, 2000);
+				} else {
+					$.Prompt("发布失败");
+				}
+			});
+		});
+		/*****下一步选择封面**end**/
+		//js_goissBtn点击发布
+		$(".js_goissBtn,a.iss_mod_btn").on('click', function() {
+			$(this).parents("div.iss_mod_end,div.js_issuePop1").hide();
+			$('.js_issuePop2').show();
+		});
+		//ja_upload_bt
+		// nVideo
+		$(".ja_upload_btnVideo").on('click', function() {
+			$('.js_upVideo').show();
+		});
+		$("#comfim_del_zp").on('click', function(event) {
+			event.preventDefault();
+			var oid = $(this).parents("div.js_cancelPop").attr("oid");
+			$.post('{:U(orginnal_del)}', {
+				id: oid
+			}, function(data, textStatus, xhr) {
+				var data = eval("(" + data + ")");
+				if(data.code == 0) {
+					if($("li[oid='" + oid + "']").siblings().length == 1) {
+						$("li[oid='" + oid + "']").remove();
+						window.location.reload();
+						return;
+					}
+					$("li[oid='" + oid + "']").remove();
+					$('div.js_cancelPop').hide();
+				} else {
+					$.Prompt("删除失败");
+				}
+			});
+		});
+		//删除作品
+		$(".js_deled_btn").on('click', function(e) {
+			e.stopPropagation();
+			$('.js_cancelPop').attr("oid", $(this).parents("li").attr("oid")).show();
+		});
+		//close_pop
+		$(".close_pop").on('click', function() {
+			$(this).closest('.pop_box').hide();
+		});
+
+		//选择封面的上一部  上传
+		$(".js_nextBtn-s").on('click', function() {
+			$(this).closest('.js_issuePop3').hide();
+			$('.js_issuePop2').show();
+		});
+		//        js_iss_next_s
+		$(".js_iss_next_s").on('click', function() {
+			$(this).closest('.js_issuePop4').hide();
+			$('.js_issuePop3').show();
+		});
+		coSense.loader.bannerWheel($('.per_bg'), 2);
+		coSense.loader.catTab();
+		coSense.loader.toFooter();
+		//编辑作品
+		$("a.edited_btn").on("click", function(e) {
+			e.stopPropagation();
+			var zpid = $(this).parent("li").attr("oid");
+
+			$(this).parents("div.iss_mod_end,div.js_issuePop1").hide();
+			$('.js_issuePop2').show();
+			$("#js_uploadImgAre").hide();
+			$(".js_nextBtn,.js_nextBtn-1,#or_release").removeClass('no');
+			$("#or_release").attr({
+				"tid": 2,
+				"oid": zpid
+			});
+			$.post('{:U(update_orginnal)}', {
+				id: zpid
+			}, function(data, textStatus, xhr) {
+				var data = eval("(" + data + ")");
+				if(data.code == 0) {
+					var darr = data.data.cnt,
+						tags = data.data.tags,
+						yid = data.data.yjfl,
+						eid = data.data.ejfl,
+						yjname = data.data.yjname,
+						evals = data.data.evals;
+					$.each(tags, function(index, el) {
+						var html = '<li><span>' + el + '</span><i class="close">x</i></li>';
+						$("ul.gor-list").append($(html));
+					});
+					$("#yj_flMenu").find("li[id='" + yid + "']").addClass('on');
+					$("#yj_flMenu").prev().val(yjname);
+					$("#ej_flMenu").prev().val(evals).attr("id", eid);
+					$("#or_title").each(function(ind, val) {
+						$(this).text(data.data.title);
+					});
+					$.each(darr, function(index, el) {
+						var dt = $(el).attr("dtype");
+						if(dt == 1) {
+							var dt2 = '<li><div class="area_mod js_txt_info">\
+                                                                    <div class="edit_div_m01 fl clearfix" style="display: none;">\
+                                                                    <a class="sortBtn" title="排序" href="javascript:void(0);"></a>\
+                                                                    <a class="editBtn_01" title="编辑" href="javascript:void(0);"></a>\
+                                                                    <a class="delBtn_01" title="删除" href="javascript:void(0);"></a>\
+                                                                    <a class="t-leftBtn" title="文本左对齐" href="javascript:void(0);"></a>\
+                                                                    <a class="t-centerBtn" title="文本居中" href="javascript:void(0);"></a>\
+                                                                    <a class="t-rightBtn" title="文本右对齐" href="javascript:void(0);"></a>\
+                                                                    </div>\
+                                                                    <div class="imp_text js_textarea">\
+                                                                    <textarea placeholder="在此输入一段文字说明..." autofocus="true" class="imp_textarea or_content"\
+                                                                    datatype="1" style="height: 37px; overflow: hidden;">' + $(el).text() + '</textarea>\
+                                                                    </div>\
+                                                                    </div></li>';
+							$(dt2).appendTo($("ul.upload_boxUl"));
+						}
+						if(dt == 2) {
+							var dt1 = '<li id="file-'+index+'" class="imgtype"><div class="imp_img">\
+                                                                    <div class="edit_div clearfix">\
+                                                                    <a class="fl edit_btn" href="javascript:void(0);"></a>\
+                                                                    <div class="edit_div_m fl clearfix">\
+                                                                    <a class="orderByBtn" href="javascript:void(0);"></a>\
+                                                                    <a class="infoBtn js_smartInfo" href="javascript:void(0);"></a>\
+                                                                    <a class="replaceBtn" id="replaceBtn_'+index+'" href="javascript:void(0);"></a>\
+                                                                    <a class="delBtn js_delBtn_zp" href="javascript:void(0);"></a></div></div>\
+                                                                    <img class="js_listImg" src="' + $(el).attr("src") + '" alt="">\
+                                                                    <input type="hidden" class="or_content" datatype="2" \
+                                                                    name="or_imgurl" value="' + $(el).attr("src") + '"></div>';
+							if($(darr[index + 1]).attr("dtype") == 4) {
+								dt1 += '<div class="js_tic_smart">\
+                                                                    <div class="imp_text">\
+                                                                    <textarea class="imp_textarea or_content" datatype="4" placeholder="在此输入作品注释..."\
+                                                                    style="height: 32px;">' + $(darr[index + 1]).text() + '</textarea>\
+                                                                    </div></div>';
+							}
+							dt1 += '</li>';
+							$(dt1).appendTo($("ul.upload_boxUl"));
+							initReplaceBtn(index);
+						}
+						if(dt == 3) {
+							var vido = '<li><video class="up_video" src="' + $(el).attr("src") + '" \
+                                                        controls="controls">您的浏览器不支持此种视频格式。</video>\
+                                                        <input class="or_content" type="hidden" name="or_video_url" datatype="3" \
+                                                        value="' + $(el).attr("src") + '"></li>';
+							$(vido).appendTo($("ul.upload_boxUl"));
+						}
+						$("div.upload_box").scrollTop(0);
+					});
+				} else {
+					$.Prompt("编辑失败");
+				}
+			});
+		});
+	});
+</script>
+</body>
+
+</html>

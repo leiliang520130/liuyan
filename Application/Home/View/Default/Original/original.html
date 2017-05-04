@@ -1,0 +1,161 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!-- 上中下部分 -->
+<include file="layout/szx_layout" />
+<style type="text/css">
+    .c-more{
+        max-width: 100%;
+    }
+    .aBtn{
+            width: 40px;
+            height: 40px;
+            background-color: yellow;
+            color: #fff;
+            display: block;
+            float: right;
+    }
+</style>
+<!--中部内容-->
+<div class="wrap">
+    <div class="site-content">
+        <!--栏目标题-->
+        <div class="column cloz">
+            <img src="__IMG__/img/o_title.jpg">
+        </div> 
+        <div class="filtering"  id="filtering">
+            <div class="filter_btn">
+                <div class="arrow js_filter_btn">Projects<i class="abtn"></i></div>
+                <!-- <a href="javascript:void(0);" class="arrow js_filter_btn">Projects</a> -->
+                <ul class="down-ul js_downUl mgl26">
+                    <li><a href="{:U('/Original/original')}">Projects</a></li>
+                    <li><a href="{:U('/Original/original_plist')}?type=1">People&nbsp;&nbsp;</a></li>
+                    <li><a href="{:U('/Original/original_plist')}?type=2">Teams&nbsp;&nbsp;&nbsp;</a></li>
+                </ul>
+            </div>
+            <div class="filter_btn">
+                <!-- <a href="javascript:void(0);" class="arrow js_filter_btn">
+                    <?php $os = I('o', 0);$types = I('type', 0); ?>
+                    <?php if($os == 0){ ?>
+                        Most Popular
+                    <?php }else if($os == 1){ ?>
+                        Most Recent
+                    <?php }else{ ?>
+                        Most Viewed
+                    <?php } ?>
+                </a> -->
+                <div class="arrow js_filter_btn">
+                        <?php $os = I('o', 0);$types = I('type', 0); ?>
+                        <?php if($os == 0){ ?>
+                        Most Popular
+                        <?php }else if($os == 1){ ?>
+                        Most Recent
+                        <?php }else{ ?>
+                        Most Viewed
+                        <?php } ?>
+                        <i class="abtn"></i>
+                </div>
+                <ul class="down-ul js_downUl down-ul210">
+                    <li class="Popular"><a href="{:$types ? U('Original/original', array('type'=>I('type', 0))) : U('Original/original')}">Most Popular</a></li>
+                    <li class="Recent"><a href="{:$types ? U('Original/original', array('type'=>I('type', 0), 'o'=>1)) : U('Original/original', array('o'=>1))}">Most Recent</li></a>
+                    <li class="Viewed"><a href="{:$types ? U('Original/original', array('type'=>I('type', 0), 'o'=>2)) : U('Original/original', array('o'=>2))}">Most Viewed</li></a>
+                </ul>
+            </div>
+        </div>
+        <!--内容列表-->
+        <div class="list_box pt70">
+            <ul class="list-ul clearfix list_original">
+                <foreach name="odata_list" item="obj">
+                    <li>
+                         <a href="{:U(original_detail1)}?oid={$obj['id']}" target="_blank">
+                            <div class="img"><img src="{$obj["cover_curimg"]}"></div>
+                            <div class="c-tit">
+                                <span class="w_cname">{$obj.pname}</span>
+                                <span class="ejfl_name">{$obj.cname}</span>
+                            </div>
+                              <div class="yc_h"><p class="c-text clamp1">{$obj["title"]}</p>
+                            <p class="text_czz">创作者：<span class="h">{$obj["nickname"]}</span></p></div>
+                        </a>
+                    </li>
+                </foreach>
+            </ul>
+            <div class="c-more mb140"><a class="original_more" bid="1" href="javascript:;">MORE</a></div>
+        </div>
+    </div>
+</div>
+<!--中部内容end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+       coSense.loader.init(false); 
+       coSense.loader.originalJS();
+       coSense.loader.toFooter();
+       proing();
+
+    var type = {:I('type', 0)};
+    var os = {:I('o', 0)};
+
+    $("a.original_more").on('click',function(){
+        var html = "";
+        var bid =  parseInt($(this).attr("bid"));
+        //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+        bid += 1;
+        //每次点击展示32条数据.
+        $(this).attr("bid",bid);
+        type = parseInt(type);
+
+
+        $.post("{:U('Original/original')}",{type:type, p:bid, r_type: 1, o: os},function(r){
+            if(r.data.length == 0){
+                $.Prompt('没有更多作品了');
+            }else{
+                $.each(r.data,function(ind,val){
+                    html +='<li>\
+                                <a href="{:U('Original/original_detail1')}?oid='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_curimg+'"></div>\
+                                    <div class="c-tit">\
+                                        <span class="w_cname">'+val.pname+'</span>\
+                                        <span class="ejfl_name">'+val.cname+'</span>\
+                                    </div>\
+                                      <div class="yc_h"><p class="c-text clamp1">'+val.title+'</p>\
+                                    <p class="text_czz">创作者：<span class="h">'+val.nickname+'</span></p></div>\
+                                </a>\
+                        </li>';
+                })
+                $("ul.list_original").append(html);
+            }
+        },'json')
+    });
+</script>
+</html>

@@ -1,0 +1,101 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/Admin/layer/layer.js"></script>
+		<?php  $menu_id = I('id', 0); ?>
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">权限管理</a> <a href="{:U('menu_lst')}" class="current">菜单管理</a> <a href="#" class="current">菜单添加</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+				          	<form action="__SELF__" method="post" class="form-horizontal" id='com_form'>
+					            <div class="control-group">
+					              	<label class="control-label">菜单名称：</label>
+					              	<div class="controls">
+					                	<input type="text" class="span3" placeholder="菜单名称" name="title" value="{$info.title}" autocomplete="off" />
+					              	</div>
+					            </div>
+					            <?php if($menu_id == 0){ ?>
+						            <div class="control-group">
+						              	<label class="control-label">菜单图标：</label>
+						              	<div class="controls">
+						                	<input type="text" class="span3" placeholder="菜单图标" name="icon" value="{$info.icon}" autocomplete="off" />
+						              	</div>
+						            </div>
+						            <div class="control-group">
+						              	<label class="control-label">父级菜单：</label>
+						              	<div class="controls">
+											<select name="pid">
+												<option value="0">顶级菜单</option>
+												<?php foreach($menu_lst as $v){ ?>
+													<option value="{$v.id}" <?php if($v['id'] == $info['group_id']){echo 'selected';} ?>>└─ {$v.title}</option>
+												<?php } ?>
+											</select>
+						              	</div>
+						            </div>
+						            <div class="control-group">
+						              	<label class="control-label">访问路径：</label>
+						              	<div class="controls">
+						                	<input type="text" class="span3" placeholder="访问路径" name="menu_name" value="{$info.menu_name}" autocomplete="off" />
+						              	</div>
+						            </div>
+					            <?php } ?>
+					            <div class="form-actions">
+					              	<button type="button" class="btn btn-success" onclick="submit_form()">确定</button>
+					            </div>
+				          	</form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+          
+        <!--header-->
+        <include file="Common/footer" />
+        <script>
+        	function submit_form() {
+        		var title = $('input[name=title]').val();                    //菜单名称
+        		var icon = $('input[name=icon]').val();                      //菜单图标
+        		var pid = $('select[name=pid]').val();                       //父级菜单
+        		var menu_name = $('input[name=menu_name]').val();            //访问路径
+        		var id = {:I('id', 0)};
+
+        		if(title == '') {
+        			show_error('请输入菜单名称!');
+        			return false;
+        		}
+        		// if(menu_name == '') {
+        		// 	show_error('请输入访问路径!');
+        		// 	return false;
+        		// }
+
+        		$.post("__SELF__", {title:title, icon:icon, pid:pid, menu_name:menu_name, id:id}, function(r){
+					if(r.code == 0) {
+						layer.msg(r.msg, {icon:1, time:1000});
+						setTimeout(function () { 
+  				       		window.location.href = "{:U('Auth/menu_lst')}";
+  				    	}, 1000);
+					}else{
+						layer.msg(r.msg, {icon:2, time:2000});
+					}
+        		},'json')
+        	}
+
+        	function show_error(msg) {
+        		layer.msg(msg, {icon:2, time:1000});
+        	}
+        </script>
+    </body>
+</html>

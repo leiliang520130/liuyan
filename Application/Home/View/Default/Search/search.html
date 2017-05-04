@@ -1,0 +1,627 @@
+<!-- 头部部分 -->
+<include file="layout/header" />
+<!--左边栏,右,下-->
+<include file="layout/szx_layout" />
+<style type="text/css">
+    .c-more{
+        max-width: 100%;
+    }
+    .fans_mod1 .fans_list li{
+        padding: 25px 10% 26px;
+    }
+</style>
+<!--中部-->
+<div class="wrap">
+    <div class="site-content sch">
+        <div class="ss_tex">
+            “<?php echo I('value'); ?>”搜索结果
+        </div>
+        <div class="clearfix fn_nav js_messageTab">
+            <a type="1" class="fn_aLink curr" href="javascript:void(0);">全部({$all_count})</a>
+            <eq name="fine_count" value="0">
+                <a type="2" class="fn_aLink close" style="color:#cccccc;" href="javascript:void(0);">可看({$fine_count})</a>
+            <else/>
+                <a type="2" class="fn_aLink" href="javascript:void(0);">可看({$fine_count})</a>
+            </eq>
+            <eq name="original_count" value="0">
+                <a type="3" class="fn_aLink close" style="color:#cccccc;" href="javascript:void(0);">作品({$original_count})</a>
+            <else/>
+                <a type="3" class="fn_aLink" href="javascript:void(0);">作品({$original_count})</a>
+            </eq>
+            <eq name="user_count" value="0">
+                <a type="4" class="fn_aLink close" style="color:#cccccc;" href="javascript:void(0);">创作者({$user_count})</a>
+            <else/>
+                <a type="4" class="fn_aLink" href="javascript:void(0);">创作者({$user_count})</a>
+            </eq>
+            <eq name="activity_count" value="0">
+                <a type="5" class="fn_aLink close" style="color:#cccccc;" href="javascript:void(0);">可玩({$activity_count})</a>
+            <else/>
+                <a type="5" class="fn_aLink" href="javascript:void(0);">可玩({$activity_count})</a>
+            </eq>
+        </div>
+        <!--精选内容列表-->
+        <eq name="fine_count" value="0">
+        <else/>
+            <div class="fine_area">
+                <div class="fn_tit">可看<span>{$fine_count}条结果</span></div>
+                
+                <div class="list_box">
+                    <ul class="list-ul li-pdb0 clearfix fine_list">
+                        <volist name="fine" id="vo">
+                            <li>
+                                <a href="{:U('Choiceness/choice_details')}?id={$vo.id}">
+                                    <div class="img"><img src="{$vo.cover_img}"></div>
+                                    <p class="c-tit"><span class="w_cname">{$vo.category}</span></p>
+                                    <div class="yc_h">
+                                        <p class="c-text">{$vo.intro}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <div type="2" bid="-12" class="c-more fine_more"><a href="javascript:;">MORE</a></div>
+                </div>
+            </div>
+        </eq>
+        <!--精选内容列表end-->
+        <!--原创内容列表-->
+        <eq name="original_count" value="0">
+        <else/>
+            <div class="original_area">
+                <div class="fn_tit">作品<span>{$original_count}条结果</span></div>
+                <div class="list_box">
+                    <ul class="list-ul li-pdb0 clearfix original_list">
+                        <volist name="original" id='vi'>
+                            <li>
+                                <a href="{:U('/Original/original_detail1')}?oid={$vi.id}">
+                                    <div class="img"><img src="{$vi.cover_curimg}"></div>
+                                    <div class="c-tit">
+                                        <span class="w_cname">{$vi.flf_name}</span>
+                                        <span class="ejfl_name">{$vi.tlf_name}</span>
+                                    </div>
+                                    <div class="yc_h">
+                                        <p class="c-text clamp1">{$vi.title}</p>
+                                        <p class="text_czz">创作者：<span class="h">{$vi.nickname}</span></p>
+                                    </div>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <div type="3" bid="-12" class="c-more original_more"><a href="javascript:;">MORE</a></div>
+                </div>
+            </div>
+        </eq>
+        <!--原创内容列表结束-->
+        <!--用户列表-->
+        <eq name="user_count" value="0">
+        <else/>
+            <div class="user_area">
+                <div class="fn_tit">创作者<span>{$user_count}条结果</span></div>
+                <div class="fans_mod1">
+                    <ul class="fans_list user_list">
+                        <volist name="user" id="vj">
+                            <li class="clearfix">
+                                <div class="fl p-photo">
+                                    <?php if($vj['type'] == 1){ ?>
+                                        <a href="{:U('/Original/original_detail2')}?tid={$vj.id}">
+                                            <img width="100%" height="100%" src="{$vj.avatar}">
+                                        </a>
+                                    <?php }else{ ?>
+                                        <a href="{:U('/Original/original_detail3')}?tid={$vj.id}">
+                                            <img width="100%" height="100%" src="{$vj.avatar}">
+                                        </a>
+                                    <?php } ?>
+                                </div>
+                                <div class="fl p-text-c">
+                                    <p class="p01">
+                                        <?php if($vj['type'] == 1){ ?>
+                                            <span class="p-name"><a href="{:U('/Original/original_detail2')}?tid={$vj.id}">{$vj.nickname}</a></span>
+                                        <?php }else{ ?>
+                                            <span class="p-name"><a href="{:U('/Original/original_detail3')}?tid={$vj.id}">{$vj.nickname}</a></span>
+                                        <?php } ?>
+                                        <?php if($vj['type'] == 1){ ?>
+                                            <?php if($vj['sex'] == 0){ ?>
+                                                 <i class="sex_man iconfont icon-xingbie-nan"></i>
+                                            <?php }else{ ?>
+                                                <i class="sex_woman iconfont icon-xingbie-nv"></i>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </p>
+                                    <p class="p02">
+                                        <i class="icon-addr"></i>
+                                        <span class="span_text">{$vj.address}</span>
+                                    </p>
+                                    <p class="p03">
+                                        <span class="span_text">{$vj.industry}</span>
+                                    </p>
+                                    <p class="follow_me_orgg">
+                                        <eq name="vj.is_follow" value="0">
+                                            <a type="1" class="followBtn" ids="{$vj.id}" href="javascript:void(0);">CANCEL</a>
+                                        <else/>
+                                            <a type="0" class="followBtn" ids="{$vj.id}" href="javascript:void(0);">FOLLOW</a>
+                                        </eq>
+                                        <i class="icon-gzr iconfont icon-fensi"></i>
+                                        <span class="t-no12-33">{$vj.fans_count}</span>
+                                    </p>
+                                </div>
+                                <?php if(count($vj['cover_curimg']) == 0){ ?>
+                                    <div class="fr pub_img no-img">
+                                        <div class="no-img_emp"><i>This is empty</i></div>
+                                    </div>
+                                <?php }else{ ?>
+                                    <div class="fr pub_img">
+                                        <?php if($vj['type'] == 1){ ?>
+                                            <a href="{:U('/Original/original_detail2')}?tid={$vj.id}">
+                                                <volist name="vj['cover_curimg']" id="va" key="k">
+                                                    <img class="f-pic" src="{$va.cover_curimg}">
+                                                </volist>
+                                            </a>
+                                        <?php }else{ ?>
+                                            <a href="{:U('/Original/original_detail3')}?tid={$vj.id}">
+                                                <volist name="vj['cover_curimg']" id="va" key="k">
+                                                    <img class="f-pic" src="{$va.cover_curimg}">
+                                                </volist>
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
+                            </li>
+                        </volist>
+                    </ul>
+                    <div type="4" bid="-3" class="c-more user_more"><a href="javascript:;">MORE</a></div>
+                </div>
+            </div>
+        </eq>
+        <!--用户列表结束-->
+        <!--活动内容列表-->
+        <eq name="activity_count" value="0">
+        <else/>
+            <div class="activity_area">
+                <div class="fn_tit">可玩<span>{$activity_count}条结果</span></div>
+                <div class="list_box">
+                    <ul class="list-ul li-pdb0 clearfix activity_list">
+                        <volist name="activity" id="vb">
+                            <li>
+                                <a href="{:U('Activity/active_detail')}?id={$vb.id}">
+                                    <div class="img"><img src="{$vb.cover_img}"></div>
+                                    <p class="c-tit"><span class="w_cname">{$vb.category}</span></p>
+                                    <div class="yc_h">
+                                        <p class="c-text"><b># {$vb.city_detail} #</b>{$vb.intro}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                    <div type="5" bid="-12" class="c-more activity_more"><a href="javascript:;">MORE</a></div>
+                </div>
+            </div>
+        </eq>
+        <!--活动内容列表end-->
+    </div>
+</div>
+<!--中部end-->
+<!-- 左边菜单部分 -->
+<include file="layout/left_menu" />
+
+<!-- 登录注册部分 -->
+<include file="layout/login" />
+
+<!-- 尾部部分 -->
+<include file="layout/footer" />
+<!-- 尾部js部分 -->
+<include file="layout/footer_js" />
+<script src="http://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+          $.ajax({
+            url: "{:U('Public/VerCode?type=pc&t=" + (new Date()).getTime() + "')}", // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    product: "float",
+                    offline: !data.success
+                    }, handlerEmbed);
+                }
+            });
+            var handlerEmbed = function (captchaObj) {
+                 // 将验证码加到id为captcha的元素里
+                 captchaObj.appendTo("div#embed-captcha");
+                 captchaObj.onReady(function () {
+                    $("#embed-wait").hide();
+                 });
+             };
+    });
+    $(function(){
+        coSense.loader.init(false);
+        proing();
+        $('a.fn_aLink').on('click',function(){
+            if($(this).hasClass("close")){
+                $(this).unbind("click");
+                return;
+            }
+            var $index = $(this).index();
+            $(this).addClass('curr').siblings().removeClass('curr');
+            var type = $(this).attr('type');
+            if(type == "1"){
+                window.location.reload();
+                $("div.fine_area").css('display','block');
+                $("div.original_area").css('display','block');
+                $("div.user_area").css('display','block');
+                $("div.activity_area").css('display','block');
+                $('div.fine_more').attr("type","2");
+                $('div.original_more').attr("type","3");
+                $('div.user_more').attr("type","4");
+                $('div.activity_more').attr("type","5");
+                var speed=200;//滑动的速度
+                $('body,html').animate({ scrollTop: 0 }, speed);//回到顶部
+            }else if(type == "2"){
+                $("div.fine_area").css('display','block');
+                $("div.original_area").css('display','none');
+                $("div.user_area").css('display','none');
+                $("div.activity_area").css('display','none');
+                $('div.fine_more').removeAttr("type");
+                var _this = $('div.fine_more');
+                var html = "";
+                var bid =  parseInt(_this.attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                _this.attr("bid",bid);
+                var b_id =  parseInt(_this.attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/fine_more')}",{begin:b_id,value:value},function(r){
+                    if(r.data == "" || r.data == null){
+                        return;
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                        <a href="{:U('Choiceness/choice_details')}?id='+val.id+'">\
+                                            <div class="img"><img src="'+val.cover_img+'"></div>\
+                                            <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                              <div class="yc_h"><p class="c-text">'+val.intro+'</p></div>\
+                                        </a>\
+                                    </li>';
+                        })
+                        $("ul.fine_list").append(html);  
+                    }       
+                },'json')
+                var speed=200;//滑动的速度
+                $('body,html').animate({ scrollTop: 0 }, speed);//回到顶部
+            }else if(type == "3"){
+                $("div.fine_area").css('display','none');
+                $("div.original_area").css('display','block');
+                $("div.user_area").css('display','none');
+                $("div.activity_area").css('display','none');
+                $('div.original_more').removeAttr("type");
+                var _this = $('div.original_more');
+                var html = "";
+                var bid =  parseInt(_this.attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                _this.attr("bid",bid);
+                var b_id =  parseInt(_this.attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/original_more')}",{begin:b_id,value:value},function(r){
+                    
+                    if(r.data == "" || r.data == null){
+                        return;
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                <a href="{:U('Original/original_detail1')}?oid='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_curimg+'"></div>\
+                                    <div class="c-tit">\
+                                        <span class="w_cname">'+val.flf_name+'</span>\
+                                        <span  class="ejfl_name">'+val.tlf_name+'</span>\
+                                    </div>\
+                                      <div class="yc_h"><p class="c-text clamp1">'+val.title+'</p>\
+                                    <p class="text_czz">创作者：<span class="h">'+val.nickname+'</span></p></div>\
+                                </a>\
+                            </li>';
+                        })
+                        $("ul.original_list").append(html);  
+                    }       
+                },'json')
+                var speed=200;//滑动的速度
+                $('body,html').animate({ scrollTop: 0 }, speed);//回到顶部
+            }else if(type == "4"){
+                $("div.fine_area").css('display','none');
+                $("div.original_area").css('display','none');
+                $("div.user_area").css('display','block');
+                $("div.activity_area").css('display','none');
+                $('div.user_more').removeAttr("type");
+                var _this = $('div.user_more');
+                var html = "";
+                var bid =  parseInt(_this.attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 5;
+                //每次点击展示5条数据.
+                _this.attr("bid",bid);
+                var b_id =  parseInt(_this.attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/user_more')}",{begin:b_id,value:value},function(r){
+                    if(r.data == "" || r.data == null){
+                        return;
+                    }else{
+                        var u_url = '{:U("/Original/original_detail2")}';
+                        $.each(r.data,function(ind,val){
+                            html +='<li class="clearfix">\
+                                    <div class="fl p-photo">\
+                                        <a href="'+u_url+'?tid='+val.id+'">\
+                                            <img width="100%" height="100%" src="'+val.avatar+'">\
+                                        </a>\
+                                    </div>\
+                                    <div class="fl p-text-c">\
+                                        <p class="p01">\
+                                            <span class="p-name"><a href="'+u_url+'?tid='+val.id+'">'+val.nickname+'</a></span>';
+                                            
+                            if(val.sex == 0) {
+                                html += '<i class="sex_man iconfont icon-xingbie-nan"></i>';
+                            }else{
+                                html += '<i class="sex_woman iconfont icon-xingbie-nv"></i>';
+                            }
+                                html +=    '</p>\
+                                        <p class="p02">\
+                                            <i class="icon-addr"></i>\
+                                            <span class="span_text">'+val.address+'</span>\
+                                        </p>\
+                                        <p class="p03">\
+                                            <span class="span_text">'+val.industry+'</span>\
+                                        </p>\
+                                        <p>\
+                                            '+val.followed+'\
+                                                <i class="icon-gzr"></i>\
+                                            <span class="t-no12-33">'+val.fans_count+'</span>\
+                                        </p>\
+                                    </div>\
+                                    '+val.cover_curimg+'\
+                                </li>';
+                        })
+                        $("ul.user_list").append(html);
+
+                    }       
+                },'json')
+                var speed=200;//滑动的速度
+                $('body,html').animate({ scrollTop: 0 }, speed);//回到顶部
+            }else if(type == "5"){
+                $("div.fine_area").css('display','none');
+                $("div.original_area").css('display','none');
+                $("div.user_area").css('display','none');
+                $("div.activity_area").css('display','block');
+                $('div.activity_more').removeAttr("type");
+                var _this = $('div.activity_more');
+                var html = "";
+                var bid =  parseInt(_this.attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                _this.attr("bid",bid);
+                var b_id =  parseInt(_this.attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/activity_more')}",{begin:b_id,value:value},function(r){
+                    if(r.data == "" || r.data == null){
+                        return;
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                    <a href="{:U('Activity/active_detail')}?id='+val.id+'">\
+                                        <div class="img"><img src="'+val.cover_img+'"></div>\
+                                        <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                          <div class="yc_h"><p class="c-text"><b># '+val.city_name+' #</b>'+val.intro+'</p></div>\
+                                    </a>\
+                                </li>';
+                        })
+                        $("ul.activity_list").append(html);
+                    }         
+                },'json')
+                var speed=200;//滑动的速度
+                $('body,html').animate({ scrollTop: 0 }, speed);//回到顶部
+            }else{
+                $("div.fine_area").css('display','block');
+                $("div.original_area").css('display','block');
+                $("div.user_area").css('display','block');
+                $("div.activity_area").css('display','block');
+            }
+        });
+        $('div.fine_more').on('click',function(){
+            var type = $(this).attr('type');
+            if(type == 2){
+                $("a.fn_aLink").eq(1).click();
+                $('div.fine_more').removeAttr("type");
+            }else{
+                var html = "";
+                var bid =  parseInt($(this).attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                $(this).attr("bid",bid);
+                var b_id =  parseInt($(this).attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/fine_more')}",{begin:b_id,value:value},function(r){
+                    
+                    if(r.data == "" || r.data == null){
+                        $.Prompt(r.msg);
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                        <a href="{:U('Choiceness/choice_details')}?id='+val.id+'">\
+                                            <div class="img"><img src="'+val.cover_img+'"></div>\
+                                            <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                              <div class="yc_h"><p class="c-text">'+val.intro+'</p></div>\
+                                        </a>\
+                                    </li>';
+                        })
+                        $("ul.fine_list").append(html);   
+                    }       
+                },'json')
+            }   
+        });
+        $('div.original_more').on('click',function(){
+            var type = $(this).attr('type');
+            if(type == 3){
+                $("a.fn_aLink").eq(2).click();
+                $('div.original_more').removeAttr("type");
+            }else{
+                var html = "";
+                var bid =  parseInt($(this).attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                $(this).attr("bid",bid);
+                var b_id =  parseInt($(this).attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/original_more')}",{begin:b_id,value:value},function(r){
+                    
+                    if(r.data == "" || r.data == null){
+                        $.Prompt(r.msg);
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                <a href="{:U('Original/original_detail1')}?oid='+val.id+'">\
+                                    <div class="img"><img src="'+val.cover_curimg+'"></div>\
+                                    <div class="c-tit">\
+                                        <span class="w_cname">'+val.flf_name+'</span>\
+                                        <span  class="ejfl_name">'+val.tlf_name+'</span>\
+                                    </div>\
+                                      <div class="yc_h"><p class="c-text clamp1">'+val.title+'</p>\
+                                    <p class="text_czz">创作者：<span class="h">'+val.nickname+'</span></p></div>\
+                                </a>\
+                            </li>';
+                        })
+                        $("ul.original_list").append(html);  
+                    }       
+                },'json')
+            }
+        });
+        $('div.user_more').on('click',function(){
+            var type = $(this).attr('type');
+            if(type == 4){
+                $("a.fn_aLink").eq(3).click();
+                $('div.user_more').removeAttr("type");
+            }else{
+                var html = "";
+                var bid =  parseInt($(this).attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 5;
+                //每次点击展示5条数据.
+                $(this).attr("bid",bid);
+                var b_id =  parseInt($(this).attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/user_more')}",{begin:b_id,value:value},function(r){
+                    if(r.data == "" || r.data == null){
+                        $.Prompt(r.msg);
+                    }else{
+                        var u_url = '{:U("/Original/original_detail2")}';
+                        $.each(r.data,function(ind,val){
+                            html +='<li class="clearfix">\
+                                    <div class="fl p-photo">\
+                                        <a href="'+u_url+'?tid='+val.id+'">\
+                                            <img width="100%" height="100%" src="'+val.avatar+'">\
+                                        </a>\
+                                    </div>\
+                                    <div class="fl p-text-c">\
+                                        <p class="p01">\
+                                            <span class="p-name"><a href="'+u_url+'?tid='+val.id+'">'+val.nickname+'</a></span>\
+                                            <i class="sex_man iconfont icon-xingbie-nan"></i>\
+                                        </p>\
+                                        <p class="p02">\
+                                            <i class="icon-addr"></i>\
+                                            <span class="span_text">'+val.address+'</span>\
+                                        </p>\
+                                        <p class="p03">\
+                                            <span class="span_text">'+val.industry+'</span>\
+                                        </p>\
+                                        <p>\
+                                            '+val.followed+'\
+                                                <i class="icon-gzr"></i>\
+                                            <span class="t-no12-33">'+val.fans_count+'</span>\
+                                        </p>\
+                                    </div>\
+                                    '+val.cover_curimg+'\
+                                </li>';
+                        })
+                        $("ul.user_list").append(html);
+
+                    }       
+                },'json')
+            }
+        });
+        $('div.activity_more').on('click',function(){
+            var type = $(this).attr('type');
+            if(type == 5){
+                $("a.fn_aLink").eq(4).click();
+                $('div.activity_more').removeAttr("type");
+            }else{
+                var html = "";
+                var bid =  parseInt($(this).attr("bid"));
+                //此处的bid等于页面已有的条数减去每次点击需要展示的条数.
+                bid += 16;
+                //每次点击展示16条数据.
+                $(this).attr("bid",bid);
+                var b_id =  parseInt($(this).attr("bid"));
+                var value = "<?php echo I('value'); ?>";
+                $.post("{:U('Search/activity_more')}",{begin:b_id,value:value},function(r){
+                    if(r.data == "" || r.data == null){
+                        $.Prompt(r.msg);
+                    }else{
+                        $.each(r.data,function(ind,val){
+                            html +='<li>\
+                                    <a href="{:U('Activity/active_detail')}?id='+val.id+'">\
+                                        <div class="img"><img src="'+val.cover_img+'"></div>\
+                                        <p class="c-tit"><span class="w_cname jx_titles">'+val.category+'</span></p>\
+                                          <div class="yc_h"><p class="c-text"><b># '+val.city_name+' #</b>'+val.intro+'</p></div>\
+                                    </a>\
+                                </li>';
+                        })
+                        $("ul.activity_list").append(html);
+                    }         
+                },'json') 
+            }
+            
+        });
+        
+        function fine_more (){
+            
+        }
+
+        //js动态绑定
+        $("ul.fans_list").on('click',"a.followBtn",function(){
+            var id = $(this).attr('ids');
+            var type = $(this).attr('type');
+            _this = $(this);
+            if(type == 0){
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r){
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",1);
+                    _this.text("CANCEL");
+                    var num = parseInt(_this.next().next().text())+1;
+                    _this.next().next().text(num);
+                });
+            }else{
+                $.post('{:U("/Public/fans_follow")}', {id:id,type:type}, function(r) {
+                    var re = JSON.parse(r);
+                    if(re.code == -54){
+                        $.Prompt(re.msg);
+                        return;
+                    }
+                    _this.attr("type",0);
+                    _this.text("FOLLOW");
+                    var num = parseInt(_this.next().next().text())-1;
+                    _this.next().next().text(num);
+                });
+            }
+        });
+    });
+</script>
+</html>

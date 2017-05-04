@@ -1,0 +1,57 @@
+        <!--header-->
+        <include file="Common/header" />
+
+        <!--sidebar-menu-->
+        <include file="Common/sidebar" />
+
+        <!--main-container-part-->
+        <div id="content">
+            <div id="content-header">
+                <div id="breadcrumb"> <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="{:U('lst')}" class="current">分类管理</a> <a href="javascript:;" class="current">编辑</a></div>
+            </div>
+
+            <div class="container-fluid">
+			    <div class="row-fluid">
+			      <div class="span12">
+				        <div class="widget-content nopadding">
+					        <form action="{:U('Category/edit')}" method="post" class="form-horizontal">
+					            <div class="control-group">
+					              <label class="control-label">分类名：</label>
+					              <div class="controls">
+					                <input name="cname" type="text" class="span3" placeholder="{$type_name}" />
+					              </div>
+					            </div>
+					            <div class="control-group">
+					              	<label class="control-label">更改到分类：</label>
+					              	<div class="controls">
+						                <select name="pid" class="span3 select">
+						                	<option value="-1">一级分类</option>
+											<volist name="cname" id="vo">
+												<eq name="choose_id" value="$vo.id">
+														<option value="{$vo.id}" selected >{$vo.cname}分类下的二级分类</option>
+													<else/>
+														<option value="{$vo.id}">{$vo.cname}分类下的二级分类</option>
+												</eq>
+												
+											</volist>
+						                </select>
+					              	</div>
+					            </div>
+					            <div class="form-actions">
+					              <button type="submit" class="btn btn-primary">确定</button>
+					            </div>
+					        </form>
+				        </div>
+			      </div>
+			    </div>
+              <hr/>
+            </div>
+        </div>
+        <include file="Common/footer" />
+        
+        <script src="__JS__/jquery.min.js"></script> 
+        <script src="__JS__/jquery.ui.custom.js"></script> 
+        <script src="__JS__/bootstrap.min.js"></script> 
+        <script src="__JS__/matrix.js"></script>                  <!--左侧菜单JS效果-->
+    </body>
+</html>
